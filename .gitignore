@@ -1,0 +1,6 @@
+__pycache__
+.mypy_cache
+*.py[cod]
+.doit.db
+cache
+output
