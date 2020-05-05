@@ -1,0 +1,4 @@
+Sitemap: https://cocktailmake.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: cocktailmake.github.io

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Tue, 05 May 2020 15:41:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;div id="outline-container-orgadc486d" class="outline-2"&gt;
+&lt;h2 id="orgadc486d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgadc486d"&gt;
+&lt;p&gt;
+This is the first post from our engineer team.
+&lt;/p&gt;
+
+&lt;p&gt;
+We periodically share technological topics such as new integrated
+features into products and new technologies we are interested in and
+prototype implementations to evaluate the feasibility whether it is
+worth applying actual business services.
+&lt;/p&gt;
+
+&lt;p&gt;
+In this post, we introduce RICHKA such as the development
+environment and the server infra structures and the processing
+sequence of the primary function to generate high quality videos with
+using image/videos users upload. The architecture and internal
+processing are generally complicated than general services such as
+blog system and EC because the size of video files are huge and we
+need to carefully take care the load of servers such as delegating
+heavy processing to other dedicated video servers and applying
+delaying processing to postpone heavy processing later. And the load of file storage is also high and we need to take care the timing to load from network storage.
+&lt;/p&gt;
+
+&lt;p&gt;
+And RIHCKA has some dedicated video engines to generate high quality
+videos with using well designed video templates created by expert
+designers. To make the representation of videos richer, video servers
+enable to change not only input texts and image/video material files
+users upload, but also font family and color scheme and BGM in
+realtime during generating videos. The load of video generation
+processing is very heavy and we apply lots of optimization to reduce
+the generation time with keeping the high quality. Therefore video
+services demand higher development skills of web applications.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org1634298" class="outline-2"&gt;
+&lt;h2 id="org1634298"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1634298"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The engineer team is basically remote and more than 90% live in foreign countries. We hire only high skill experts who have strong skills of web technologies and web application development. We will describe our team more on another post later.
+&lt;/p&gt;
+
+&lt;p&gt;
+We always apply new emerged technologies into products to enhance the features and reduce development cost. It is free for our engineers to try them to see the feasibility and the side effect. The speed to select and apply is faster than general teams because our team is completely flat and every member has the privilege to propose new ideas among members.
+&lt;/p&gt;
+
+&lt;p&gt;
+Regarding server side, it is based on Python and Django and we use additional 42 Python packages such as Django extensions and image/video manipulation and statistics and crypto. The current total lines of Django is about 12200.
+&lt;/p&gt;
+
+&lt;p&gt;
+Regarding front end, we use abut 20 OSS libraries to build the functional GUI such as JQuery, cropper.js smartcrop.js, Vue, Bootstrap and so on. The current total lines of JavaScript codes we developed is about 13000.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd69f71d" class="outline-4"&gt;
+&lt;h4 id="orgd69f71d"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd69f71d"&gt;
+&lt;p&gt;
+Ubuntu Server
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga897917" class="outline-4"&gt;
+&lt;h4 id="orga897917"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga897917"&gt;
+&lt;p&gt;
+Python, JavaScript, HTML5, CSS3, JSX, Bash
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org858537c" class="outline-4"&gt;
+&lt;h4 id="org858537c"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org858537c"&gt;
+&lt;p&gt;
+Django, MySQL, HTTP2, Web API, video generation engine, image processing,
+multi core processing, load distribution
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga9079e2" class="outline-4"&gt;
+&lt;h4 id="orga9079e2"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga9079e2"&gt;
+&lt;p&gt;
+jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5e594ef" class="outline-4"&gt;
+&lt;h4 id="org5e594ef"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5e594ef"&gt;
+&lt;p&gt;
+Jenkins, Django UnitTest, Selenium
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org6255165" class="outline-2"&gt;
+&lt;h2 id="org6255165"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6255165"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+RICHKA is behind a load balancer to distribute lots of coming HTTP requests to multiple web servers. And to enable simultaneous video generation at a time, the video generation requests are also distributed to multiple video servers. The user data such as images/videos users upload and video template files used by video engine are stored on an external network storage. They are retrieved from both web servers and video servers.
+&lt;/p&gt;
+
+&lt;p&gt;
+The summary sequence of video generation is below.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Users click a button to generate videos and the request reaches one of web servers via the load balancer&lt;/li&gt;
+&lt;li&gt;The web server retrieves the user data such as selected video template and font families and color scheme and BMG and make HTTP requests and send to one of video servers.&lt;/li&gt;
+&lt;li&gt;The web server receives the generation progress in realtime and store into the database.&lt;/li&gt;
+&lt;li&gt;When the generations have been done, the web server download the generated videos and store into the file storage.&lt;/li&gt;
+&lt;li&gt;The web server sends the generated videos to web browsers and video player loads them and users can see on GUI.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>infra</category><category>richka</category><guid>https://cocktailmake.github.io/posts/big-picture-of-richka/</guid><pubDate>Tue, 05 May 2020 08:02:40 GMT</pubDate></item></channel></rss>
