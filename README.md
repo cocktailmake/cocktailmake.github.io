@@ -76,6 +76,12 @@ https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/
 $ nikola new_post -f orgmode
 ```
 
+Please add your name as author on the top of the post. The format is,
+
+```
+Posted by YOUR_NAME
+```
+
 4. Check the pages on web browsers
 
 Run the Nikola local server. Your web browser is automatically opened at a new tab.
