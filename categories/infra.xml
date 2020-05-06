@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about infra)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/infra.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 May 2020 06:31:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;div id="outline-container-org5f16d34" class="outline-2"&gt;
-&lt;h2 id="org5f16d34"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5f16d34"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about infra)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/infra.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 May 2020 09:09:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-org9fc3b29" class="outline-2"&gt;
+&lt;h2 id="org9fc3b29"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9fc3b29"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -47,9 +51,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org0cfc50a" class="outline-2"&gt;
-&lt;h2 id="org0cfc50a"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0cfc50a"&gt;
+&lt;div id="outline-container-orgf0df820" class="outline-2"&gt;
+&lt;h2 id="orgf0df820"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf0df820"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -86,27 +90,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd0c9a61" class="outline-4"&gt;
-&lt;h4 id="orgd0c9a61"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd0c9a61"&gt;
+&lt;div id="outline-container-org299ce98" class="outline-4"&gt;
+&lt;h4 id="org299ce98"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org299ce98"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbad5358" class="outline-4"&gt;
-&lt;h4 id="orgbad5358"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbad5358"&gt;
+&lt;div id="outline-container-org1a84e81" class="outline-4"&gt;
+&lt;h4 id="org1a84e81"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1a84e81"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge656a3e" class="outline-4"&gt;
-&lt;h4 id="orge656a3e"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge656a3e"&gt;
+&lt;div id="outline-container-org53af6b4" class="outline-4"&gt;
+&lt;h4 id="org53af6b4"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org53af6b4"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -114,18 +118,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf1fc7ea" class="outline-4"&gt;
-&lt;h4 id="orgf1fc7ea"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf1fc7ea"&gt;
+&lt;div id="outline-container-org2760213" class="outline-4"&gt;
+&lt;h4 id="org2760213"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2760213"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1080159" class="outline-4"&gt;
-&lt;h4 id="org1080159"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1080159"&gt;
+&lt;div id="outline-container-org0f6344f" class="outline-4"&gt;
+&lt;h4 id="org0f6344f"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0f6344f"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -134,9 +138,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgda115e4" class="outline-2"&gt;
-&lt;h2 id="orgda115e4"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgda115e4"&gt;
+&lt;div id="outline-container-org247be37" class="outline-2"&gt;
+&lt;h2 id="org247be37"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org247be37"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;
