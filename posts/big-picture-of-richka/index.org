@@ -66,7 +66,7 @@ the team, they are basically accepted.
 
 Regarding server side, it is based on Python and Django and we use
 additional 42 Python packages such as Django extensions and
-image/video manipulation and statistics and crypto. The current total
+image/video manipulation and statistics and crypt. The current total
 lines of Django is around 12200.
 
 Regarding front end, we use abut 20 OSS libraries to build the
@@ -106,7 +106,7 @@ from both web servers and video servers.
 The summary sequence of video generation is,
 
 1. Users click a button to generate videos and the requests reach one of web servers via the load balancer.
-2. The web server retrieves the user data such as selected video template and font families and color scheme and BMG and make HTTP requests and send to one of video servers.
+2. The web server retrieves the user data such as selected video template and font families and color scheme and BGM and make HTTP requests and send to one of video servers.
 3. The web server receives the generation progress in realtime and store into the database to show the progress on GUI.
 4. When the generations have been done, the web server downloads the generated videos and store into the file storage.
 5. The web server sends the generated videos to web browsers and video player loads them and users can see on GUI.

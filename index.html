@@ -78,9 +78,9 @@
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-org9fc3b29" class="outline-2">
-<h2 id="org9fc3b29">Abstract</h2>
-<div class="outline-text-2" id="text-org9fc3b29">
+<div id="outline-container-orgb128a0e" class="outline-2">
+<h2 id="orgb128a0e">Abstract</h2>
+<div class="outline-text-2" id="text-orgb128a0e">
 <p>
 This is the first post from our engineer team.
 </p>
@@ -126,9 +126,9 @@ services demand higher development skills of web applications.
 </div>
 
 
-<div id="outline-container-orgf0df820" class="outline-2">
-<h2 id="orgf0df820">RICHKA Development Environment</h2>
-<div class="outline-text-2" id="text-orgf0df820">
+<div id="outline-container-org5bd785a" class="outline-2">
+<h2 id="org5bd785a">RICHKA Development Environment</h2>
+<div class="outline-text-2" id="text-org5bd785a">
 <p>
 <img src="images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
 
@@ -152,7 +152,7 @@ the team, they are basically accepted.
 <p>
 Regarding server side, it is based on Python and Django and we use
 additional 42 Python packages such as Django extensions and
-image/video manipulation and statistics and crypto. The current total
+image/video manipulation and statistics and crypt. The current total
 lines of Django is around 12200.
 </p>
 
@@ -164,27 +164,27 @@ around 13000.
 </p>
 </div>
 
-<div id="outline-container-org299ce98" class="outline-4">
-<h4 id="org299ce98">OS</h4>
-<div class="outline-text-4" id="text-org299ce98">
+<div id="outline-container-org4bd6973" class="outline-4">
+<h4 id="org4bd6973">OS</h4>
+<div class="outline-text-4" id="text-org4bd6973">
 <p>
 Ubuntu Server
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1a84e81" class="outline-4">
-<h4 id="org1a84e81">Programming Language</h4>
-<div class="outline-text-4" id="text-org1a84e81">
+<div id="outline-container-orgf82f4cf" class="outline-4">
+<h4 id="orgf82f4cf">Programming Language</h4>
+<div class="outline-text-4" id="text-orgf82f4cf">
 <p>
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 </p>
 </div>
 </div>
 
-<div id="outline-container-org53af6b4" class="outline-4">
-<h4 id="org53af6b4">Server Side Technologies</h4>
-<div class="outline-text-4" id="text-org53af6b4">
+<div id="outline-container-orga3ea9b9" class="outline-4">
+<h4 id="orga3ea9b9">Server Side Technologies</h4>
+<div class="outline-text-4" id="text-orga3ea9b9">
 <p>
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -192,18 +192,18 @@ multi core processing, load distribution
 </div>
 </div>
 
-<div id="outline-container-org2760213" class="outline-4">
-<h4 id="org2760213">Front End</h4>
-<div class="outline-text-4" id="text-org2760213">
+<div id="outline-container-org3c4531d" class="outline-4">
+<h4 id="org3c4531d">Front End</h4>
+<div class="outline-text-4" id="text-org3c4531d">
 <p>
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 </p>
 </div>
 </div>
 
-<div id="outline-container-org0f6344f" class="outline-4">
-<h4 id="org0f6344f">Regression Test</h4>
-<div class="outline-text-4" id="text-org0f6344f">
+<div id="outline-container-org26ce240" class="outline-4">
+<h4 id="org26ce240">Regression Test</h4>
+<div class="outline-text-4" id="text-org26ce240">
 <p>
 Jenkins, Django UnitTest, Selenium
 </p>
@@ -212,9 +212,9 @@ Jenkins, Django UnitTest, Selenium
 </div>
 
 
-<div id="outline-container-org247be37" class="outline-2">
-<h2 id="org247be37">Sequence of video generation</h2>
-<div class="outline-text-2" id="text-org247be37">
+<div id="outline-container-orge56201c" class="outline-2">
+<h2 id="orge56201c">Sequence of video generation</h2>
+<div class="outline-text-2" id="text-orge56201c">
 <p>
 <img src="images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
 
@@ -234,7 +234,7 @@ The summary sequence of video generation is,
 
 <ol class="org-ol">
 <li>Users click a button to generate videos and the requests reach one of web servers via the load balancer.</li>
-<li>The web server retrieves the user data such as selected video template and font families and color scheme and BMG and make HTTP requests and send to one of video servers.</li>
+<li>The web server retrieves the user data such as selected video template and font families and color scheme and BGM and make HTTP requests and send to one of video servers.</li>
 <li>The web server receives the generation progress in realtime and store into the database to show the progress on GUI.</li>
 <li>When the generations have been done, the web server downloads the generated videos and store into the file storage.</li>
 <li>The web server sends the generated videos to web browsers and video player loads them and users can see on GUI.</li>
