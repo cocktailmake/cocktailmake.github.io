@@ -34,7 +34,7 @@ servers and delay the response and influences to UX. Instead, we load
 thumbnails of any videos on GUI and load video contents only when they
 are played on video player.
 
-RIHCKA has some dedicated video engines to generate high quality
+RICHKA has some dedicated video engines to generate high quality
 videos with using well designed video templates created by expert
 designers. To make the representation of videos richer, video servers
 enable to change not only input texts and image/video material files
