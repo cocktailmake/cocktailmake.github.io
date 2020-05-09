@@ -7,34 +7,38 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://cocktailmake.github.io/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/2020/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2020-05-05T13:51:00Z</lastmod>
+  <lastmod>2020-05-09T11:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/cat_richka/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/infra/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/richka/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/big-picture-of-richka/</loc>
-  <lastmod>2020-05-05T08:28:00Z</lastmod>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/test/</loc>
+  <lastmod>2020-05-09T10:27:00Z</lastmod>
  </url>
 </urlset>
