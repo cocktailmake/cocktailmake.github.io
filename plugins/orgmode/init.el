@@ -121,7 +121,7 @@ contextual information."
 (defun org-file-link-img-url-export (path desc format)
   (cond
    ((eq format 'html)
-    (format "%s<img src=\"/%s\" alt=\"%s\"/>" path path desc))))
+    (format "<img src=\"/%s\" alt=\"%s\"/>" path desc))))
 (org-add-link-type "file" nil 'org-file-link-img-url-export)
 
 ;; Export function used by Nikola.
