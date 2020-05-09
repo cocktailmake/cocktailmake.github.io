@@ -49,7 +49,7 @@ services demand higher development skills of web applications.
 
 * RICHKA Development Environment
 
-[[img-url:/images/big-picture-of-richka/technologies-building-richka.png]]
+[[file:../images/big-picture-of-richka/technologies-building-richka.png]]
 
 The engineer team is basically remote and more than 90% live in
 foreign countries. We hire only high skill experts who have strong
@@ -93,7 +93,7 @@ Jenkins, Django UnitTest, Selenium
 
 * Sequence of video generation
 
-[[img-url:/images/big-picture-of-richka/video-generation-sequence.png]]
+[[file:../images/big-picture-of-richka/video-generation-sequence.png]]
 
 RICHKA is behind a load balancer to distribute lots of coming HTTP
 requests to multiple web servers. And to enable simultaneous video
