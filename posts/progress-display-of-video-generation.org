@@ -1,0 +1,111 @@
+#+BEGIN_COMMENT
+.. title: Realtime Display of Video Generation Progress
+.. slug: progress-display-of-video-generation
+.. date: 2020-05-16 18:07:20 UTC+09:00
+.. tags: RICHKA, Infra
+.. category: RICHKA
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+Posted by Hitoshi Uchida
+
+* Abstract
+The video generation in RICHKA is to serialize high quality videos on
+video servers with using video templates designed by export
+designers. The processing is heavy load and takes several minutes,
+therefore RICHKA has a dedicated GUI feature to show the progress
+ratio in realtime so that users can check the remained waiting
+time. During the processing, video servers monitor the detail
+progresses and transmit to web servers to feedback to users on GUI.
+
+RICHKA uses HTTP streaming for the realtime transmitting of the
+progress ratio among servers. This feature is to continue send
+application data little by little formatted with HTTP chunked
+encoding. During sending them, the TCP connection is kept to open. The
+HTTP streaming is available on general high-level web server
+frameworks as well and we are ready to apply to product services
+without taking care the underlying protocol format by
+ourselves. However, we need to understand the restriction that the
+HTTP connection is per URL. The restriction is simple, but we
+sometimes encounter difficulties on practical service products.
+
+In the case of RICHKA, when users click a button to generate videos on
+editing pages, it redirects users to top page to see the progress
+ration on the video list so that users can edit other videos during
+generation videos. Then, the TCP connection between web browsers and
+web servers are disconnected in redirecting because of the restriction
+and the progress reporting from video servers don't reach to web
+browsers. To enable to show the realtime progress after HTTP
+redirecting, RICHKA has a dedicated server side processing and this
+post explains how RICHKA does. There are several alternatives to
+realize this feature, but RICHKA doesn't depend on additional external
+services and the internal architecture is also simple and straight
+forward. I think this architecture could be applied to general use
+cases and I hope this post provides some hints to readers of this
+blog.
+
+* Technical Restriction of HTTP streaming
+
+#+attr_html: :width 1500px
+[[img-url:/images/progress-display-of-video-generation/restriction.png]]
+
+The figure above represents the detail procedure how the progress reporting
+with the HTTP streaming is blocked. The bottom is the GUI of RICHKA
+and the left side is the editing page to input user data and the right
+side is the top page listing up users' videos. The blue arrow
+represents the HTTP redirect to navigate users to a top page and it is
+triggered when users click the button of video generation on the
+editing pages. In the timing, the HTTP streaming response from web
+servers are disconnected and the top page can't get the further
+progress ratio. The detail procedure in the figure is below.
+
+1. On edit pages, when users click a button to generate videos, it sends a HTTP request with XMLHttpRequest to one of web serves via load balancer. Then the browser is redirect to the top page listing video data.
+2. The Web server delegates the video generation to one of video servers with sending a HTTP request again. The video server loads a video template and start to generate a video
+3. During generating, the video server sends the progress ratio with HTTP chunked encoding whose application data is JSON format to the web server.
+4. The web server transfers the progress ratio received from the video server, but the TCP connection with the web browser has been already disconnected and the data can't reach it.
+
+For a reference, the chunked transfer encoding is like this. In
+general, CGI scripts response with using it. Content-Length header is
+not used because the expected data size is not known beforehand. A
+chunked data starts with the payload size and it ends with a line
+break CR LF. In the final chunk, we need to send an empty chunked data
+to notify it is last one to the receiver. In RICHKA, the application
+data is the progress ratio formatted with JSON.
+
+#+BEGIN_SRC
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Transfer-Encoding: chunked
+
+5\r\n
+Hello\r\n
+6\r\n
+RICHKA\r\n
+0\r\n
+\r\n
+#+END_SRC
+
+
+* Realtime Display of Video Generation Progress after HTTP Redirect
+
+#+attr_html: :width 1500px
+[[img-url:/images/progress-display-of-video-generation/solution.png]]
+
+To resolve this restriction deriving from the HTTP connection per URL,
+RICHKA realizes the realtime feedback of progress ratio with the
+architecture above for the specific case of redirecting. The detail procedure is below.
+
+1. ditto with the prior section
+2. The web server forks a dedicated process to communicate with the video server. It sends a HTTP request and delegates the video generation. In this timing, the TCP connection is disconnected with the web browser because of the redirection.
+3. The forked process is still alive and it continues to receive the progress ratio from video serves with HTTP chunked encoding.
+4. Every when the forked process receives the progress ratio, it saves into database as the progress data for the video data.
+5. After redirecting, the top page periodically sends HTTP GET request to the web server and show the progress data on GUI.
+
+At the last step, there is alternative method with WebSocket protocol,
+but RICHKA doesn't use because general users access from their company
+offices and it is general their networks apply HTTP
+proxies. Unfortunately, some of HTTP proxies block WebSocket
+connection to enhance the web security. Therefore, RICHKA
+intentionally applies the traditional method to make more stable.
