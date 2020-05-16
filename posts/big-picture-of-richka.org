@@ -2,8 +2,8 @@
 .. title: Big picture of RICHKA
 .. slug: big-picture-of-richka
 .. date: 2020-05-05 17:02:40 UTC+09:00
-.. tags: richka, infra
-.. category: richka
+.. tags: RICHKA, Infra
+.. category: RICHKA
 .. link: 
 .. description: 
 .. type: text
@@ -49,7 +49,7 @@ services demand higher development skills of web applications.
 
 * RICHKA Development Environment
 
-[[file:../images/big-picture-of-richka/technologies-building-richka.png]]
+[[img-url:/images/big-picture-of-richka/technologies-building-richka.png]]
 
 The engineer team is basically remote and more than 90% live in
 foreign countries. We hire only high skill experts who have strong
@@ -93,7 +93,7 @@ Jenkins, Django UnitTest, Selenium
 
 * Sequence of video generation
 
-[[file:../images/big-picture-of-richka/video-generation-sequence.png]]
+[[img-url:/images/big-picture-of-richka/video-generation-sequence.png]]
 
 RICHKA is behind a load balancer to distribute lots of coming HTTP
 requests to multiple web servers. And to enable simultaneous video
