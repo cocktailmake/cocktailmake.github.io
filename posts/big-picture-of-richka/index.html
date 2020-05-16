@@ -10,6 +10,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/posts/big-picture-of-richka/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
+<link rel="next" href="../progress-display-of-video-generation/" title="Progress Display of Video Generation" type="text/html">
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Big picture of RICHKA">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/big-picture-of-richka/">
@@ -28,8 +29,8 @@ We periodically share technological topics such as new integrated
 features into products and new technologies w">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-05-05T17:02:40+09:00">
-<meta property="article:tag" content="infra">
-<meta property="article:tag" content="richka">
+<meta property="article:tag" content="Infra">
+<meta property="article:tag" content="RICHKA">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -103,9 +104,9 @@ features into products and new technologies w">
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-orgba872de" class="outline-2">
-<h2 id="orgba872de">Abstract</h2>
-<div class="outline-text-2" id="text-orgba872de">
+<div id="outline-container-orgaf37144" class="outline-2">
+<h2 id="orgaf37144">Abstract</h2>
+<div class="outline-text-2" id="text-orgaf37144">
 <p>
 This is the first post from our engineer team.
 </p>
@@ -151,13 +152,11 @@ services demand higher development skills of web applications.
 </div>
 
 
-<div id="outline-container-org79ef045" class="outline-2">
-<h2 id="org79ef045">RICHKA Development Environment</h2>
-<div class="outline-text-2" id="text-org79ef045">
-
-<div class="figure">
-<p><img src="images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
-</div>
+<div id="outline-container-org22d1287" class="outline-2">
+<h2 id="org22d1287">RICHKA Development Environment</h2>
+<div class="outline-text-2" id="text-org22d1287">
+<p>
+<img src="../../images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
 
 <p>
 The engineer team is basically remote and more than 90% live in
@@ -191,27 +190,27 @@ around 13000.
 </p>
 </div>
 
-<div id="outline-container-org165b494" class="outline-4">
-<h4 id="org165b494">OS</h4>
-<div class="outline-text-4" id="text-org165b494">
+<div id="outline-container-org3e05179" class="outline-4">
+<h4 id="org3e05179">OS</h4>
+<div class="outline-text-4" id="text-org3e05179">
 <p>
 Ubuntu Server
 </p>
 </div>
 </div>
 
-<div id="outline-container-org62d6135" class="outline-4">
-<h4 id="org62d6135">Programming Language</h4>
-<div class="outline-text-4" id="text-org62d6135">
+<div id="outline-container-org89ce2bd" class="outline-4">
+<h4 id="org89ce2bd">Programming Language</h4>
+<div class="outline-text-4" id="text-org89ce2bd">
 <p>
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgbde2f3a" class="outline-4">
-<h4 id="orgbde2f3a">Server Side Technologies</h4>
-<div class="outline-text-4" id="text-orgbde2f3a">
+<div id="outline-container-org526a805" class="outline-4">
+<h4 id="org526a805">Server Side Technologies</h4>
+<div class="outline-text-4" id="text-org526a805">
 <p>
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -219,18 +218,18 @@ multi core processing, load distribution
 </div>
 </div>
 
-<div id="outline-container-org3d3f4f2" class="outline-4">
-<h4 id="org3d3f4f2">Front End</h4>
-<div class="outline-text-4" id="text-org3d3f4f2">
+<div id="outline-container-orga836631" class="outline-4">
+<h4 id="orga836631">Front End</h4>
+<div class="outline-text-4" id="text-orga836631">
 <p>
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 </p>
 </div>
 </div>
 
-<div id="outline-container-org18c6bd3" class="outline-4">
-<h4 id="org18c6bd3">Regression Test</h4>
-<div class="outline-text-4" id="text-org18c6bd3">
+<div id="outline-container-orga1a46ec" class="outline-4">
+<h4 id="orga1a46ec">Regression Test</h4>
+<div class="outline-text-4" id="text-orga1a46ec">
 <p>
 Jenkins, Django UnitTest, Selenium
 </p>
@@ -239,13 +238,11 @@ Jenkins, Django UnitTest, Selenium
 </div>
 
 
-<div id="outline-container-org0edab72" class="outline-2">
-<h2 id="org0edab72">Sequence of video generation</h2>
-<div class="outline-text-2" id="text-org0edab72">
-
-<div class="figure">
-<p><img src="images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
-</div>
+<div id="outline-container-orgc29f527" class="outline-2">
+<h2 id="orgc29f527">Sequence of video generation</h2>
+<div class="outline-text-2" id="text-orgc29f527">
+<p>
+<img src="../../images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
 
 <p>
 RICHKA is behind a load balancer to distribute lots of coming HTTP
@@ -272,8 +269,13 @@ The summary sequence of video generation is,
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/infra/" rel="tag">infra</a></li>
-            <li><a class="tag p-category" href="../../categories/richka/" rel="tag">richka</a></li>
+<li><a class="tag p-category" href="../../categories/infra/" rel="tag">Infra</a></li>
+            <li><a class="tag p-category" href="../../categories/richka/" rel="tag">RICHKA</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="next">
+                <a href="../progress-display-of-video-generation/" rel="next" title="Progress Display of Video Generation">Next post</a>
+            </li>
         </ul></nav></aside></article>
 </div>
         <!--End of body content-->

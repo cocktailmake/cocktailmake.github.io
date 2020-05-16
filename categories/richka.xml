@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about richka)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 May 2020 12:11:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 16 May 2020 10:41:36 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Progress Display of Video Generation</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgba872de" class="outline-2"&gt;
-&lt;h2 id="orgba872de"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgba872de"&gt;
+&lt;div id="outline-container-org455fb33" class="outline-2"&gt;
+&lt;h2 id="org455fb33"&gt;Abstract&lt;/h2&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgb73f43b" class="outline-2"&gt;
+&lt;h2 id="orgb73f43b"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb73f43b"&gt;
+&lt;p width="500px"&gt;
+&lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div id="outline-container-orga6ab245" class="outline-2"&gt;
+&lt;h2 id="orga6ab245"&gt;Realtime Display of video generation progress&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga6ab245"&gt;
+&lt;p width="500px"&gt;
+&lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</guid><pubDate>Sat, 16 May 2020 09:07:20 GMT</pubDate></item><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgaf37144" class="outline-2"&gt;
+&lt;h2 id="orgaf37144"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaf37144"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -51,14 +77,12 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org79ef045" class="outline-2"&gt;
-&lt;h2 id="org79ef045"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org79ef045"&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="https://cocktailmake.github.io/posts/big-picture-of-richka/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
+&lt;div id="outline-container-org22d1287" class="outline-2"&gt;
+&lt;h2 id="org22d1287"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org22d1287"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
-&lt;/div&gt;
 
 &lt;p&gt;
 The engineer team is basically remote and more than 90% live in
@@ -92,27 +116,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org165b494" class="outline-4"&gt;
-&lt;h4 id="org165b494"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org165b494"&gt;
+&lt;div id="outline-container-org3e05179" class="outline-4"&gt;
+&lt;h4 id="org3e05179"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3e05179"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org62d6135" class="outline-4"&gt;
-&lt;h4 id="org62d6135"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org62d6135"&gt;
+&lt;div id="outline-container-org89ce2bd" class="outline-4"&gt;
+&lt;h4 id="org89ce2bd"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org89ce2bd"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbde2f3a" class="outline-4"&gt;
-&lt;h4 id="orgbde2f3a"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbde2f3a"&gt;
+&lt;div id="outline-container-org526a805" class="outline-4"&gt;
+&lt;h4 id="org526a805"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org526a805"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -120,18 +144,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3d3f4f2" class="outline-4"&gt;
-&lt;h4 id="org3d3f4f2"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3d3f4f2"&gt;
+&lt;div id="outline-container-orga836631" class="outline-4"&gt;
+&lt;h4 id="orga836631"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga836631"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org18c6bd3" class="outline-4"&gt;
-&lt;h4 id="org18c6bd3"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org18c6bd3"&gt;
+&lt;div id="outline-container-orga1a46ec" class="outline-4"&gt;
+&lt;h4 id="orga1a46ec"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga1a46ec"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -140,14 +164,12 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org0edab72" class="outline-2"&gt;
-&lt;h2 id="org0edab72"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0edab72"&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="https://cocktailmake.github.io/posts/big-picture-of-richka/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
+&lt;div id="outline-container-orgc29f527" class="outline-2"&gt;
+&lt;h2 id="orgc29f527"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc29f527"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;
-&lt;/div&gt;
 
 &lt;p&gt;
 RICHKA is behind a load balancer to distribute lots of coming HTTP
@@ -171,4 +193,4 @@ The summary sequence of video generation is,
 &lt;li&gt;The web server sends the generated videos to web browsers and video player loads them and users can see on GUI.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>infra</category><category>richka</category><guid>https://cocktailmake.github.io/posts/big-picture-of-richka/</guid><pubDate>Tue, 05 May 2020 08:02:40 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/big-picture-of-richka/</guid><pubDate>Tue, 05 May 2020 08:02:40 GMT</pubDate></item></channel></rss>
