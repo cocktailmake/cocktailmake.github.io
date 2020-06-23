@@ -49,7 +49,7 @@ The multi-core processing is easy thanks to Python3 builtin package
 *multiprocessing*. The excerpt of a sample program below is to call
 *gen_preview_image* with multi-core CPU. When it has prepared 100 data
 sets, they are executed in parallel. In this example, the max number
-of the used CPU core at time is 1 less number than the number of
+of the used CPU core at a time is 1 less number than the number of
 CPU cores. The result values returned from the function
 gen_preview_image are accumulated and we can get all of the results as
 well.
