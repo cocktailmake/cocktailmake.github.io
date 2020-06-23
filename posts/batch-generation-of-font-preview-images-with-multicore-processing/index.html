@@ -101,9 +101,9 @@ latter video generations are ru">
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-org2241408" class="outline-2">
-<h2 id="org2241408">Abstract</h2>
-<div class="outline-text-2" id="text-org2241408">
+<div id="outline-container-org554ff25" class="outline-2">
+<h2 id="org554ff25">Abstract</h2>
+<div class="outline-text-2" id="text-org554ff25">
 <p>
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -135,14 +135,14 @@ implement in short time.
 </div>
 </div>
 
-<div id="outline-container-org203a32c" class="outline-2">
-<h2 id="org203a32c">Multi-core processing</h2>
-<div class="outline-text-2" id="text-org203a32c">
+<div id="outline-container-org4526bdd" class="outline-2">
+<h2 id="org4526bdd">Multi-core processing</h2>
+<div class="outline-text-2" id="text-org4526bdd">
 <p>
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
 generate the font preview images. However, we can shorten the heavy
-processing with applying muti-core processing to generate them in
+processing with applying multi-core processing to generate them in
 parallel because each processing is independent each other and it is
 general to have multi-core CPU these days.
 </p>
@@ -152,7 +152,7 @@ The multi-core processing is easy thanks to Python3 builtin package
 <b>multiprocessing</b>. The excerpt of a sample program below is to call
 <b>gen_preview_image</b> with multi-core CPU. When it has prepared 100 data
 sets, they are executed in parallel. In this example, the max number
-of the used CPU core at at time is 1 less number than the number of
+of the used CPU core at a time is 1 less number than the number of
 CPU cores. The result values returned from the function
 gen_preview_image are accumulated and we can get all of the results as
 well.
@@ -202,9 +202,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-orgcb175fa" class="outline-2">
-<h2 id="orgcb175fa">Sample program</h2>
-<div class="outline-text-2" id="text-orgcb175fa">
+<div id="outline-container-org8e2d11f" class="outline-2">
+<h2 id="org8e2d11f">Sample program</h2>
+<div class="outline-text-2" id="text-org8e2d11f">
 <p>
 The whole source code is below and we use <b>convert</b> command of
 <a href="https://imagemagick.org/index.php">ImageMagic</a> to generate font preview images. The images are actually
@@ -303,9 +303,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 </div>
 </div>
 
-<div id="outline-container-org734f90e" class="outline-2">
-<h2 id="org734f90e">Sample of generated preview images</h2>
-<div class="outline-text-2" id="text-org734f90e">
+<div id="outline-container-org8d5fefc" class="outline-2">
+<h2 id="org8d5fefc">Sample of generated preview images</h2>
+<div class="outline-text-2" id="text-org8d5fefc">
 <p>
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -317,9 +317,9 @@ enough and we can utilize the max of the CPU resources.
 </div>
 </div>
 
-<div id="outline-container-org35c6be3" class="outline-2">
-<h2 id="org35c6be3">Conclusion</h2>
-<div class="outline-text-2" id="text-org35c6be3">
+<div id="outline-container-org5542689" class="outline-2">
+<h2 id="org5542689">Conclusion</h2>
+<div class="outline-text-2" id="text-org5542689">
 <p>
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
