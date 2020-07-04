@@ -7,30 +7,42 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_richka.xml</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/cat_tool.xml</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_utility.xml</loc>
-  <lastmod>2020-06-21T15:09:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/fzf.xml</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/git.xml</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/gui.xml</loc>
-  <lastmod>2020-06-21T15:09:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/infra.xml</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/richka.xml</loc>
-  <lastmod>2020-06-21T15:13:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2020-06-21T15:13:00Z</lastmod>
+  <lastmod>2020-07-04T14:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2020-06-21T15:13:00Z</lastmod>
+  <lastmod>2020-07-04T14:32:00Z</lastmod>
  </sitemap>
 </sitemapindex>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about git)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 04 Jul 2020 14:30:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd02f947" class="outline-2"&gt;
+&lt;h2 id="orgd02f947"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd02f947"&gt;
+&lt;p&gt;
+We manage source codes with Git in development projects. In general,
+when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
+find the candidate and we retrieve the branch with &lt;b&gt;git checkout&lt;/b&gt; in
+later step. Or we directly checkout a branch when we know the name
+beforehand.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git branch
+  bug/RICHIKA-1178
+  bug/RICHIKA-2234
+  bug/RICHIKA-2510
+  feature/RICHIKA-1141
+  feature/RICHIKA-1143
+  feature/RICHIKA-1155
+  feature/RICHIKA-1364
+  feature/RICHIKA-1390
+  ...
+$ git checkout feature/RICHIKA-1155
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This post describes a utility shell script to assist the Git command
+operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git checkout&lt;/b&gt; and
+&lt;b&gt;git log&lt;/b&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org7044de3" class="outline-2"&gt;
+&lt;h2 id="org7044de3"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7044de3"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
+can be used for any purpose with receiving stdout of any commands.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/fzf.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The fzf command is packaged in major Linux distributions. For Ubuntu,
+it can be installed by apt command.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt install fzf
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+For examples of the usage of fzf, I interactively find files under a
+specified directory with filtering parts of the file path as blow. And
+it can show a preview window which we can customize what kind of data
+is shown. In this sample, I showed the syntax highlighted content of
+the selected file.  This command may be described on another post as
+well.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/fzf-sample.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org9b08c7b" class="outline-2"&gt;
+&lt;h2 id="org9b08c7b"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9b08c7b"&gt;
+&lt;p&gt;
+There are three commands below.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;| Command     | Feature                              |
+|-------------+--------------------------------------|
+| git-br-fzf  | Filtering Git branches               |
+| git-co-fzf  | Checkout with filtering Git branches |
+| git-log-fzf | Filtering Git commit logs            |
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The shell script combining git + fzf to assist Git operations is below.
+The dependent command is only fzf.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;is_in_git_repo&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;# git rev-parse HEAD &amp;gt; /dev/null 2&amp;gt;&amp;amp;1&lt;/span&gt;
+    git rev-parse HEAD &amp;gt; /dev/null
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter branches.&lt;/span&gt;
+git-br-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="nb"&gt;local&lt;/span&gt; tags branches target
+    &lt;span class="nv"&gt;tags&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	git tag &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print "\x1b[31;1mtag\x1b[m\t" $1}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nv"&gt;branches&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	git branch --all &lt;span class="p"&gt;|&lt;/span&gt; grep -v HEAD &lt;span class="p"&gt;|&lt;/span&gt;
+	    sed &lt;span class="s2"&gt;"s/.* //"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s2"&gt;"s#remotes/[^/]*/##"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+	    sort -u &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print "\x1b[34;1mbranch\x1b[m\t" $1}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$tags&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$branches&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+	    fzf --no-hscroll --no-multi --delimiter&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"\t"&lt;/span&gt; -n &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+		--ansi --preview&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"git log -200 --pretty=format:%s &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;+2..&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;  sed &lt;span class="s1"&gt;'s/$/../'&lt;/span&gt; &lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$target&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s2"&gt;"\t"&lt;/span&gt; &lt;span class="s1"&gt;'{print $2}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter branches and checkout the selected one with &amp;lt;enter&amp;gt; key,&lt;/span&gt;
+git-co-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    git checkout &lt;span class="k"&gt;$(&lt;/span&gt;git-br-fzf&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter commit logs. The diff is shown on the preview window.&lt;/span&gt;
+git-log-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;# fshow - git commit browser&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="nv"&gt;_gitLogLineToHash&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"echo {} | grep -o '[a-f0-9]\{7\}' | head -1"&lt;/span&gt;
+    &lt;span class="nv"&gt;_viewGitLogLine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$_gitLogLineToHash&lt;/span&gt;&lt;span class="s2"&gt; | xargs -I % sh -c 'git show --color=always %'"&lt;/span&gt;
+    git log --graph --color&lt;span class="o"&gt;=&lt;/span&gt;always &lt;span class="se"&gt;\&lt;/span&gt;
+	--format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"%C(auto)%h%d [%an] %s %C(black)%C(bold)%cr"&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$@&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+    fzf --ansi --no-sort --reverse --tiebreak&lt;span class="o"&gt;=&lt;/span&gt;index --bind&lt;span class="o"&gt;=&lt;/span&gt;ctrl-s:toggle-sort &lt;span class="se"&gt;\&lt;/span&gt;
+	--preview&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$_viewGitLogLine&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+	--bind &lt;span class="s2"&gt;"ctrl-m:execute:&lt;/span&gt;
+&lt;span class="s2"&gt;		(grep -o '[a-f0-9]\{7\}' | head -1 |&lt;/span&gt;
+&lt;span class="s2"&gt;		xargs -I % sh -c 'git show --color=always % | less -R') &amp;lt;&amp;lt; 'FZF-EOF'&lt;/span&gt;
+&lt;span class="s2"&gt;		{}&lt;/span&gt;
+&lt;span class="s2"&gt;FZF-EOF"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;git-br-fzf&lt;/b&gt; and &lt;b&gt;git-co-fzf&lt;/b&gt; work like this.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-branch.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;git-log-fzf&lt;/b&gt; works like this.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>fzf</category><category>git</category><guid>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</guid><pubDate>Sat, 04 Jul 2020 14:30:00 GMT</pubDate></item></channel></rss>

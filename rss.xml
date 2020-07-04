@@ -1,11 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Tue, 23 Jun 2020 23:59:15 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 04 Jul 2020 14:32:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org554ff25" class="outline-2"&gt;
-&lt;h2 id="org554ff25"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org554ff25"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd02f947" class="outline-2"&gt;
+&lt;h2 id="orgd02f947"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd02f947"&gt;
+&lt;p&gt;
+We manage source codes with Git in development projects. In general,
+when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
+find the candidate and we retrieve the branch with &lt;b&gt;git checkout&lt;/b&gt; in
+later step. Or we directly checkout a branch when we know the name
+beforehand.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git branch
+  bug/RICHIKA-1178
+  bug/RICHIKA-2234
+  bug/RICHIKA-2510
+  feature/RICHIKA-1141
+  feature/RICHIKA-1143
+  feature/RICHIKA-1155
+  feature/RICHIKA-1364
+  feature/RICHIKA-1390
+  ...
+$ git checkout feature/RICHIKA-1155
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This post describes a utility shell script to assist the Git command
+operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git checkout&lt;/b&gt; and
+&lt;b&gt;git log&lt;/b&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org7044de3" class="outline-2"&gt;
+&lt;h2 id="org7044de3"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7044de3"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
+can be used for any purpose with receiving stdout of any commands.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/fzf.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The fzf command is packaged in major Linux distributions. For Ubuntu,
+it can be installed by apt command.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt install fzf
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+For examples of the usage of fzf, I interactively find files under a
+specified directory with filtering parts of the file path as blow. And
+it can show a preview window which we can customize what kind of data
+is shown. In this sample, I showed the syntax highlighted content of
+the selected file.  This command may be described on another post as
+well.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/fzf-sample.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org9b08c7b" class="outline-2"&gt;
+&lt;h2 id="org9b08c7b"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9b08c7b"&gt;
+&lt;p&gt;
+There are three commands below.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;| Command     | Feature                              |
+|-------------+--------------------------------------|
+| git-br-fzf  | Filtering Git branches               |
+| git-co-fzf  | Checkout with filtering Git branches |
+| git-log-fzf | Filtering Git commit logs            |
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The shell script combining git + fzf to assist Git operations is below.
+The dependent command is only fzf.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;is_in_git_repo&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;# git rev-parse HEAD &amp;gt; /dev/null 2&amp;gt;&amp;amp;1&lt;/span&gt;
+    git rev-parse HEAD &amp;gt; /dev/null
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter branches.&lt;/span&gt;
+git-br-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="nb"&gt;local&lt;/span&gt; tags branches target
+    &lt;span class="nv"&gt;tags&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	git tag &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print "\x1b[31;1mtag\x1b[m\t" $1}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nv"&gt;branches&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	git branch --all &lt;span class="p"&gt;|&lt;/span&gt; grep -v HEAD &lt;span class="p"&gt;|&lt;/span&gt;
+	    sed &lt;span class="s2"&gt;"s/.* //"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s2"&gt;"s#remotes/[^/]*/##"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+	    sort -u &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print "\x1b[34;1mbranch\x1b[m\t" $1}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;
+	&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$tags&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$branches&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+	    fzf --no-hscroll --no-multi --delimiter&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"\t"&lt;/span&gt; -n &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+		--ansi --preview&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"git log -200 --pretty=format:%s &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;+2..&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;  sed &lt;span class="s1"&gt;'s/$/../'&lt;/span&gt; &lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$target&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s2"&gt;"\t"&lt;/span&gt; &lt;span class="s1"&gt;'{print $2}'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter branches and checkout the selected one with &amp;lt;enter&amp;gt; key,&lt;/span&gt;
+git-co-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+    git checkout &lt;span class="k"&gt;$(&lt;/span&gt;git-br-fzf&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# Filter commit logs. The diff is shown on the preview window.&lt;/span&gt;
+git-log-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;# fshow - git commit browser&lt;/span&gt;
+    is_in_git_repo &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="nv"&gt;_gitLogLineToHash&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"echo {} | grep -o '[a-f0-9]\{7\}' | head -1"&lt;/span&gt;
+    &lt;span class="nv"&gt;_viewGitLogLine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$_gitLogLineToHash&lt;/span&gt;&lt;span class="s2"&gt; | xargs -I % sh -c 'git show --color=always %'"&lt;/span&gt;
+    git log --graph --color&lt;span class="o"&gt;=&lt;/span&gt;always &lt;span class="se"&gt;\&lt;/span&gt;
+	--format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"%C(auto)%h%d [%an] %s %C(black)%C(bold)%cr"&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$@&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+    fzf --ansi --no-sort --reverse --tiebreak&lt;span class="o"&gt;=&lt;/span&gt;index --bind&lt;span class="o"&gt;=&lt;/span&gt;ctrl-s:toggle-sort &lt;span class="se"&gt;\&lt;/span&gt;
+	--preview&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$_viewGitLogLine&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+	--bind &lt;span class="s2"&gt;"ctrl-m:execute:&lt;/span&gt;
+&lt;span class="s2"&gt;		(grep -o '[a-f0-9]\{7\}' | head -1 |&lt;/span&gt;
+&lt;span class="s2"&gt;		xargs -I % sh -c 'git show --color=always % | less -R') &amp;lt;&amp;lt; 'FZF-EOF'&lt;/span&gt;
+&lt;span class="s2"&gt;		{}&lt;/span&gt;
+&lt;span class="s2"&gt;FZF-EOF"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;git-br-fzf&lt;/b&gt; and &lt;b&gt;git-co-fzf&lt;/b&gt; work like this.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-branch.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;git-log-fzf&lt;/b&gt; works like this.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>fzf</category><category>git</category><guid>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</guid><pubDate>Sat, 04 Jul 2020 14:30:00 GMT</pubDate></item><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-org7b5c718" class="outline-2"&gt;
+&lt;h2 id="org7b5c718"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7b5c718"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -38,9 +194,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4526bdd" class="outline-2"&gt;
-&lt;h2 id="org4526bdd"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4526bdd"&gt;
+&lt;div id="outline-container-org078f66d" class="outline-2"&gt;
+&lt;h2 id="org078f66d"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org078f66d"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -105,9 +261,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8e2d11f" class="outline-2"&gt;
-&lt;h2 id="org8e2d11f"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8e2d11f"&gt;
+&lt;div id="outline-container-orga2cea9c" class="outline-2"&gt;
+&lt;h2 id="orga2cea9c"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga2cea9c"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -206,9 +362,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8d5fefc" class="outline-2"&gt;
-&lt;h2 id="org8d5fefc"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8d5fefc"&gt;
+&lt;div id="outline-container-orga7e76cc" class="outline-2"&gt;
+&lt;h2 id="orga7e76cc"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga7e76cc"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -221,9 +377,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5542689" class="outline-2"&gt;
-&lt;h2 id="org5542689"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5542689"&gt;
+&lt;div id="outline-container-org2c81739" class="outline-2"&gt;
+&lt;h2 id="org2c81739"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2c81739"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -236,9 +392,9 @@ desired fonts used for video generation.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org81bc0d6" class="outline-2"&gt;
-&lt;h2 id="org81bc0d6"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org81bc0d6"&gt;
+&lt;div id="outline-container-orgb488d54" class="outline-2"&gt;
+&lt;h2 id="orgb488d54"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb488d54"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -281,9 +437,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge81175d" class="outline-2"&gt;
-&lt;h2 id="orge81175d"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge81175d"&gt;
+&lt;div id="outline-container-org96505c7" class="outline-2"&gt;
+&lt;h2 id="org96505c7"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org96505c7"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -332,9 +488,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org76c9e1f" class="outline-2"&gt;
-&lt;h2 id="org76c9e1f"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org76c9e1f"&gt;
+&lt;div id="outline-container-orgb556f81" class="outline-2"&gt;
+&lt;h2 id="orgb556f81"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb556f81"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -365,9 +521,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org8b5a51b" class="outline-2"&gt;
-&lt;h2 id="org8b5a51b"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8b5a51b"&gt;
+&lt;div id="outline-container-org26f724b" class="outline-2"&gt;
+&lt;h2 id="org26f724b"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org26f724b"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -413,9 +569,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd3591d5" class="outline-2"&gt;
-&lt;h2 id="orgd3591d5"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd3591d5"&gt;
+&lt;div id="outline-container-orgeac2f9f" class="outline-2"&gt;
+&lt;h2 id="orgeac2f9f"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeac2f9f"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -452,27 +608,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org655aa24" class="outline-4"&gt;
-&lt;h4 id="org655aa24"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org655aa24"&gt;
+&lt;div id="outline-container-org03b83d9" class="outline-4"&gt;
+&lt;h4 id="org03b83d9"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org03b83d9"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf369ab" class="outline-4"&gt;
-&lt;h4 id="orgcf369ab"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgcf369ab"&gt;
+&lt;div id="outline-container-org8a9ed3a" class="outline-4"&gt;
+&lt;h4 id="org8a9ed3a"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8a9ed3a"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8b7aa8a" class="outline-4"&gt;
-&lt;h4 id="org8b7aa8a"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org8b7aa8a"&gt;
+&lt;div id="outline-container-orge835450" class="outline-4"&gt;
+&lt;h4 id="orge835450"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge835450"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -480,18 +636,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org911ff3f" class="outline-4"&gt;
-&lt;h4 id="org911ff3f"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org911ff3f"&gt;
+&lt;div id="outline-container-orgb101a01" class="outline-4"&gt;
+&lt;h4 id="orgb101a01"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb101a01"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3820329" class="outline-4"&gt;
-&lt;h4 id="org3820329"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3820329"&gt;
+&lt;div id="outline-container-org384f504" class="outline-4"&gt;
+&lt;h4 id="org384f504"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org384f504"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -500,9 +656,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgc9aa4cc" class="outline-2"&gt;
-&lt;h2 id="orgc9aa4cc"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc9aa4cc"&gt;
+&lt;div id="outline-container-org4dd8027" class="outline-2"&gt;
+&lt;h2 id="org4dd8027"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4dd8027"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;

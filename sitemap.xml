@@ -7,50 +7,66 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://cocktailmake.github.io/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/2020/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2020-06-21T15:13:00Z</lastmod>
+  <lastmod>2020-07-04T14:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/</loc>
-  <lastmod>2020-06-21T13:24:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/cat_richka/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/categories/cat_tool/</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/cat_utility/</loc>
-  <lastmod>2020-06-21T13:24:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/categories/fzf/</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/categories/git/</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/gui/</loc>
-  <lastmod>2020-06-21T13:24:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/infra/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/richka/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</loc>
-  <lastmod>2020-06-21T13:22:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/big-picture-of-richka/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</loc>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</loc>
-  <lastmod>2020-05-16T15:56:00Z</lastmod>
+  <lastmod>2020-07-04T14:30:00Z</lastmod>
  </url>
 </urlset>
