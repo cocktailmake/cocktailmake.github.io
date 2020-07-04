@@ -1,0 +1,136 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Improvement of Git commands with fzf
+.. slug: improvement-of-git-commands-with-fzf
+.. date: 2020-07-04 23:30:00 UTC+09:00
+.. tags: git, fzf
+.. category: tool
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Posted by Hitoshi Uchida
+
+[[img-url:/images/improvement-of-git-commands-with-fzf/demo-log.png]]
+
+* Abstract
+
+We manage source codes with Git in development projects. In general,
+when we check the branches, we use a *git branch* command below to
+find the candidate and we retrieve the branch with *git checkout* in
+later step. Or we directly checkout a branch when we know the name
+beforehand.
+
+#+BEGIN_SRC sh
+$ git branch
+  bug/RICHIKA-1178
+  bug/RICHIKA-2234
+  bug/RICHIKA-2510
+  feature/RICHIKA-1141
+  feature/RICHIKA-1143
+  feature/RICHIKA-1155
+  feature/RICHIKA-1364
+  feature/RICHIKA-1390
+  ...
+$ git checkout feature/RICHIKA-1155
+#+END_SRC
+
+This post describes a utility shell script to assist the Git command
+operations with fzf command such as *git branche*, *git checkout* and
+*git log*.
+
+
+* General usage of fzf
+
+[[https://github.com/junegunn/fzf][fzf]] is a powerful Linux command and enables interactive filtering which
+can be used for any purpose with receiving stdout of any commands.
+
+[[img-url:/images/improvement-of-git-commands-with-fzf/fzf.png]]
+
+The fzf command is packaged in major Linux distributions. For Ubuntu,
+it can be installed by apt command.
+
+#+BEGIN_SRC sh
+sudo apt install fzf
+#+END_SRC
+
+For examples of the usage of fzf, I interactively find files under a
+specified directory with filtering parts of the file path as blow. And
+it can show a preview window which we can customize what kind of data
+is shown. In this sample, I showed the syntax highlighted content of
+the selected file.  This command may be described on another post as
+well.
+
+[[img-url:/images/improvement-of-git-commands-with-fzf/fzf-sample.png]]
+
+
+* Filtering Git branches by fzf
+
+There are three commands below.
+
+#+BEGIN_SRC
+| Command     | Feature                              |
+|-------------+--------------------------------------|
+| git-br-fzf  | Filtering Git branches               |
+| git-co-fzf  | Checkout with filtering Git branches |
+| git-log-fzf | Filtering Git commit logs            |
+#+END_SRC
+
+The shell script combining git + fzf to assist Git operations is below.
+The dependent command is only fzf.
+
+
+#+BEGIN_SRC sh
+is_in_git_repo() {
+    # git rev-parse HEAD > /dev/null 2>&1
+    git rev-parse HEAD > /dev/null
+}
+# Filter branches.
+git-br-fzf() {
+    is_in_git_repo || return
+
+    local tags branches target
+    tags=$(
+        git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+    branches=$(
+        git branch --all | grep -v HEAD |
+            sed "s/.* //" | sed "s#remotes/[^/]*/##" |
+            sort -u | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+    target=$(
+        (echo "$tags"; echo "$branches") |
+            fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
+                --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
+    echo $(echo "$target" | awk -F "\t" '{print $2}')
+}
+# Filter branches and checkout the selected one with <enter> key,
+git-co-fzf() {
+    is_in_git_repo || return
+    git checkout $(git-br-fzf)
+}
+# Filter commit logs. The diff is shown on the preview window.
+git-log-fzf() { # fshow - git commit browser
+    is_in_git_repo || return
+
+    _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+    _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always %'"
+    git log --graph --color=always \
+        --format="%C(auto)%h%d [%an] %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+        --preview="$_viewGitLogLine" \
+        --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+#+END_SRC
+
+*git-br-fzf* and *git-co-fzf* work like this.
+
+[[img-url:/images/improvement-of-git-commands-with-fzf/demo-branch.png]]
+
+*git-log-fzf* works like this.
+
+[[img-url:/images/improvement-of-git-commands-with-fzf/demo-log.png]]
