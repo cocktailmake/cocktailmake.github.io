@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about GUI)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/gui.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 04 Jul 2020 14:30:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about GUI)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/gui.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 26 Jul 2020 06:18:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7b5c718" class="outline-2"&gt;
-&lt;h2 id="org7b5c718"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7b5c718"&gt;
+&lt;div id="outline-container-org875483b" class="outline-2"&gt;
+&lt;h2 id="org875483b"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org875483b"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -38,9 +38,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org078f66d" class="outline-2"&gt;
-&lt;h2 id="org078f66d"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org078f66d"&gt;
+&lt;div id="outline-container-orgb52e7b8" class="outline-2"&gt;
+&lt;h2 id="orgb52e7b8"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb52e7b8"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -105,9 +105,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga2cea9c" class="outline-2"&gt;
-&lt;h2 id="orga2cea9c"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga2cea9c"&gt;
+&lt;div id="outline-container-org4374714" class="outline-2"&gt;
+&lt;h2 id="org4374714"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4374714"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -206,9 +206,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga7e76cc" class="outline-2"&gt;
-&lt;h2 id="orga7e76cc"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga7e76cc"&gt;
+&lt;div id="outline-container-org61f0788" class="outline-2"&gt;
+&lt;h2 id="org61f0788"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org61f0788"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -221,9 +221,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2c81739" class="outline-2"&gt;
-&lt;h2 id="org2c81739"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2c81739"&gt;
+&lt;div id="outline-container-org4be174c" class="outline-2"&gt;
+&lt;h2 id="org4be174c"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4be174c"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing

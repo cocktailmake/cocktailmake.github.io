@@ -1,5 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 04 Jul 2020 14:32:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 26 Jul 2020 06:24:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Web Workers API</title><link>https://cocktailmake.github.io/posts/web-workers-api/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgb44184c" class="outline-2"&gt;
+&lt;h2 id="orgb44184c"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb44184c"&gt;
+&lt;p&gt;
+In this post, we describe Web Workers API which was introduced in 2010 as
+one of HTML5. The technology is based on &lt;b&gt;&lt;b&gt;fork&lt;/b&gt;&lt;/b&gt; to create a new sub
+process and Web Workers API enables web applications to fork an
+independent worker process in JavaScript world. The worker process has
+its own memory space and the parent main process isn't affected even
+if the forked process is crashed as general process system.
+&lt;/p&gt;
+
+&lt;p&gt;
+The practical use case is Slack that a dedicated worker process gets
+the notification from the server side. The worker process starts to
+run when we open on web browsers and it continues to stay until we
+close the browser tabs.
+&lt;/p&gt;
+
+&lt;p width="1500px"&gt;
+&lt;img src="https://cocktailmake.github.io/images/web-workers-api/slack-workers.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgc9242f0" class="outline-2"&gt;
+&lt;h2 id="orgc9242f0"&gt;Architecture of Web Workers API&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc9242f0"&gt;
+&lt;p&gt;
+The usage of Web Workers API is to communicate between a main process
+and a worker process with using &lt;b&gt;Worker.prototype.postMessage(message,
+[transfer])&lt;/b&gt; and &lt;b&gt;worker.onmessage handler&lt;/b&gt;.  The data sent by
+postMessage() is internally converted into string data and passed into
+the worker processes. The onmessage() of receiver side is called back
+with the posted data.
+&lt;/p&gt;
+
+&lt;p&gt;
+MDN : &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"&gt;https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;+--------------+ postMessage()      onmessage() +-------------------+
+|              |-------------------------------&amp;gt;|                   |
+|   main.js    | onmessage()      postMessage() |     worker.js     |
+|              |&amp;lt;-------------------------------|                   |
++--------------+                                +-------------------+
+       |
+       |
++--------------+
+|   main.html  |
++--------------+
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org24a1801" class="outline-3"&gt;
+&lt;h3 id="org24a1801"&gt;Implicit Side effect&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org24a1801"&gt;
+&lt;p&gt;
+The general use case is to fork tiny processes running for a long time
+whose CPU loads are small as general resident application as
+Slack. However, we need to carefully consider the use cases before
+actually using on production because the load of CPU and consumed
+memory may not be small. The fork processing also consumes CPU
+resource because it take time to allocate its own memory. In addition,
+we should carefully consider the frequency to communicate between the
+main process and the worker process because frequent communication
+increases the load of CPU. The data sent between them is internally
+converted into &lt;b&gt;string data&lt;/b&gt; because the memory space is different and
+it is impossible to refer to an address of an object of another process.
+&lt;/p&gt;
+
+&lt;p&gt;
+It is easy to use Web Worker API, but the developers should understand
+the heavy load of internal processing and the background of
+independent memory spaces. Otherwise, your web applications would
+encounter serious issues of low performance and high CPU usage.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org13a47d8" class="outline-2"&gt;
+&lt;h2 id="org13a47d8"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org13a47d8"&gt;
+&lt;p&gt;
+A 1st sample program is to delegate a dedicated process which
+continues to find prime numbers in the worker process and send to the
+main process. The sequence diagram between main and worker process is
+below.
+&lt;/p&gt;
+
+&lt;p width="1500px"&gt;
+&lt;img src="https://cocktailmake.github.io/images/web-workers-api/demo-prime-sequence-large.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
+The source code of main process is below. A worker object is
+instantiated with specifying the source file "basic.js" of the worker
+process. Then the worker process is internally forked and starts to
+run. Then, CPU usage is increased in this timing. Therefore, it is
+good strategy to delay the timing to fork until the dedicated process
+is actually needed for better performance.
+&lt;/p&gt;
+
+&lt;p&gt;
+When the worker process finds a new prime, the worker.onmessage(event)
+of main process is called back and the prime data can be retrieved
+with event.data.
+&lt;/p&gt;
+
+&lt;p&gt;
+In this sample program, the worker process continues to find new prime
+numbers forever, therefore we need a stop button to terminate the
+worker process with using worker.terminate().
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang="ja"&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset="utf-8"&amp;gt;
+    &amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;
+    &amp;lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;button id="start"&amp;gt;Start&amp;lt;/button&amp;gt;
+    &amp;lt;button id="stop"&amp;gt;Stop&amp;lt;/button&amp;gt;
+    &amp;lt;div id="console"&amp;gt;&amp;lt;/div&amp;gt;
+
+    &amp;lt;script type="text/javascript"&amp;gt;
+     var worker = null;
+
+     $('#start').on('click', function() {
+	 // fork a worker process
+	 worker = new Worker('basic.js');
+	 // callback hander to receive data from worker process
+	 worker.onmessage = function (event) {
+	     $('#console').text(event.data);
+	 };
+     });
+     $('#stop').on('click', function() {
+	 worker.terminate();
+     });
+    &amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The source code of worker process is below. When it finds a new prime,
+it sends with postMessage() to the main process.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var n = 1;
+search: while (true) {
+    n += 1;
+    for (var i = 2; i &amp;lt;= Math.sqrt(n); i += 1)
+	if (n % i == 0)
+	    continue search;
+    // Send a prime to main process !
+    postMessage(n);
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd60046a" class="outline-3"&gt;
+&lt;h3 id="orgd60046a"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd60046a"&gt;
+&lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgdf672c9" class="outline-2"&gt;
+&lt;h2 id="orgdf672c9"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdf672c9"&gt;
+&lt;p&gt;
+The 2st sample program is to delegate image filter processing to a
+worker process. The main process sends the pixel data of image files
+to the worker process. The filter result is sent back to the main
+process and it is rendered onto the canvas.
+&lt;/p&gt;
+
+&lt;p&gt;
+The sequence diagram between main process and web worker is below.
+&lt;/p&gt;
+
+&lt;p width="1500px"&gt;
+&lt;img src="https://cocktailmake.github.io/images/web-workers-api/demo-image-filter-sequence-large.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The source code of the main process is below. The main process sends
+the pixel data of a selected image to the worker process with
+postMessage().
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang="ja"&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset="utf-8"&amp;gt;
+    &amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;
+
+    &amp;lt;!-- JavaScript Start --&amp;gt;
+    &amp;lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;!-- JavaScript End --&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;div id="console"&amp;gt;&amp;lt;/div&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;label&amp;gt;
+	Type an image URL to decode
+	&amp;lt;input type="url" id="image-url" list="image-list"&amp;gt;
+	&amp;lt;datalist id="image-list"&amp;gt;
+	  &amp;lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_2.png"&amp;gt;
+	  &amp;lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_0.png"&amp;gt;
+	&amp;lt;/datalist&amp;gt;
+      &amp;lt;/label&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p&amp;gt;
+      &amp;lt;label&amp;gt;
+	Choose a filter to apply
+	&amp;lt;select id="filter"&amp;gt;
+	  &amp;lt;option value="none"&amp;gt;none&amp;lt;/option&amp;gt;
+	  &amp;lt;option value="grayscale"&amp;gt;grayscale&amp;lt;/option&amp;gt;
+	  &amp;lt;option value="brighten"&amp;gt;brighten by 20%&amp;lt;/option&amp;gt;
+	&amp;lt;/select&amp;gt;
+      &amp;lt;/label&amp;gt;
+    &amp;lt;/p&amp;gt;
+
+    &amp;lt;div id="output"&amp;gt;&amp;lt;/div&amp;gt;
+    &amp;lt;script type="module"&amp;gt;
+     // init a web worker
+     const worker = new Worker("worker.js", { type: "module" });
+     worker.onmessage = receiveFromWorker;
+
+     const url = document.querySelector("#image-url");
+     const filter = document.querySelector("#filter");
+     const output = document.querySelector("#output");
+
+     url.oninput = updateImage;
+     filter.oninput = sendToWorker;
+
+     let context, imageData;
+
+     function updateImage() {
+	 const img = new Image();
+	 console.log(url.value);
+	 img.src = url.value;
+	 img.onload = () =&amp;gt; {
+	     output.innerHTML = "";
+	     var canvas = document.createElement("canvas");
+	     canvas.width = img.width;
+	     canvas.height = img.height;
+
+	     context = canvas.getContext("2d");
+	     context.drawImage(img, 0, 0);
+	     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+	     console.log(imageData);
+
+	     sendToWorker();
+	     output.appendChild(canvas);
+	 };
+     }
+     // send the pixel data to worker process
+     function sendToWorker() {
+	 worker.postMessage({imageData, filter: filter.value });
+     }
+     // called back by worker process
+     function receiveFromWorker(e) {
+	 console.log(e);
+	 context.putImageData(e.data, 0, 0);
+     }
+    &amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The source codes of worker process are below.
+It receives the pixel data with being called back with onmessage().
+When the worker process has applied image filters, it sends back
+to main process with sending postMessage().
+&lt;/p&gt;
+
+&lt;p&gt;
+worker.js whose role is to communicate with the main process.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;import * as filters from "./filters.js";
+
+self.onmessage = (e) =&amp;gt; {
+    console.log(e.data);
+    const { imageData, filter } = e.data;
+    filters[filter](imageData);
+    self.postMessage(imageData, [imageData.data.buffer]);
+};
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+filter.js whose role is to apply image filters.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;export function none() {}
+
+export function grayscale({ data: d }) {
+  for (let i = 0; i &amp;lt; d.length; i += 4) {
+    const [r, g, b] = [d[i], d[i + 1], d[i + 2]];
+
+    // CIE luminance for the RGB
+    // The human eye is bad at seeing red and blue, so we de-emphasize them.
+    d[i] = d[i + 1] = d[i + 2] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+};
+
+export function brighten({ data: d }) {
+  for (let i = 0; i &amp;lt; d.length; ++i) {
+    d[i] *= 1.2;
+  }
+};
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org101bb7e" class="outline-3"&gt;
+&lt;h3 id="org101bb7e"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org101bb7e"&gt;
+&lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>JavaScript</category><guid>https://cocktailmake.github.io/posts/web-workers-api/</guid><pubDate>Sun, 26 Jul 2020 06:00:00 GMT</pubDate></item><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
@@ -7,9 +340,9 @@ Posted by Hitoshi Uchida
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgd02f947" class="outline-2"&gt;
-&lt;h2 id="orgd02f947"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd02f947"&gt;
+&lt;div id="outline-container-org197ecef" class="outline-2"&gt;
+&lt;h2 id="org197ecef"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org197ecef"&gt;
 &lt;p&gt;
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
@@ -40,9 +373,9 @@ operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7044de3" class="outline-2"&gt;
-&lt;h2 id="org7044de3"&gt;General usage of fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7044de3"&gt;
+&lt;div id="outline-container-org2c35af2" class="outline-2"&gt;
+&lt;h2 id="org2c35af2"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2c35af2"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -76,9 +409,9 @@ well.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9b08c7b" class="outline-2"&gt;
-&lt;h2 id="org9b08c7b"&gt;Filtering Git branches by fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9b08c7b"&gt;
+&lt;div id="outline-container-orgd7b59d2" class="outline-2"&gt;
+&lt;h2 id="orgd7b59d2"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd7b59d2"&gt;
 &lt;p&gt;
 There are three commands below.
 &lt;/p&gt;
@@ -159,9 +492,9 @@ git-log-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/spa
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7b5c718" class="outline-2"&gt;
-&lt;h2 id="org7b5c718"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7b5c718"&gt;
+&lt;div id="outline-container-org875483b" class="outline-2"&gt;
+&lt;h2 id="org875483b"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org875483b"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -194,9 +527,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org078f66d" class="outline-2"&gt;
-&lt;h2 id="org078f66d"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org078f66d"&gt;
+&lt;div id="outline-container-orgb52e7b8" class="outline-2"&gt;
+&lt;h2 id="orgb52e7b8"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb52e7b8"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -261,9 +594,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga2cea9c" class="outline-2"&gt;
-&lt;h2 id="orga2cea9c"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga2cea9c"&gt;
+&lt;div id="outline-container-org4374714" class="outline-2"&gt;
+&lt;h2 id="org4374714"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4374714"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -362,9 +695,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga7e76cc" class="outline-2"&gt;
-&lt;h2 id="orga7e76cc"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga7e76cc"&gt;
+&lt;div id="outline-container-org61f0788" class="outline-2"&gt;
+&lt;h2 id="org61f0788"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org61f0788"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -377,9 +710,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2c81739" class="outline-2"&gt;
-&lt;h2 id="org2c81739"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2c81739"&gt;
+&lt;div id="outline-container-org4be174c" class="outline-2"&gt;
+&lt;h2 id="org4be174c"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4be174c"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -392,9 +725,9 @@ desired fonts used for video generation.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb488d54" class="outline-2"&gt;
-&lt;h2 id="orgb488d54"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb488d54"&gt;
+&lt;div id="outline-container-org1ae93d7" class="outline-2"&gt;
+&lt;h2 id="org1ae93d7"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1ae93d7"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -437,9 +770,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org96505c7" class="outline-2"&gt;
-&lt;h2 id="org96505c7"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org96505c7"&gt;
+&lt;div id="outline-container-orgae10d2c" class="outline-2"&gt;
+&lt;h2 id="orgae10d2c"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgae10d2c"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -488,9 +821,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb556f81" class="outline-2"&gt;
-&lt;h2 id="orgb556f81"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb556f81"&gt;
+&lt;div id="outline-container-orgb934d3d" class="outline-2"&gt;
+&lt;h2 id="orgb934d3d"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb934d3d"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -521,9 +854,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org26f724b" class="outline-2"&gt;
-&lt;h2 id="org26f724b"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org26f724b"&gt;
+&lt;div id="outline-container-org604d02d" class="outline-2"&gt;
+&lt;h2 id="org604d02d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org604d02d"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -569,9 +902,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgeac2f9f" class="outline-2"&gt;
-&lt;h2 id="orgeac2f9f"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeac2f9f"&gt;
+&lt;div id="outline-container-orgbd194ad" class="outline-2"&gt;
+&lt;h2 id="orgbd194ad"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbd194ad"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -608,27 +941,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org03b83d9" class="outline-4"&gt;
-&lt;h4 id="org03b83d9"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org03b83d9"&gt;
+&lt;div id="outline-container-org642c9c5" class="outline-4"&gt;
+&lt;h4 id="org642c9c5"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org642c9c5"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8a9ed3a" class="outline-4"&gt;
-&lt;h4 id="org8a9ed3a"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org8a9ed3a"&gt;
+&lt;div id="outline-container-org591f512" class="outline-4"&gt;
+&lt;h4 id="org591f512"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org591f512"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge835450" class="outline-4"&gt;
-&lt;h4 id="orge835450"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge835450"&gt;
+&lt;div id="outline-container-org87341da" class="outline-4"&gt;
+&lt;h4 id="org87341da"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org87341da"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -636,18 +969,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb101a01" class="outline-4"&gt;
-&lt;h4 id="orgb101a01"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb101a01"&gt;
+&lt;div id="outline-container-orgf0d815c" class="outline-4"&gt;
+&lt;h4 id="orgf0d815c"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0d815c"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org384f504" class="outline-4"&gt;
-&lt;h4 id="org384f504"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org384f504"&gt;
+&lt;div id="outline-container-orgada9583" class="outline-4"&gt;
+&lt;h4 id="orgada9583"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgada9583"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -656,9 +989,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org4dd8027" class="outline-2"&gt;
-&lt;h2 id="org4dd8027"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4dd8027"&gt;
+&lt;div id="outline-container-orgf9944b5" class="outline-2"&gt;
+&lt;h2 id="orgf9944b5"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf9944b5"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;

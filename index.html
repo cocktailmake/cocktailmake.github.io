@@ -10,7 +10,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/improvement-of-git-commands-with-fzf/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/web-workers-api/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -63,7 +63,350 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/improvement-of-git-commands-with-fzf/" class="u-url">Improvement of Git commands with fzf</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/web-workers-api/" class="u-url">Web Workers API</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cocktail-Make
+            </span></p>
+            <p class="dateline">
+            <a href="posts/web-workers-api/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-07-26T15:00:00+09:00" itemprop="datePublished" title="2020-07-26 15:00">2020-07-26 15:00</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+Posted by Hitoshi Uchida
+</p>
+
+<div id="outline-container-orgb44184c" class="outline-2">
+<h2 id="orgb44184c">Abstract</h2>
+<div class="outline-text-2" id="text-orgb44184c">
+<p>
+In this post, we describe Web Workers API which was introduced in 2010 as
+one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
+process and Web Workers API enables web applications to fork an
+independent worker process in JavaScript world. The worker process has
+its own memory space and the parent main process isn't affected even
+if the forked process is crashed as general process system.
+</p>
+
+<p>
+The practical use case is Slack that a dedicated worker process gets
+the notification from the server side. The worker process starts to
+run when we open on web browsers and it continues to stay until we
+close the browser tabs.
+</p>
+
+<p width="1500px">
+<img src="images/web-workers-api/slack-workers.png" alt="nil"></p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc9242f0" class="outline-2">
+<h2 id="orgc9242f0">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-orgc9242f0">
+<p>
+The usage of Web Workers API is to communicate between a main process
+and a worker process with using <b>Worker.prototype.postMessage(message,
+[transfer])</b> and <b>worker.onmessage handler</b>.  The data sent by
+postMessage() is internally converted into string data and passed into
+the worker processes. The onmessage() of receiver side is called back
+with the posted data.
+</p>
+
+<p>
+MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API</a>
+</p>
+
+<div class="highlight"><pre><span></span>+--------------+ postMessage()      onmessage() +-------------------+
+|              |-------------------------------&gt;|                   |
+|   main.js    | onmessage()      postMessage() |     worker.js     |
+|              |&lt;-------------------------------|                   |
++--------------+                                +-------------------+
+       |
+       |
++--------------+
+|   main.html  |
++--------------+
+</pre></div>
+</div>
+
+<div id="outline-container-org24a1801" class="outline-3">
+<h3 id="org24a1801">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org24a1801">
+<p>
+The general use case is to fork tiny processes running for a long time
+whose CPU loads are small as general resident application as
+Slack. However, we need to carefully consider the use cases before
+actually using on production because the load of CPU and consumed
+memory may not be small. The fork processing also consumes CPU
+resource because it take time to allocate its own memory. In addition,
+we should carefully consider the frequency to communicate between the
+main process and the worker process because frequent communication
+increases the load of CPU. The data sent between them is internally
+converted into <b>string data</b> because the memory space is different and
+it is impossible to refer to an address of an object of another process.
+</p>
+
+<p>
+It is easy to use Web Worker API, but the developers should understand
+the heavy load of internal processing and the background of
+independent memory spaces. Otherwise, your web applications would
+encounter serious issues of low performance and high CPU usage.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org13a47d8" class="outline-2">
+<h2 id="org13a47d8">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org13a47d8">
+<p>
+A 1st sample program is to delegate a dedicated process which
+continues to find prime numbers in the worker process and send to the
+main process. The sequence diagram between main and worker process is
+below.
+</p>
+
+<p width="1500px">
+<img src="images/web-workers-api/demo-prime-sequence-large.png" alt="nil"></p>
+
+
+<p>
+The source code of main process is below. A worker object is
+instantiated with specifying the source file "basic.js" of the worker
+process. Then the worker process is internally forked and starts to
+run. Then, CPU usage is increased in this timing. Therefore, it is
+good strategy to delay the timing to fork until the dedicated process
+is actually needed for better performance.
+</p>
+
+<p>
+When the worker process finds a new prime, the worker.onmessage(event)
+of main process is called back and the prime data can be retrieved
+with event.data.
+</p>
+
+<p>
+In this sample program, the worker process continues to find new prime
+numbers forever, therefore we need a stop button to terminate the
+worker process with using worker.terminate().
+</p>
+
+<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button id="start"&gt;Start&lt;/button&gt;
+    &lt;button id="stop"&gt;Stop&lt;/button&gt;
+    &lt;div id="console"&gt;&lt;/div&gt;
+
+    &lt;script type="text/javascript"&gt;
+     var worker = null;
+
+     $('#start').on('click', function() {
+	 // fork a worker process
+	 worker = new Worker('basic.js');
+	 // callback hander to receive data from worker process
+	 worker.onmessage = function (event) {
+	     $('#console').text(event.data);
+	 };
+     });
+     $('#stop').on('click', function() {
+	 worker.terminate();
+     });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+
+<p>
+The source code of worker process is below. When it finds a new prime,
+it sends with postMessage() to the main process.
+</p>
+
+<div class="highlight"><pre><span></span>var n = 1;
+search: while (true) {
+    n += 1;
+    for (var i = 2; i &lt;= Math.sqrt(n); i += 1)
+	if (n % i == 0)
+	    continue search;
+    // Send a prime to main process !
+    postMessage(n);
+}
+</pre></div>
+</div>
+
+<div id="outline-container-orgd60046a" class="outline-3">
+<h3 id="orgd60046a">Demo</h3>
+<div class="outline-text-3" id="text-orgd60046a">
+<iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdf672c9" class="outline-2">
+<h2 id="orgdf672c9">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-orgdf672c9">
+<p>
+The 2st sample program is to delegate image filter processing to a
+worker process. The main process sends the pixel data of image files
+to the worker process. The filter result is sent back to the main
+process and it is rendered onto the canvas.
+</p>
+
+<p>
+The sequence diagram between main process and web worker is below.
+</p>
+
+<p width="1500px">
+<img src="images/web-workers-api/demo-image-filter-sequence-large.png" alt="nil"></p>
+
+<p>
+The source code of the main process is below. The main process sends
+the pixel data of a selected image to the worker process with
+postMessage().
+</p>
+
+<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+
+    &lt;!-- JavaScript Start --&gt;
+    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+    &lt;!-- JavaScript End --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="console"&gt;&lt;/div&gt;
+    &lt;p&gt;
+      &lt;label&gt;
+	Type an image URL to decode
+	&lt;input type="url" id="image-url" list="image-list"&gt;
+	&lt;datalist id="image-list"&gt;
+	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_2.png"&gt;
+	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_0.png"&gt;
+	&lt;/datalist&gt;
+      &lt;/label&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label&gt;
+	Choose a filter to apply
+	&lt;select id="filter"&gt;
+	  &lt;option value="none"&gt;none&lt;/option&gt;
+	  &lt;option value="grayscale"&gt;grayscale&lt;/option&gt;
+	  &lt;option value="brighten"&gt;brighten by 20%&lt;/option&gt;
+	&lt;/select&gt;
+      &lt;/label&gt;
+    &lt;/p&gt;
+
+    &lt;div id="output"&gt;&lt;/div&gt;
+    &lt;script type="module"&gt;
+     // init a web worker
+     const worker = new Worker("worker.js", { type: "module" });
+     worker.onmessage = receiveFromWorker;
+
+     const url = document.querySelector("#image-url");
+     const filter = document.querySelector("#filter");
+     const output = document.querySelector("#output");
+
+     url.oninput = updateImage;
+     filter.oninput = sendToWorker;
+
+     let context, imageData;
+
+     function updateImage() {
+	 const img = new Image();
+	 console.log(url.value);
+	 img.src = url.value;
+	 img.onload = () =&gt; {
+	     output.innerHTML = "";
+	     var canvas = document.createElement("canvas");
+	     canvas.width = img.width;
+	     canvas.height = img.height;
+
+	     context = canvas.getContext("2d");
+	     context.drawImage(img, 0, 0);
+	     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+	     console.log(imageData);
+
+	     sendToWorker();
+	     output.appendChild(canvas);
+	 };
+     }
+     // send the pixel data to worker process
+     function sendToWorker() {
+	 worker.postMessage({imageData, filter: filter.value });
+     }
+     // called back by worker process
+     function receiveFromWorker(e) {
+	 console.log(e);
+	 context.putImageData(e.data, 0, 0);
+     }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+
+<p>
+The source codes of worker process are below.
+It receives the pixel data with being called back with onmessage().
+When the worker process has applied image filters, it sends back
+to main process with sending postMessage().
+</p>
+
+<p>
+worker.js whose role is to communicate with the main process.
+</p>
+<div class="highlight"><pre><span></span>import * as filters from "./filters.js";
+
+self.onmessage = (e) =&gt; {
+    console.log(e.data);
+    const { imageData, filter } = e.data;
+    filters[filter](imageData);
+    self.postMessage(imageData, [imageData.data.buffer]);
+};
+</pre></div>
+
+<p>
+filter.js whose role is to apply image filters.
+</p>
+<div class="highlight"><pre><span></span>export function none() {}
+
+export function grayscale({ data: d }) {
+  for (let i = 0; i &lt; d.length; i += 4) {
+    const [r, g, b] = [d[i], d[i + 1], d[i + 2]];
+
+    // CIE luminance for the RGB
+    // The human eye is bad at seeing red and blue, so we de-emphasize them.
+    d[i] = d[i + 1] = d[i + 2] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+};
+
+export function brighten({ data: d }) {
+  for (let i = 0; i &lt; d.length; ++i) {
+    d[i] *= 1.2;
+  }
+};
+</pre></div>
+</div>
+
+<div id="outline-container-org101bb7e" class="outline-3">
+<h3 id="org101bb7e">Demo</h3>
+<div class="outline-text-3" id="text-org101bb7e">
+<iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/improvement-of-git-commands-with-fzf/" class="u-url">Improvement of Git commands with fzf</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cocktail-Make
@@ -81,9 +424,9 @@ Posted by Hitoshi Uchida
 <p>
 <img src="images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"></p>
 
-<div id="outline-container-orgd02f947" class="outline-2">
-<h2 id="orgd02f947">Abstract</h2>
-<div class="outline-text-2" id="text-orgd02f947">
+<div id="outline-container-org197ecef" class="outline-2">
+<h2 id="org197ecef">Abstract</h2>
+<div class="outline-text-2" id="text-org197ecef">
 <p>
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a <b>git branch</b> command below to
@@ -114,9 +457,9 @@ operations with fzf command such as <b>git branche</b>, <b>git checkout</b> and
 </div>
 
 
-<div id="outline-container-org7044de3" class="outline-2">
-<h2 id="org7044de3">General usage of fzf</h2>
-<div class="outline-text-2" id="text-org7044de3">
+<div id="outline-container-org2c35af2" class="outline-2">
+<h2 id="org2c35af2">General usage of fzf</h2>
+<div class="outline-text-2" id="text-org2c35af2">
 <p>
 <a href="https://github.com/junegunn/fzf">fzf</a> is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -148,9 +491,9 @@ well.
 </div>
 
 
-<div id="outline-container-org9b08c7b" class="outline-2">
-<h2 id="org9b08c7b">Filtering Git branches by fzf</h2>
-<div class="outline-text-2" id="text-org9b08c7b">
+<div id="outline-container-orgd7b59d2" class="outline-2">
+<h2 id="orgd7b59d2">Filtering Git branches by fzf</h2>
+<div class="outline-text-2" id="text-orgd7b59d2">
 <p>
 There are three commands below.
 </p>
@@ -243,9 +586,9 @@ git-log-fzf<span class="o">()</span> <span class="o">{</span> <span class="c1">#
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-org7b5c718" class="outline-2">
-<h2 id="org7b5c718">Abstract</h2>
-<div class="outline-text-2" id="text-org7b5c718">
+<div id="outline-container-org875483b" class="outline-2">
+<h2 id="org875483b">Abstract</h2>
+<div class="outline-text-2" id="text-org875483b">
 <p>
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -277,9 +620,9 @@ implement in short time.
 </div>
 </div>
 
-<div id="outline-container-org078f66d" class="outline-2">
-<h2 id="org078f66d">Multi-core processing</h2>
-<div class="outline-text-2" id="text-org078f66d">
+<div id="outline-container-orgb52e7b8" class="outline-2">
+<h2 id="orgb52e7b8">Multi-core processing</h2>
+<div class="outline-text-2" id="text-orgb52e7b8">
 <p>
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -344,9 +687,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-orga2cea9c" class="outline-2">
-<h2 id="orga2cea9c">Sample program</h2>
-<div class="outline-text-2" id="text-orga2cea9c">
+<div id="outline-container-org4374714" class="outline-2">
+<h2 id="org4374714">Sample program</h2>
+<div class="outline-text-2" id="text-org4374714">
 <p>
 The whole source code is below and we use <b>convert</b> command of
 <a href="https://imagemagick.org/index.php">ImageMagic</a> to generate font preview images. The images are actually
@@ -445,9 +788,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 </div>
 </div>
 
-<div id="outline-container-orga7e76cc" class="outline-2">
-<h2 id="orga7e76cc">Sample of generated preview images</h2>
-<div class="outline-text-2" id="text-orga7e76cc">
+<div id="outline-container-org61f0788" class="outline-2">
+<h2 id="org61f0788">Sample of generated preview images</h2>
+<div class="outline-text-2" id="text-org61f0788">
 <p>
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -459,9 +802,9 @@ enough and we can utilize the max of the CPU resources.
 </div>
 </div>
 
-<div id="outline-container-org2c81739" class="outline-2">
-<h2 id="org2c81739">Conclusion</h2>
-<div class="outline-text-2" id="text-org2c81739">
+<div id="outline-container-org4be174c" class="outline-2">
+<h2 id="org4be174c">Conclusion</h2>
+<div class="outline-text-2" id="text-org4be174c">
 <p>
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -487,9 +830,9 @@ desired fonts used for video generation.</p>
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-orgb488d54" class="outline-2">
-<h2 id="orgb488d54">Abstract</h2>
-<div class="outline-text-2" id="text-orgb488d54">
+<div id="outline-container-org1ae93d7" class="outline-2">
+<h2 id="org1ae93d7">Abstract</h2>
+<div class="outline-text-2" id="text-org1ae93d7">
 <p>
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -532,9 +875,9 @@ blog.
 </div>
 </div>
 
-<div id="outline-container-org96505c7" class="outline-2">
-<h2 id="org96505c7">Technical Restriction of HTTP streaming</h2>
-<div class="outline-text-2" id="text-org96505c7">
+<div id="outline-container-orgae10d2c" class="outline-2">
+<h2 id="orgae10d2c">Technical Restriction of HTTP streaming</h2>
+<div class="outline-text-2" id="text-orgae10d2c">
 <p width="1500px">
 <img src="images/progress-display-of-video-generation/restriction.png" alt="nil"></p>
 
@@ -581,9 +924,9 @@ RICHKA\r\n
 </div>
 
 
-<div id="outline-container-orgb556f81" class="outline-2">
-<h2 id="orgb556f81">Realtime Display of Video Generation Progress after HTTP Redirect</h2>
-<div class="outline-text-2" id="text-orgb556f81">
+<div id="outline-container-orgb934d3d" class="outline-2">
+<h2 id="orgb934d3d">Realtime Display of Video Generation Progress after HTTP Redirect</h2>
+<div class="outline-text-2" id="text-orgb934d3d">
 <p width="1500px">
 <img src="images/progress-display-of-video-generation/solution.png" alt="nil"></p>
 
@@ -625,9 +968,9 @@ intentionally applies the traditional method to make more stable.</p>
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-org26f724b" class="outline-2">
-<h2 id="org26f724b">Abstract</h2>
-<div class="outline-text-2" id="text-org26f724b">
+<div id="outline-container-org604d02d" class="outline-2">
+<h2 id="org604d02d">Abstract</h2>
+<div class="outline-text-2" id="text-org604d02d">
 <p>
 This is the first post from our engineer team.
 </p>
@@ -673,9 +1016,9 @@ services demand higher development skills of web applications.
 </div>
 
 
-<div id="outline-container-orgeac2f9f" class="outline-2">
-<h2 id="orgeac2f9f">RICHKA Development Environment</h2>
-<div class="outline-text-2" id="text-orgeac2f9f">
+<div id="outline-container-orgbd194ad" class="outline-2">
+<h2 id="orgbd194ad">RICHKA Development Environment</h2>
+<div class="outline-text-2" id="text-orgbd194ad">
 <p>
 <img src="images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
 
@@ -711,27 +1054,27 @@ around 13000.
 </p>
 </div>
 
-<div id="outline-container-org03b83d9" class="outline-4">
-<h4 id="org03b83d9">OS</h4>
-<div class="outline-text-4" id="text-org03b83d9">
+<div id="outline-container-org642c9c5" class="outline-4">
+<h4 id="org642c9c5">OS</h4>
+<div class="outline-text-4" id="text-org642c9c5">
 <p>
 Ubuntu Server
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8a9ed3a" class="outline-4">
-<h4 id="org8a9ed3a">Programming Language</h4>
-<div class="outline-text-4" id="text-org8a9ed3a">
+<div id="outline-container-org591f512" class="outline-4">
+<h4 id="org591f512">Programming Language</h4>
+<div class="outline-text-4" id="text-org591f512">
 <p>
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge835450" class="outline-4">
-<h4 id="orge835450">Server Side Technologies</h4>
-<div class="outline-text-4" id="text-orge835450">
+<div id="outline-container-org87341da" class="outline-4">
+<h4 id="org87341da">Server Side Technologies</h4>
+<div class="outline-text-4" id="text-org87341da">
 <p>
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -739,18 +1082,18 @@ multi core processing, load distribution
 </div>
 </div>
 
-<div id="outline-container-orgb101a01" class="outline-4">
-<h4 id="orgb101a01">Front End</h4>
-<div class="outline-text-4" id="text-orgb101a01">
+<div id="outline-container-orgf0d815c" class="outline-4">
+<h4 id="orgf0d815c">Front End</h4>
+<div class="outline-text-4" id="text-orgf0d815c">
 <p>
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 </p>
 </div>
 </div>
 
-<div id="outline-container-org384f504" class="outline-4">
-<h4 id="org384f504">Regression Test</h4>
-<div class="outline-text-4" id="text-org384f504">
+<div id="outline-container-orgada9583" class="outline-4">
+<h4 id="orgada9583">Regression Test</h4>
+<div class="outline-text-4" id="text-orgada9583">
 <p>
 Jenkins, Django UnitTest, Selenium
 </p>
@@ -759,9 +1102,9 @@ Jenkins, Django UnitTest, Selenium
 </div>
 
 
-<div id="outline-container-org4dd8027" class="outline-2">
-<h2 id="org4dd8027">Sequence of video generation</h2>
-<div class="outline-text-2" id="text-org4dd8027">
+<div id="outline-container-orgf9944b5" class="outline-2">
+<h2 id="orgf9944b5">Sequence of video generation</h2>
+<div class="outline-text-2" id="text-orgf9944b5">
 <p>
 <img src="images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
 

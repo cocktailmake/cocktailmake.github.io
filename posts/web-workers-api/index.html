@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web Workers API | Cocktail-Make Developer Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://cocktailmake.github.io/posts/web-workers-api/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
+<link rel="prev" href="../improvement-of-git-commands-with-fzf/" title="Improvement of Git commands with fzf" type="text/html">
+<meta property="og:site_name" content="Cocktail-Make Developer Blog">
+<meta property="og:title" content="Web Workers API">
+<meta property="og:url" content="https://cocktailmake.github.io/posts/web-workers-api/">
+<meta property="og:description" content="Posted by Hitoshi Uchida
+
+
+
+Abstract
+
+
+In this post, we describe Web Workers API which was introduced in 2010 as
+one of HTML5. The technology is based on fork to create a new sub
+process and Web Worke">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-07-26T15:00:00+09:00">
+<meta property="article:tag" content="JavaScript">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://cocktailmake.github.io/">
+
+                <span id="blog-title">Cocktail-Make Developer Blog</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Web Workers API</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Cocktail-Make
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-07-26T15:00:00+09:00" itemprop="datePublished" title="2020-07-26 15:00">2020-07-26 15:00</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+Posted by Hitoshi Uchida
+</p>
+
+<div id="outline-container-orgb44184c" class="outline-2">
+<h2 id="orgb44184c">Abstract</h2>
+<div class="outline-text-2" id="text-orgb44184c">
+<p>
+In this post, we describe Web Workers API which was introduced in 2010 as
+one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
+process and Web Workers API enables web applications to fork an
+independent worker process in JavaScript world. The worker process has
+its own memory space and the parent main process isn't affected even
+if the forked process is crashed as general process system.
+</p>
+
+<p>
+The practical use case is Slack that a dedicated worker process gets
+the notification from the server side. The worker process starts to
+run when we open on web browsers and it continues to stay until we
+close the browser tabs.
+</p>
+
+<p width="1500px">
+<img src="../../images/web-workers-api/slack-workers.png" alt="nil"></p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc9242f0" class="outline-2">
+<h2 id="orgc9242f0">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-orgc9242f0">
+<p>
+The usage of Web Workers API is to communicate between a main process
+and a worker process with using <b>Worker.prototype.postMessage(message,
+[transfer])</b> and <b>worker.onmessage handler</b>.  The data sent by
+postMessage() is internally converted into string data and passed into
+the worker processes. The onmessage() of receiver side is called back
+with the posted data.
+</p>
+
+<p>
+MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API</a>
+</p>
+
+<div class="highlight"><pre><span></span>+--------------+ postMessage()      onmessage() +-------------------+
+|              |-------------------------------&gt;|                   |
+|   main.js    | onmessage()      postMessage() |     worker.js     |
+|              |&lt;-------------------------------|                   |
++--------------+                                +-------------------+
+       |
+       |
++--------------+
+|   main.html  |
++--------------+
+</pre></div>
+</div>
+
+<div id="outline-container-org24a1801" class="outline-3">
+<h3 id="org24a1801">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org24a1801">
+<p>
+The general use case is to fork tiny processes running for a long time
+whose CPU loads are small as general resident application as
+Slack. However, we need to carefully consider the use cases before
+actually using on production because the load of CPU and consumed
+memory may not be small. The fork processing also consumes CPU
+resource because it take time to allocate its own memory. In addition,
+we should carefully consider the frequency to communicate between the
+main process and the worker process because frequent communication
+increases the load of CPU. The data sent between them is internally
+converted into <b>string data</b> because the memory space is different and
+it is impossible to refer to an address of an object of another process.
+</p>
+
+<p>
+It is easy to use Web Worker API, but the developers should understand
+the heavy load of internal processing and the background of
+independent memory spaces. Otherwise, your web applications would
+encounter serious issues of low performance and high CPU usage.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org13a47d8" class="outline-2">
+<h2 id="org13a47d8">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org13a47d8">
+<p>
+A 1st sample program is to delegate a dedicated process which
+continues to find prime numbers in the worker process and send to the
+main process. The sequence diagram between main and worker process is
+below.
+</p>
+
+<p width="1500px">
+<img src="../../images/web-workers-api/demo-prime-sequence-large.png" alt="nil"></p>
+
+
+<p>
+The source code of main process is below. A worker object is
+instantiated with specifying the source file "basic.js" of the worker
+process. Then the worker process is internally forked and starts to
+run. Then, CPU usage is increased in this timing. Therefore, it is
+good strategy to delay the timing to fork until the dedicated process
+is actually needed for better performance.
+</p>
+
+<p>
+When the worker process finds a new prime, the worker.onmessage(event)
+of main process is called back and the prime data can be retrieved
+with event.data.
+</p>
+
+<p>
+In this sample program, the worker process continues to find new prime
+numbers forever, therefore we need a stop button to terminate the
+worker process with using worker.terminate().
+</p>
+
+<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button id="start"&gt;Start&lt;/button&gt;
+    &lt;button id="stop"&gt;Stop&lt;/button&gt;
+    &lt;div id="console"&gt;&lt;/div&gt;
+
+    &lt;script type="text/javascript"&gt;
+     var worker = null;
+
+     $('#start').on('click', function() {
+	 // fork a worker process
+	 worker = new Worker('basic.js');
+	 // callback hander to receive data from worker process
+	 worker.onmessage = function (event) {
+	     $('#console').text(event.data);
+	 };
+     });
+     $('#stop').on('click', function() {
+	 worker.terminate();
+     });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+
+<p>
+The source code of worker process is below. When it finds a new prime,
+it sends with postMessage() to the main process.
+</p>
+
+<div class="highlight"><pre><span></span>var n = 1;
+search: while (true) {
+    n += 1;
+    for (var i = 2; i &lt;= Math.sqrt(n); i += 1)
+	if (n % i == 0)
+	    continue search;
+    // Send a prime to main process !
+    postMessage(n);
+}
+</pre></div>
+</div>
+
+<div id="outline-container-orgd60046a" class="outline-3">
+<h3 id="orgd60046a">Demo</h3>
+<div class="outline-text-3" id="text-orgd60046a">
+<iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdf672c9" class="outline-2">
+<h2 id="orgdf672c9">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-orgdf672c9">
+<p>
+The 2st sample program is to delegate image filter processing to a
+worker process. The main process sends the pixel data of image files
+to the worker process. The filter result is sent back to the main
+process and it is rendered onto the canvas.
+</p>
+
+<p>
+The sequence diagram between main process and web worker is below.
+</p>
+
+<p width="1500px">
+<img src="../../images/web-workers-api/demo-image-filter-sequence-large.png" alt="nil"></p>
+
+<p>
+The source code of the main process is below. The main process sends
+the pixel data of a selected image to the worker process with
+postMessage().
+</p>
+
+<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+
+    &lt;!-- JavaScript Start --&gt;
+    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+    &lt;!-- JavaScript End --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="console"&gt;&lt;/div&gt;
+    &lt;p&gt;
+      &lt;label&gt;
+	Type an image URL to decode
+	&lt;input type="url" id="image-url" list="image-list"&gt;
+	&lt;datalist id="image-list"&gt;
+	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_2.png"&gt;
+	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_0.png"&gt;
+	&lt;/datalist&gt;
+      &lt;/label&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label&gt;
+	Choose a filter to apply
+	&lt;select id="filter"&gt;
+	  &lt;option value="none"&gt;none&lt;/option&gt;
+	  &lt;option value="grayscale"&gt;grayscale&lt;/option&gt;
+	  &lt;option value="brighten"&gt;brighten by 20%&lt;/option&gt;
+	&lt;/select&gt;
+      &lt;/label&gt;
+    &lt;/p&gt;
+
+    &lt;div id="output"&gt;&lt;/div&gt;
+    &lt;script type="module"&gt;
+     // init a web worker
+     const worker = new Worker("worker.js", { type: "module" });
+     worker.onmessage = receiveFromWorker;
+
+     const url = document.querySelector("#image-url");
+     const filter = document.querySelector("#filter");
+     const output = document.querySelector("#output");
+
+     url.oninput = updateImage;
+     filter.oninput = sendToWorker;
+
+     let context, imageData;
+
+     function updateImage() {
+	 const img = new Image();
+	 console.log(url.value);
+	 img.src = url.value;
+	 img.onload = () =&gt; {
+	     output.innerHTML = "";
+	     var canvas = document.createElement("canvas");
+	     canvas.width = img.width;
+	     canvas.height = img.height;
+
+	     context = canvas.getContext("2d");
+	     context.drawImage(img, 0, 0);
+	     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+	     console.log(imageData);
+
+	     sendToWorker();
+	     output.appendChild(canvas);
+	 };
+     }
+     // send the pixel data to worker process
+     function sendToWorker() {
+	 worker.postMessage({imageData, filter: filter.value });
+     }
+     // called back by worker process
+     function receiveFromWorker(e) {
+	 console.log(e);
+	 context.putImageData(e.data, 0, 0);
+     }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+
+<p>
+The source codes of worker process are below.
+It receives the pixel data with being called back with onmessage().
+When the worker process has applied image filters, it sends back
+to main process with sending postMessage().
+</p>
+
+<p>
+worker.js whose role is to communicate with the main process.
+</p>
+<div class="highlight"><pre><span></span>import * as filters from "./filters.js";
+
+self.onmessage = (e) =&gt; {
+    console.log(e.data);
+    const { imageData, filter } = e.data;
+    filters[filter](imageData);
+    self.postMessage(imageData, [imageData.data.buffer]);
+};
+</pre></div>
+
+<p>
+filter.js whose role is to apply image filters.
+</p>
+<div class="highlight"><pre><span></span>export function none() {}
+
+export function grayscale({ data: d }) {
+  for (let i = 0; i &lt; d.length; i += 4) {
+    const [r, g, b] = [d[i], d[i + 1], d[i + 2]];
+
+    // CIE luminance for the RGB
+    // The human eye is bad at seeing red and blue, so we de-emphasize them.
+    d[i] = d[i + 1] = d[i + 2] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+};
+
+export function brighten({ data: d }) {
+  for (let i = 0; i &lt; d.length; ++i) {
+    d[i] *= 1.2;
+  }
+};
+</pre></div>
+</div>
+
+<div id="outline-container-org101bb7e" class="outline-3">
+<h3 id="org101bb7e">Demo</h3>
+<div class="outline-text-3" id="text-org101bb7e">
+<iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/javascript/" rel="tag">JavaScript</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../improvement-of-git-commands-with-fzf/" rel="prev" title="Improvement of Git commands with fzf">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2020         <a href="mailto:">Cocktail-Make</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-145253993-3"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145253993-3');
+</script>
+</body>
+</html>
