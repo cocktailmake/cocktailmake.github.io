@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Released Narration Recording Service | Cocktail-Make Developer Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://cocktailmake.github.io/posts/released-narration-recording-service/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
+<link rel="prev" href="../web-workers-api/" title="Web Workers API" type="text/html">
+<meta property="og:site_name" content="Cocktail-Make Developer Blog">
+<meta property="og:title" content="Released Narration Recording Service">
+<meta property="og:url" content="https://cocktailmake.github.io/posts/released-narration-recording-service/">
+<meta property="og:description" content="Posted by Hitoshi Uchida
+
+
+
+Abstract
+
+
+Some RICHKA users requested that they would like to input their
+narration into the videos and recently we released a new web
+application called ナレ撮り which enable">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-08-12T15:38:24+09:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://cocktailmake.github.io/">
+
+                <span id="blog-title">Cocktail-Make Developer Blog</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Released Narration Recording Service</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Cocktail-Make
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-08-12T15:38:24+09:00" itemprop="datePublished" title="2020-08-12 15:38">2020-08-12 15:38</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+Posted by Hitoshi Uchida
+</p>
+
+<div id="outline-container-orgdf9fa9a" class="outline-2">
+<h2 id="orgdf9fa9a">Abstract</h2>
+<div class="outline-text-2" id="text-orgdf9fa9a">
+<p>
+Some RICHKA users requested that they would like to input their
+narration into the videos and recently we released a new web
+application called <b><span style="color: red">ナレ撮り</span></b> which enables users to
+record the voice as narration on web browsers and combine them with
+video sources and generate videos. And <b>synthesis of speech
+technology</b> to automatically generate voice data with the input texts
+is also supported as <b>AI narration mode</b> and users
+don't have input voice.
+</p>
+
+<p>
+The screenshot below is the sample of the edit page. The upper left is
+a dedicated video player to playback both a video source and recorded
+narration with combining them. Users can edit the start time of cues
+with dragging the cue point on the seek bar. When users click the
+recording button in the lower left, the input voice is recorded
+through WebRTC and it is converted to MP3 on the web browsers. The
+right side is the narration texts users can add/edit. In the AI
+narration mode, the voices are generated with the texts.
+</p>
+
+<p>
+After the recording has been done, users click the generation button
+in the upper right and it starts to generate a video with combining
+the video source and the recorded voices.
+</p>
+
+<p>
+<img src="../../images/released-narration-recording-service/sample-edit-page.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org891a0b9" class="outline-2">
+<h2 id="org891a0b9">Development Environment</h2>
+<div class="outline-text-2" id="text-org891a0b9">
+<p>
+Web servers are based on Django, and additional 8 Python packages such
+as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
+parser are integrated. The current total lines of Django is around
+3000 and it is still quite small because it is still beta version.
+Regarding the front end, 20 OSS libraries such as jQuery, videojs,
+videojs marker, RecordRTC etc. are integrated. The current total lines
+of JavaScript codes is around 4300 and the font end is also still
+quite small.
+</p>
+
+<p>
+This product is still beta, and based on the feedback from users, new
+advanced features will be continuously added and this project will
+also become big service soon such as RICHKA. Regarding the synthesis
+of speech technology, we will make a new post and share the detail.
+</p>
+
+<p>
+<img src="../../images/released-narration-recording-service/technologies.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org5e78b58" class="outline-2">
+<h2 id="org5e78b58">Voice Recording</h2>
+<div class="outline-text-2" id="text-org5e78b58">
+<p>
+One of primary features is to record voice per cue point inputted
+with the mic. When users click the recording button, the recording
+processing is executed with using WebRTC as a diagram below.
+</p>
+
+<ol class="org-ol">
+<li>A user clicks the recording button and records the voice with mic</li>
+<li>The voice data is retrieved with WebRTC API and converted into
+MP3 in JavaScript layer. Then it is directly uploaded to S3 with
+pre-signed S3 URL.</li>
+<li>To enable the user to listen the recorded voice, our dedicated video
+player on JavaScript layer loads the record and initialize to be ready.</li>
+<li>The user can playback the video source with overlaying the recorded
+voices without generating a new video on the dedicated video
+player.</li>
+</ol>
+<p>
+<img src="../../images/released-narration-recording-service/voice-recording.png" alt="nil"></p>
+</div>
+
+<div id="outline-container-org5143286" class="outline-3">
+<h3 id="org5143286">Direct Conversion to MP3 on JavaScript layer</h3>
+<div class="outline-text-3" id="text-org5143286">
+<p>
+At the 1st step, the MIME type of the audio data retrieved by WebRTC
+is audio/webm in default and it tended to be large data size and the
+quality of the voice is a bit higher quality. To adjust the quality
+and the data size to match our requirements, we decided to use a
+JavaScript library RecordRTC to directly convert to MP3 on JavaScript
+layer and upload to S3 without delegating the conversion processing to
+servers and Lambda. After we obtain the binary of MP3, we don't
+convert to other formats in the data life cycle. The client processing
+makes the architecture simpler and doesn't cause any additional load
+to the server side.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd1f2dcd" class="outline-3">
+<h3 id="orgd1f2dcd">Dedicated video player to sync video and voices</h3>
+<div class="outline-text-3" id="text-orgd1f2dcd">
+<p>
+At the 3rd step, we implemented a dedicated video player to playback
+the video source with overlaying the recorded voices without
+generating another video. The advantage is users can immediately check
+the recording results without waiting for several seconds to generate
+new videos. The dedicated video player has internally two players to
+playback with synchronizing the video source and the recorded voices.
+</p>
+
+<p>
+When the current seek point reaches the next cue point, the video
+player loads the corresponding voice data from S3 and make the video
+player ready to play.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e78289" class="outline-2">
+<h2 id="org3e78289">Video Generation</h2>
+<div class="outline-text-2" id="text-org3e78289">
+<p>
+After users have inputted the voices to cue points, user are ready to
+generate videos with overlying recorded voices. The generated ones
+can be downloaded as independent video file.
+</p>
+
+<p>
+When users click the generation button, the generation process is
+executed on one of dedicated video servers as steps below.
+</p>
+
+<ol class="org-ol">
+<li>When a user click the generation button, an HTTP POST request is
+sent to one of web servers behind of a load balancer.</li>
+<li>The web server retrieves the location of the corresponding voices
+of S3 and sends an HTTP request to one of video servers.</li>
+<li>The video server downloads the video source and the recorded voice
+files from S3, and generate an MP4 video with overlying the voices
+over the video source with using ffmpeg.</li>
+<li>The video server uploads the generated video to S3 with pre-singed S3 URL.</li>
+</ol>
+<p>
+<img src="../../images/released-narration-recording-service/video-generation.png" alt="nil"></p>
+
+
+<p>
+At 3rd step to generate the video, the simplified sample command of
+ffmpeg is like below.
+</p>
+
+<p target="_blank">
+Each recorded voice stream is overlaid over the audio stream of
+the video source with <a href="https://ffmpeg.org/ffmpeg-filters.html#amerge-1" target="_blank"><b>amerge</b></a> command to multiplex.
+</p>
+
+<p target="_blank">
+And they are concatenated into one audio stream with <a href="https://ffmpeg.org/ffmpeg-filters.html#concat" target="_blank"><b>concat</b></a> command
+as "[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]" in the
+filter_complex option.
+</p>
+
+<p target="_blank">
+To keep the original video stream of the video source, the video
+stream is directly copied to the output stream with enabling stream
+copy mode with <a href="https://ffmpeg.org/ffmpeg.html#Stream-copy" target="_blank"><b>-c:vcopy</b></a> option. It can avoid needless encoding of
+video stream and suppress CPU usage, therefore this command can be
+rapidly done.
+</p>
+
+<div class="highlight"><pre><span></span>ffmpeg -i 'vide_source.mp4'
+-i 'voice_1.mp3'
+-i 'voice_2.mp3'
+-i 'voice_3.mp3'
+-i 'voice_4.mp3'
+-filter_complex '[0:a]atrim=start=0.0:duration=1.87,aformat=sample_fmts=fltp:sample_rates=44100:
+channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm1];[0:a]atrim=start=1.87:duration=0.63,
+aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s1];
+[0:a]atrim=start=2.5:duration=1.44,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,
+volume=1,asetpts=PTS-STARTPTS[sm2];[0:a]atrim=start=3.94:duration=1.56,aformat=sample_fmts=fltp:
+sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s2];[0:a]atrim=start=5.5:
+duration=2.0,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,
+asetpts=PTS-STARTPTS[sm3];[0:a]atrim=start=7.5:duration=1.82,aformat=sample_fmts=fltp:sample_rates=44100:
+channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm4];[0:a]atrim=start=9.32,aformat=sample_fmts=fltp:
+sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s3];[sm1][1:a]amerge[m1];
+[sm2][2:a]amerge[m2];[sm3][3:a]amerge[m3];[sm4][4:a]amerge[m4];[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]'
+-c:v copy -map 0:v -map [out] 'out.mp4'
+</pre></div>
+
+<p>
+The figure below represents how merging and concatenating audio
+streams work with the ffmpeg command. The concatenated audio stream is
+accumulated into an output stream [out] in the command. Then, it is
+combined with the video stream of the video source with <b>-c:v copy
+-map 0:v -map [out]</b> and the final result is serialized into a file
+out.mp4.
+</p>
+
+<p>
+<img src="../../images/released-narration-recording-service/audio-merge.png" alt="nil"></p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../web-workers-api/" rel="prev" title="Web Workers API">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2020         <a href="mailto:">Cocktail-Make</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-145253993-3"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145253993-3');
+</script>
+</body>
+</html>

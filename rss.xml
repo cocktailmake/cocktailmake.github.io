@@ -1,11 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 26 Jul 2020 06:24:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Web Workers API</title><link>https://cocktailmake.github.io/posts/web-workers-api/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Wed, 12 Aug 2020 06:53:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Released Narration Recording Service</title><link>https://cocktailmake.github.io/posts/released-narration-recording-service/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb44184c" class="outline-2"&gt;
-&lt;h2 id="orgb44184c"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb44184c"&gt;
+&lt;div id="outline-container-orgdf9fa9a" class="outline-2"&gt;
+&lt;h2 id="orgdf9fa9a"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdf9fa9a"&gt;
+&lt;p&gt;
+Some RICHKA users requested that they would like to input their
+narration into the videos and recently we released a new web
+application called &lt;b&gt;&lt;span style="color: red"&gt;ナレ撮り&lt;/span&gt;&lt;/b&gt; which enables users to
+record the voice as narration on web browsers and combine them with
+video sources and generate videos. And &lt;b&gt;synthesis of speech
+technology&lt;/b&gt; to automatically generate voice data with the input texts
+is also supported as &lt;b&gt;AI narration mode&lt;/b&gt; and users
+don't have input voice.
+&lt;/p&gt;
+
+&lt;p&gt;
+The screenshot below is the sample of the edit page. The upper left is
+a dedicated video player to playback both a video source and recorded
+narration with combining them. Users can edit the start time of cues
+with dragging the cue point on the seek bar. When users click the
+recording button in the lower left, the input voice is recorded
+through WebRTC and it is converted to MP3 on the web browsers. The
+right side is the narration texts users can add/edit. In the AI
+narration mode, the voices are generated with the texts.
+&lt;/p&gt;
+
+&lt;p&gt;
+After the recording has been done, users click the generation button
+in the upper right and it starts to generate a video with combining
+the video source and the recorded voices.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/released-narration-recording-service/sample-edit-page.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org891a0b9" class="outline-2"&gt;
+&lt;h2 id="org891a0b9"&gt;Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org891a0b9"&gt;
+&lt;p&gt;
+Web servers are based on Django, and additional 8 Python packages such
+as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
+parser are integrated. The current total lines of Django is around
+3000 and it is still quite small because it is still beta version.
+Regarding the front end, 20 OSS libraries such as jQuery, videojs,
+videojs marker, RecordRTC etc. are integrated. The current total lines
+of JavaScript codes is around 4300 and the font end is also still
+quite small.
+&lt;/p&gt;
+
+&lt;p&gt;
+This product is still beta, and based on the feedback from users, new
+advanced features will be continuously added and this project will
+also become big service soon such as RICHKA. Regarding the synthesis
+of speech technology, we will make a new post and share the detail.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/released-narration-recording-service/technologies.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5e78b58" class="outline-2"&gt;
+&lt;h2 id="org5e78b58"&gt;Voice Recording&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5e78b58"&gt;
+&lt;p&gt;
+One of primary features is to record voice per cue point inputted
+with the mic. When users click the recording button, the recording
+processing is executed with using WebRTC as a diagram below.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;A user clicks the recording button and records the voice with mic&lt;/li&gt;
+&lt;li&gt;The voice data is retrieved with WebRTC API and converted into
+MP3 in JavaScript layer. Then it is directly uploaded to S3 with
+pre-signed S3 URL.&lt;/li&gt;
+&lt;li&gt;To enable the user to listen the recorded voice, our dedicated video
+player on JavaScript layer loads the record and initialize to be ready.&lt;/li&gt;
+&lt;li&gt;The user can playback the video source with overlaying the recorded
+voices without generating a new video on the dedicated video
+player.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/released-narration-recording-service/voice-recording.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5143286" class="outline-3"&gt;
+&lt;h3 id="org5143286"&gt;Direct Conversion to MP3 on JavaScript layer&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5143286"&gt;
+&lt;p&gt;
+At the 1st step, the MIME type of the audio data retrieved by WebRTC
+is audio/webm in default and it tended to be large data size and the
+quality of the voice is a bit higher quality. To adjust the quality
+and the data size to match our requirements, we decided to use a
+JavaScript library RecordRTC to directly convert to MP3 on JavaScript
+layer and upload to S3 without delegating the conversion processing to
+servers and Lambda. After we obtain the binary of MP3, we don't
+convert to other formats in the data life cycle. The client processing
+makes the architecture simpler and doesn't cause any additional load
+to the server side.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd1f2dcd" class="outline-3"&gt;
+&lt;h3 id="orgd1f2dcd"&gt;Dedicated video player to sync video and voices&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd1f2dcd"&gt;
+&lt;p&gt;
+At the 3rd step, we implemented a dedicated video player to playback
+the video source with overlaying the recorded voices without
+generating another video. The advantage is users can immediately check
+the recording results without waiting for several seconds to generate
+new videos. The dedicated video player has internally two players to
+playback with synchronizing the video source and the recorded voices.
+&lt;/p&gt;
+
+&lt;p&gt;
+When the current seek point reaches the next cue point, the video
+player loads the corresponding voice data from S3 and make the video
+player ready to play.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3e78289" class="outline-2"&gt;
+&lt;h2 id="org3e78289"&gt;Video Generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3e78289"&gt;
+&lt;p&gt;
+After users have inputted the voices to cue points, user are ready to
+generate videos with overlying recorded voices. The generated ones
+can be downloaded as independent video file.
+&lt;/p&gt;
+
+&lt;p&gt;
+When users click the generation button, the generation process is
+executed on one of dedicated video servers as steps below.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;When a user click the generation button, an HTTP POST request is
+sent to one of web servers behind of a load balancer.&lt;/li&gt;
+&lt;li&gt;The web server retrieves the location of the corresponding voices
+of S3 and sends an HTTP request to one of video servers.&lt;/li&gt;
+&lt;li&gt;The video server downloads the video source and the recorded voice
+files from S3, and generate an MP4 video with overlying the voices
+over the video source with using ffmpeg.&lt;/li&gt;
+&lt;li&gt;The video server uploads the generated video to S3 with pre-singed S3 URL.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/released-narration-recording-service/video-generation.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
+At 3rd step to generate the video, the simplified sample command of
+ffmpeg is like below.
+&lt;/p&gt;
+
+&lt;p target="_blank"&gt;
+Each recorded voice stream is overlaid over the audio stream of
+the video source with &lt;a href="https://ffmpeg.org/ffmpeg-filters.html#amerge-1" target="_blank"&gt;&lt;b&gt;amerge&lt;/b&gt;&lt;/a&gt; command to multiplex.
+&lt;/p&gt;
+
+&lt;p target="_blank"&gt;
+And they are concatenated into one audio stream with &lt;a href="https://ffmpeg.org/ffmpeg-filters.html#concat" target="_blank"&gt;&lt;b&gt;concat&lt;/b&gt;&lt;/a&gt; command
+as "[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]" in the
+filter_complex option.
+&lt;/p&gt;
+
+&lt;p target="_blank"&gt;
+To keep the original video stream of the video source, the video
+stream is directly copied to the output stream with enabling stream
+copy mode with &lt;a href="https://ffmpeg.org/ffmpeg.html#Stream-copy" target="_blank"&gt;&lt;b&gt;-c:vcopy&lt;/b&gt;&lt;/a&gt; option. It can avoid needless encoding of
+video stream and suppress CPU usage, therefore this command can be
+rapidly done.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ffmpeg -i 'vide_source.mp4'
+-i 'voice_1.mp3'
+-i 'voice_2.mp3'
+-i 'voice_3.mp3'
+-i 'voice_4.mp3'
+-filter_complex '[0:a]atrim=start=0.0:duration=1.87,aformat=sample_fmts=fltp:sample_rates=44100:
+channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm1];[0:a]atrim=start=1.87:duration=0.63,
+aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s1];
+[0:a]atrim=start=2.5:duration=1.44,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,
+volume=1,asetpts=PTS-STARTPTS[sm2];[0:a]atrim=start=3.94:duration=1.56,aformat=sample_fmts=fltp:
+sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s2];[0:a]atrim=start=5.5:
+duration=2.0,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,
+asetpts=PTS-STARTPTS[sm3];[0:a]atrim=start=7.5:duration=1.82,aformat=sample_fmts=fltp:sample_rates=44100:
+channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm4];[0:a]atrim=start=9.32,aformat=sample_fmts=fltp:
+sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s3];[sm1][1:a]amerge[m1];
+[sm2][2:a]amerge[m2];[sm3][3:a]amerge[m3];[sm4][4:a]amerge[m4];[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]'
+-c:v copy -map 0:v -map [out] 'out.mp4'
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The figure below represents how merging and concatenating audio
+streams work with the ffmpeg command. The concatenated audio stream is
+accumulated into an output stream [out] in the command. Then, it is
+combined with the video stream of the video source with &lt;b&gt;-c:v copy
+-map 0:v -map [out]&lt;/b&gt; and the final result is serialized into a file
+out.mp4.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/released-narration-recording-service/audio-merge.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/released-narration-recording-service/</guid><pubDate>Wed, 12 Aug 2020 06:38:24 GMT</pubDate></item><item><title>Web Workers API</title><link>https://cocktailmake.github.io/posts/web-workers-api/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-org5e4d791" class="outline-2"&gt;
+&lt;h2 id="org5e4d791"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5e4d791"&gt;
 &lt;p&gt;
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on &lt;b&gt;&lt;b&gt;fork&lt;/b&gt;&lt;/b&gt; to create a new sub
@@ -29,9 +247,9 @@ close the browser tabs.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgc9242f0" class="outline-2"&gt;
-&lt;h2 id="orgc9242f0"&gt;Architecture of Web Workers API&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc9242f0"&gt;
+&lt;div id="outline-container-orgbe4b8a0" class="outline-2"&gt;
+&lt;h2 id="orgbe4b8a0"&gt;Architecture of Web Workers API&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbe4b8a0"&gt;
 &lt;p&gt;
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using &lt;b&gt;Worker.prototype.postMessage(message,
@@ -58,9 +276,9 @@ MDN : &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_A
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org24a1801" class="outline-3"&gt;
-&lt;h3 id="org24a1801"&gt;Implicit Side effect&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org24a1801"&gt;
+&lt;div id="outline-container-org135ef1f" class="outline-3"&gt;
+&lt;h3 id="org135ef1f"&gt;Implicit Side effect&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org135ef1f"&gt;
 &lt;p&gt;
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -85,9 +303,9 @@ encounter serious issues of low performance and high CPU usage.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org13a47d8" class="outline-2"&gt;
-&lt;h2 id="org13a47d8"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org13a47d8"&gt;
+&lt;div id="outline-container-org512d658" class="outline-2"&gt;
+&lt;h2 id="org512d658"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org512d658"&gt;
 &lt;p&gt;
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -169,18 +387,18 @@ search: while (true) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd60046a" class="outline-3"&gt;
-&lt;h3 id="orgd60046a"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd60046a"&gt;
+&lt;div id="outline-container-org3bc921b" class="outline-3"&gt;
+&lt;h3 id="org3bc921b"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3bc921b"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdf672c9" class="outline-2"&gt;
-&lt;h2 id="orgdf672c9"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdf672c9"&gt;
+&lt;div id="outline-container-org1351f51" class="outline-2"&gt;
+&lt;h2 id="org1351f51"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1351f51"&gt;
 &lt;p&gt;
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -326,9 +544,9 @@ export function brighten({ data: d }) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org101bb7e" class="outline-3"&gt;
-&lt;h3 id="org101bb7e"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org101bb7e"&gt;
+&lt;div id="outline-container-orga8aaebc" class="outline-3"&gt;
+&lt;h3 id="orga8aaebc"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga8aaebc"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -340,9 +558,9 @@ Posted by Hitoshi Uchida
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-org197ecef" class="outline-2"&gt;
-&lt;h2 id="org197ecef"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org197ecef"&gt;
+&lt;div id="outline-container-org6844971" class="outline-2"&gt;
+&lt;h2 id="org6844971"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6844971"&gt;
 &lt;p&gt;
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
@@ -373,9 +591,9 @@ operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org2c35af2" class="outline-2"&gt;
-&lt;h2 id="org2c35af2"&gt;General usage of fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2c35af2"&gt;
+&lt;div id="outline-container-org1cfbd39" class="outline-2"&gt;
+&lt;h2 id="org1cfbd39"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1cfbd39"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -409,9 +627,9 @@ well.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd7b59d2" class="outline-2"&gt;
-&lt;h2 id="orgd7b59d2"&gt;Filtering Git branches by fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd7b59d2"&gt;
+&lt;div id="outline-container-orgda481cd" class="outline-2"&gt;
+&lt;h2 id="orgda481cd"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgda481cd"&gt;
 &lt;p&gt;
 There are three commands below.
 &lt;/p&gt;
@@ -492,9 +710,9 @@ git-log-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/spa
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org875483b" class="outline-2"&gt;
-&lt;h2 id="org875483b"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org875483b"&gt;
+&lt;div id="outline-container-org85e3dc4" class="outline-2"&gt;
+&lt;h2 id="org85e3dc4"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85e3dc4"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -527,9 +745,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb52e7b8" class="outline-2"&gt;
-&lt;h2 id="orgb52e7b8"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb52e7b8"&gt;
+&lt;div id="outline-container-orgc76bfba" class="outline-2"&gt;
+&lt;h2 id="orgc76bfba"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc76bfba"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -594,9 +812,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4374714" class="outline-2"&gt;
-&lt;h2 id="org4374714"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4374714"&gt;
+&lt;div id="outline-container-orga03de7a" class="outline-2"&gt;
+&lt;h2 id="orga03de7a"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga03de7a"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -695,9 +913,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org61f0788" class="outline-2"&gt;
-&lt;h2 id="org61f0788"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org61f0788"&gt;
+&lt;div id="outline-container-orgdb53314" class="outline-2"&gt;
+&lt;h2 id="orgdb53314"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdb53314"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -710,9 +928,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4be174c" class="outline-2"&gt;
-&lt;h2 id="org4be174c"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4be174c"&gt;
+&lt;div id="outline-container-orgdb847ed" class="outline-2"&gt;
+&lt;h2 id="orgdb847ed"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdb847ed"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -725,9 +943,9 @@ desired fonts used for video generation.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org1ae93d7" class="outline-2"&gt;
-&lt;h2 id="org1ae93d7"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1ae93d7"&gt;
+&lt;div id="outline-container-org6ca6182" class="outline-2"&gt;
+&lt;h2 id="org6ca6182"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6ca6182"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -770,9 +988,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgae10d2c" class="outline-2"&gt;
-&lt;h2 id="orgae10d2c"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgae10d2c"&gt;
+&lt;div id="outline-container-orgff7a04a" class="outline-2"&gt;
+&lt;h2 id="orgff7a04a"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgff7a04a"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -821,9 +1039,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb934d3d" class="outline-2"&gt;
-&lt;h2 id="orgb934d3d"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb934d3d"&gt;
+&lt;div id="outline-container-orgf793d73" class="outline-2"&gt;
+&lt;h2 id="orgf793d73"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf793d73"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -854,9 +1072,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org604d02d" class="outline-2"&gt;
-&lt;h2 id="org604d02d"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org604d02d"&gt;
+&lt;div id="outline-container-org6f4ae8f" class="outline-2"&gt;
+&lt;h2 id="org6f4ae8f"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6f4ae8f"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -902,9 +1120,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgbd194ad" class="outline-2"&gt;
-&lt;h2 id="orgbd194ad"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbd194ad"&gt;
+&lt;div id="outline-container-orgc1ea362" class="outline-2"&gt;
+&lt;h2 id="orgc1ea362"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc1ea362"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -941,27 +1159,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org642c9c5" class="outline-4"&gt;
-&lt;h4 id="org642c9c5"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org642c9c5"&gt;
+&lt;div id="outline-container-org553e007" class="outline-4"&gt;
+&lt;h4 id="org553e007"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org553e007"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org591f512" class="outline-4"&gt;
-&lt;h4 id="org591f512"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org591f512"&gt;
+&lt;div id="outline-container-orgf794a78" class="outline-4"&gt;
+&lt;h4 id="orgf794a78"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf794a78"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87341da" class="outline-4"&gt;
-&lt;h4 id="org87341da"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87341da"&gt;
+&lt;div id="outline-container-org9befae5" class="outline-4"&gt;
+&lt;h4 id="org9befae5"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9befae5"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -969,18 +1187,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf0d815c" class="outline-4"&gt;
-&lt;h4 id="orgf0d815c"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf0d815c"&gt;
+&lt;div id="outline-container-orgf126c7a" class="outline-4"&gt;
+&lt;h4 id="orgf126c7a"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf126c7a"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgada9583" class="outline-4"&gt;
-&lt;h4 id="orgada9583"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgada9583"&gt;
+&lt;div id="outline-container-orga8932fe" class="outline-4"&gt;
+&lt;h4 id="orga8932fe"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga8932fe"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -989,9 +1207,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf9944b5" class="outline-2"&gt;
-&lt;h2 id="orgf9944b5"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf9944b5"&gt;
+&lt;div id="outline-container-org94d42eb" class="outline-2"&gt;
+&lt;h2 id="org94d42eb"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org94d42eb"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;

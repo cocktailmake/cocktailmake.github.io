@@ -11,6 +11,7 @@
 <link rel="canonical" href="https://cocktailmake.github.io/posts/web-workers-api/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
 <link rel="prev" href="../improvement-of-git-commands-with-fzf/" title="Improvement of Git commands with fzf" type="text/html">
+<link rel="next" href="../released-narration-recording-service/" title="Released Narration Recording Service" type="text/html">
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Web Workers API">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/web-workers-api/">
@@ -100,9 +101,9 @@ process and Web Worke">
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-orgb44184c" class="outline-2">
-<h2 id="orgb44184c">Abstract</h2>
-<div class="outline-text-2" id="text-orgb44184c">
+<div id="outline-container-org5e4d791" class="outline-2">
+<h2 id="org5e4d791">Abstract</h2>
+<div class="outline-text-2" id="text-org5e4d791">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -125,9 +126,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-orgc9242f0" class="outline-2">
-<h2 id="orgc9242f0">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-orgc9242f0">
+<div id="outline-container-orgbe4b8a0" class="outline-2">
+<h2 id="orgbe4b8a0">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-orgbe4b8a0">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -154,9 +155,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-org24a1801" class="outline-3">
-<h3 id="org24a1801">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-org24a1801">
+<div id="outline-container-org135ef1f" class="outline-3">
+<h3 id="org135ef1f">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org135ef1f">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -181,9 +182,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org13a47d8" class="outline-2">
-<h2 id="org13a47d8">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org13a47d8">
+<div id="outline-container-org512d658" class="outline-2">
+<h2 id="org512d658">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org512d658">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -264,18 +265,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-orgd60046a" class="outline-3">
-<h3 id="orgd60046a">Demo</h3>
-<div class="outline-text-3" id="text-orgd60046a">
+<div id="outline-container-org3bc921b" class="outline-3">
+<h3 id="org3bc921b">Demo</h3>
+<div class="outline-text-3" id="text-org3bc921b">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgdf672c9" class="outline-2">
-<h2 id="orgdf672c9">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-orgdf672c9">
+<div id="outline-container-org1351f51" class="outline-2">
+<h2 id="org1351f51">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-org1351f51">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -420,9 +421,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-org101bb7e" class="outline-3">
-<h3 id="org101bb7e">Demo</h3>
-<div class="outline-text-3" id="text-org101bb7e">
+<div id="outline-container-orga8aaebc" class="outline-3">
+<h3 id="orga8aaebc">Demo</h3>
+<div class="outline-text-3" id="text-orga8aaebc">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>
@@ -434,6 +435,9 @@ export function brighten({ data: d }) {
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../improvement-of-git-commands-with-fzf/" rel="prev" title="Improvement of Git commands with fzf">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../released-narration-recording-service/" rel="next" title="Released Narration Recording Service">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>
