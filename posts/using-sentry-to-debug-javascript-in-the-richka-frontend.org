@@ -1,6 +1,6 @@
 #+BEGIN_COMMENT
 .. title: Using Sentry to debug JavaScript in the RICHKA front end
-.. slug: using-sentry-to-debug-javascript-in-the-richika-frontend
+.. slug: using-sentry-to-debug-javascript-in-the-richka-frontend
 .. date: 2020-08-13 10:53:48 UTC+09:00
 .. tags: 
 .. category: 
@@ -30,11 +30,21 @@ I rate it very useful to debug in front end.
 
 4. Sentry integrates many third software : Slack, Git, GitLab, JIRA, Microsoft team, ... RICHKA developers discuss in Slack so we integrated Sentry to Slack.
 
+Here are some examples.
+
+
+[[img-url:/images/sentry-javascript/error_detail.png]]
+
+[[img-url:/images/sentry-javascript/events_before.png]]
+
+
 * Integration between Sentry debug and Slack
 
 1. Create a new channel in Slack.
 2. Access Sentry project and Settings > Integrations > Slack and login Slack account.
 3. Assign a channel to report debug logs.
+
+[[img-url:/images/sentry-javascript/slack_report.png]]
 
 If a debug event occurs, Sentry server will send a post to the channel. Developers can easily track them.
 Note: if there're a lot of events, we need to configure number of posts in a channel.
@@ -73,7 +83,7 @@ function sentry_capture_message(data, extra, message) {
 }
 #+END_SRC
 
-For example about debug function (sentry_capture_message):
+For example about debug function:
 
 
 #+BEGIN_SRC javascript
@@ -116,3 +126,9 @@ function deleteSearchKeyword(data_id){
     }
 }
 #+END_SRC
+
+Here are some of the results after customization.
+
+[[img-url:/images/sentry-javascript/additonal_data.png]]
+
+[[img-url:/images/sentry-javascript/additonal_data2.png]]
