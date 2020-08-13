@@ -1,0 +1,47 @@
+#+BEGIN_COMMENT
+.. title: The prototype of Morphing
+.. slug: the-prototype-of-morphing
+.. date: 2020-08-13 09:52:52 UTC+09:00
+.. tags: richka
+.. category: richka
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Posted by Bui Dinh Cuong
+
+* Abstract
+In this post, we introduce about HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
+
+* Definitions
+
+** Morphing
+Morphing is a special effect in motion pictures and animations that changes (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
+
+Source: https://en.wikipedia.org/wiki/Morphing
+
+** Hypermorph
+There is many terminology on Hypermorph that you can check on https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf.
+
+Within this post, we just define a simple definition about Hypermorph on video generation. It is a set of points from the 1st image and a corresponding set of points from 2nd image.
+A special effect will change two set together and makes the 1st image become the 2nd image and vice versa.
+When we define enough of points, it will be able to create very smooth video.
+
+* How to create Hypermorph from two images with html & javascript
+
+Define the set of points on the 1st image and a corresponding set of points from 2nd image.
+Using canvas to draw shrink image based on moving points between two sets and merge two images.
+With each moving step, capture the image on the canvas and add it as a frame of video.
+When capture enough frames of video, we can export these frames into a video file.
+
+* Example
+
+#+BEGIN_SRC html
+<iframe height="800" style="width: 100%;" scrolling="no" title="The Prototype of Morphing™" src="https://codepen.io/cuongitbk/embed/poygNwm?height=503&theme-id=dark&default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/cuongitbk/pen/poygNwm'>The Prototype of Morphing™</a> by cuongitbk
+  (<a href='https://codepen.io/cuongitbk'>@cuongitbk</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+#+END_SRC
