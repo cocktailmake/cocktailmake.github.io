@@ -38,10 +38,9 @@ When capture enough frames of video, we can export these frames into a video fil
 
 * Example
 
-#+BEGIN_SRC html
+#+BEGIN_EXPORT html
 <iframe height="800" style="width: 100%;" scrolling="no" title="The Prototype of Morphing™" src="https://codepen.io/cuongitbk/embed/poygNwm?height=503&theme-id=dark&default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/cuongitbk/pen/poygNwm'>The Prototype of Morphing™</a> by cuongitbk
   (<a href='https://codepen.io/cuongitbk'>@cuongitbk</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
-
-#+END_SRC
+#+END_EXPORT
