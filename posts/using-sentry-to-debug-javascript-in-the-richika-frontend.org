@@ -1,0 +1,118 @@
+#+BEGIN_COMMENT
+.. title: Using Sentry to debug javascript in the RICHIKA frontend
+.. slug: using-sentry-to-debug-javascript-in-the-richika-frontend
+.. date: 2020-08-13 10:53:48 UTC+09:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Posted by Le Thanh Tung
+
+* Abstract
+
+Sentry is a service that helps you monitor and fix crashes in realtime.
+Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel
+In this post, we describe our usage of Sentry for javascript to debug RICHKA front end.
+After using Sentry for a while, we see a lot of bugs in production environment. Information is quite detailed so it's easy to address.
+I rate it very useful to debug in front end.
+
+* General usage of Sentry javascript
+
+1. First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.
+
+2. In separated log, we can assign to specific developer and comment, set status.
+
+3. Because RICHKA Project developed by Django and Python, we config Sentry javascript in base template. In Sentry account management, we can see configuration or we can see common javscript configuration in [[https://docs.sentry.io/sdks/javascript/][here]]
+
+4. Sentry integrates many third software: slack, git, gitlab, jira, microsoft team, ... RICHKA developers discuss in Slack so we integrated Sentry to Slack.
+
+* Integration between Sentry debug and Slack 
+
+1. Create a new channel in Slack
+2. Access Sentry project and Settings > Integrations > Slack and login Slack account.
+3. Assign channel to report debug log.
+
+If debug event occurs, Sentry server will send a post to channel. Developers can track them easily.
+Note: if there're a lot of events, we need to config number of posts in channel.
+
+* Customize data in debug log
+
+Because the size of the data sent to Sentry server is limited and length of additonala data in Sentry log is too. So we need to create a function to split data.
+
+#+BEGIN_SRC
+function sentry_capture_message(data, extra, message) {
+    Sentry.withScope(scope => {
+        if (Array.isArray(data))
+        {
+            let i = 0;
+            for (let datum of data){
+                if (typeof datum == 'string') {
+                    if (datum.length >= 16000 && datum.length <= 1024 * 1024) {
+                        let stringArray = datum.split('\n');
+                        for (let j = 0; j < stringArray.length; j++) {
+                            if (stringArray[j].trim().length > 0) {
+                                i++;
+                                scope.setExtra(extra + sprintf("%04d",i), stringArray[j]);
+                            }
+                        }
+                    }
+                }
+                else {
+                    scope.setExtra(extra + sprintf("%04d",i), datum);
+                    i++;
+                }
+            }
+        }
+        else scope.setExtra(extra, data);
+        Sentry.captureMessage(message);
+    });
+}
+#+END_SRC
+
+For example about debug function (sentry_capture_message):
+
+
+#+BEGIN_SRC
+function deleteSearchKeyword(data_id){
+    if($('#stock-video > .stock_list > li.video').length > 0){
+        $('#stock-video > .stock_list > li.video').each(function(i, elem){
+            let src = $(elem).find('p span video').attr('src');
+            if(!src || src.endsWith('/static/')){
+                $(elem).remove();
+            }
+        });
+        $('div#stock-video > div.stock_title').hide();
+        $('.stock_more').hide();
+    }
+    if ($('#stock-photo > .stock_list').length > 0 || $('#stock-video > .stock_list').length > 0) {
+        var materials_id = [];
+        $.each($('.materialIndex'), function(i,v) {
+            materials_id.push($(v).val());
+        });
+        var el = $('.delete-keyword');
+        $.ajax({
+            'url': '/delete_material_when_redirect',
+            'type': 'POST',
+            'data': {
+                'video_data_id': data_id,
+                'materials_id': materials_id
+            },
+            'dataType': 'json',
+            'async': true,
+            'success': function (response) {
+                if (!response.result) {
+                    console.warn('削除中にエラーが発生しました : deleteSearchKeyword');
+                    sentry_capture_message([data_id, response], 'response', `Delete Material When Redirect Error`);
+                }
+            },
+            'error': function(err) {
+                sentry_capture_message([data_id, err.responseText], 'response', `Delete Material When Redirect Error`);
+            }
+        });
+    }
+}
+#+END_SRC
