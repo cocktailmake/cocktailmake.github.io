@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html prefix="og: http://ogp.me/ns# " lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,7 @@ process and Web Worke">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-07-26T15:00:00+09:00">
 <meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -63,13 +64,19 @@ process and Web Worke">
                 
             </li>
 </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-    <a href="index.org" id="sourcelink">Source</a>
-    </li>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://cocktailmake.github.io/">
+</form>
+<!-- End of custom search -->
 
-                
-            </ul>
+
+            <ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!-- /.navbar-collapse -->
     </div>
@@ -91,7 +98,6 @@ process and Web Worke">
             <time class="published dt-published" datetime="2020-07-26T15:00:00+09:00" itemprop="datePublished" title="2020-07-26 15:00">2020-07-26 15:00</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
 
         </div>
         
@@ -101,9 +107,9 @@ process and Web Worke">
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-org5e4d791" class="outline-2">
-<h2 id="org5e4d791">Abstract</h2>
-<div class="outline-text-2" id="text-org5e4d791">
+<div id="outline-container-org9140111" class="outline-2">
+<h2 id="org9140111">Abstract</h2>
+<div class="outline-text-2" id="text-org9140111">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -126,9 +132,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-orgbe4b8a0" class="outline-2">
-<h2 id="orgbe4b8a0">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-orgbe4b8a0">
+<div id="outline-container-org7299a8e" class="outline-2">
+<h2 id="org7299a8e">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-org7299a8e">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -155,9 +161,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-org135ef1f" class="outline-3">
-<h3 id="org135ef1f">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-org135ef1f">
+<div id="outline-container-orgce5bd1d" class="outline-3">
+<h3 id="orgce5bd1d">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-orgce5bd1d">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -182,9 +188,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org512d658" class="outline-2">
-<h2 id="org512d658">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org512d658">
+<div id="outline-container-org861aabb" class="outline-2">
+<h2 id="org861aabb">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org861aabb">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -265,18 +271,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-org3bc921b" class="outline-3">
-<h3 id="org3bc921b">Demo</h3>
-<div class="outline-text-3" id="text-org3bc921b">
+<div id="outline-container-org47e6388" class="outline-3">
+<h3 id="org47e6388">Demo</h3>
+<div class="outline-text-3" id="text-org47e6388">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org1351f51" class="outline-2">
-<h2 id="org1351f51">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-org1351f51">
+<div id="outline-container-orga050dc5" class="outline-2">
+<h2 id="orga050dc5">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-orga050dc5">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -421,9 +427,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-orga8aaebc" class="outline-3">
-<h3 id="orga8aaebc">Demo</h3>
-<div class="outline-text-3" id="text-orga8aaebc">
+<div id="outline-container-org2a78717" class="outline-3">
+<h3 id="org2a78717">Demo</h3>
+<div class="outline-text-3" id="text-org2a78717">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 13:42:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 15:33:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Bui Dinh Cuong
 &lt;/p&gt;
 
-&lt;div id="outline-container-org603869a" class="outline-2"&gt;
-&lt;h2 id="org603869a"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org603869a"&gt;
+&lt;div id="outline-container-org2abd2f5" class="outline-2"&gt;
+&lt;h2 id="org2abd2f5"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2abd2f5"&gt;
 &lt;p&gt;
 In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org19d8795" class="outline-2"&gt;
-&lt;h2 id="org19d8795"&gt;Definitions&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org19d8795"&gt;
+&lt;div id="outline-container-org9ef12c1" class="outline-2"&gt;
+&lt;h2 id="org9ef12c1"&gt;Definitions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9ef12c1"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeb588eb" class="outline-3"&gt;
-&lt;h3 id="orgeb588eb"&gt;Morphing&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgeb588eb"&gt;
+&lt;div id="outline-container-org4338cb8" class="outline-3"&gt;
+&lt;h3 id="org4338cb8"&gt;Morphing&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4338cb8"&gt;
 &lt;p&gt;
 Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
 &lt;/p&gt;
@@ -29,9 +29,9 @@ Source: &lt;a href="https://en.wikipedia.org/wiki/Morphing"&gt;https://en.wikipe
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org006a252" class="outline-3"&gt;
-&lt;h3 id="org006a252"&gt;HyperMorph&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org006a252"&gt;
+&lt;div id="outline-container-orga0702fe" class="outline-3"&gt;
+&lt;h3 id="orga0702fe"&gt;HyperMorph&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga0702fe"&gt;
 &lt;p&gt;
 There are many terminologies on HyperMorph that you can check on &lt;a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf"&gt;https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf&lt;/a&gt;.
 &lt;/p&gt;
@@ -45,9 +45,9 @@ When we define enough of points, it will be able to create very smooth video.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1a239b6" class="outline-2"&gt;
-&lt;h2 id="org1a239b6"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1a239b6"&gt;
+&lt;div id="outline-container-orgcf24cea" class="outline-2"&gt;
+&lt;h2 id="orgcf24cea"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcf24cea"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Define the set of points on the 1st image and a corresponding set of points from 2nd image.&lt;/li&gt;
 &lt;li&gt;Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.&lt;/li&gt;
@@ -73,9 +73,9 @@ And here is the output video (I converted to GIF file to display here easily):
 Posted by Le Thanh Tung
 &lt;/p&gt;
 
-&lt;div id="outline-container-org4a4c80d" class="outline-2"&gt;
-&lt;h2 id="org4a4c80d"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4a4c80d"&gt;
+&lt;div id="outline-container-org84dfe2d" class="outline-2"&gt;
+&lt;h2 id="org84dfe2d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org84dfe2d"&gt;
 &lt;p&gt;
 Sentry is a service that helps you to monitor and fix crashes in realtime.
 Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
@@ -86,9 +86,9 @@ I rate it very useful to debug in front end.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org69c6d12" class="outline-2"&gt;
-&lt;h2 id="org69c6d12"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org69c6d12"&gt;
+&lt;div id="outline-container-org22e4860" class="outline-2"&gt;
+&lt;h2 id="org22e4860"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org22e4860"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
 
@@ -115,9 +115,9 @@ Here are some examples.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga871502" class="outline-2"&gt;
-&lt;h2 id="orga871502"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga871502"&gt;
+&lt;div id="outline-container-orgb2f9a60" class="outline-2"&gt;
+&lt;h2 id="orgb2f9a60"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb2f9a60"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
 &lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
@@ -135,9 +135,9 @@ Note: if there're a lot of events, we need to configure number of posts in a cha
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4cd2edc" class="outline-2"&gt;
-&lt;h2 id="org4cd2edc"&gt;Customize data in debug log&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4cd2edc"&gt;
+&lt;div id="outline-container-org443022d" class="outline-2"&gt;
+&lt;h2 id="org443022d"&gt;Customize data in debug log&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org443022d"&gt;
 &lt;p&gt;
 Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
 &lt;/p&gt;
@@ -232,9 +232,9 @@ The logs with prefix response0000, response0044 - response0054 are the ones spli
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgdf9fa9a" class="outline-2"&gt;
-&lt;h2 id="orgdf9fa9a"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdf9fa9a"&gt;
+&lt;div id="outline-container-org9baa999" class="outline-2"&gt;
+&lt;h2 id="org9baa999"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9baa999"&gt;
 &lt;p&gt;
 Some RICHKA users requested that they would like to input their
 narration into the videos and recently we released a new web
@@ -269,9 +269,9 @@ the video source and the recorded voices.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org891a0b9" class="outline-2"&gt;
-&lt;h2 id="org891a0b9"&gt;Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org891a0b9"&gt;
+&lt;div id="outline-container-orgdcfb583" class="outline-2"&gt;
+&lt;h2 id="orgdcfb583"&gt;Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdcfb583"&gt;
 &lt;p&gt;
 Web servers are based on Django, and additional 8 Python packages such
 as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
@@ -296,9 +296,9 @@ of speech technology, we will make a new post and share the detail.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5e78b58" class="outline-2"&gt;
-&lt;h2 id="org5e78b58"&gt;Voice Recording&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5e78b58"&gt;
+&lt;div id="outline-container-org8b5f684" class="outline-2"&gt;
+&lt;h2 id="org8b5f684"&gt;Voice Recording&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8b5f684"&gt;
 &lt;p&gt;
 One of primary features is to record voice per cue point inputted
 with the mic. When users click the recording button, the recording
@@ -322,9 +322,9 @@ player.&lt;/li&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5143286" class="outline-3"&gt;
-&lt;h3 id="org5143286"&gt;Direct Conversion to MP3 on JavaScript layer&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5143286"&gt;
+&lt;div id="outline-container-orge785b64" class="outline-3"&gt;
+&lt;h3 id="orge785b64"&gt;Direct Conversion to MP3 on JavaScript layer&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge785b64"&gt;
 &lt;p&gt;
 At the 1st step, the MIME type of the audio data retrieved by WebRTC
 is audio/webm in default and it tended to be large data size and the
@@ -340,9 +340,9 @@ to the server side.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd1f2dcd" class="outline-3"&gt;
-&lt;h3 id="orgd1f2dcd"&gt;Dedicated video player to sync video and voices&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd1f2dcd"&gt;
+&lt;div id="outline-container-org86c687e" class="outline-3"&gt;
+&lt;h3 id="org86c687e"&gt;Dedicated video player to sync video and voices&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org86c687e"&gt;
 &lt;p&gt;
 At the 3rd step, we implemented a dedicated video player to playback
 the video source with overlaying the recorded voices without
@@ -361,9 +361,9 @@ player ready to play.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3e78289" class="outline-2"&gt;
-&lt;h2 id="org3e78289"&gt;Video Generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3e78289"&gt;
+&lt;div id="outline-container-org842ca40" class="outline-2"&gt;
+&lt;h2 id="org842ca40"&gt;Video Generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org842ca40"&gt;
 &lt;p&gt;
 After users have inputted the voices to cue points, user are ready to
 generate videos with overlying recorded voices. The generated ones
@@ -450,9 +450,9 @@ out.mp4.
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org5e4d791" class="outline-2"&gt;
-&lt;h2 id="org5e4d791"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5e4d791"&gt;
+&lt;div id="outline-container-org9140111" class="outline-2"&gt;
+&lt;h2 id="org9140111"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9140111"&gt;
 &lt;p&gt;
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on &lt;b&gt;&lt;b&gt;fork&lt;/b&gt;&lt;/b&gt; to create a new sub
@@ -476,9 +476,9 @@ close the browser tabs.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgbe4b8a0" class="outline-2"&gt;
-&lt;h2 id="orgbe4b8a0"&gt;Architecture of Web Workers API&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbe4b8a0"&gt;
+&lt;div id="outline-container-org7299a8e" class="outline-2"&gt;
+&lt;h2 id="org7299a8e"&gt;Architecture of Web Workers API&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7299a8e"&gt;
 &lt;p&gt;
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using &lt;b&gt;Worker.prototype.postMessage(message,
@@ -505,9 +505,9 @@ MDN : &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_A
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org135ef1f" class="outline-3"&gt;
-&lt;h3 id="org135ef1f"&gt;Implicit Side effect&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org135ef1f"&gt;
+&lt;div id="outline-container-orgce5bd1d" class="outline-3"&gt;
+&lt;h3 id="orgce5bd1d"&gt;Implicit Side effect&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgce5bd1d"&gt;
 &lt;p&gt;
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -532,9 +532,9 @@ encounter serious issues of low performance and high CPU usage.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org512d658" class="outline-2"&gt;
-&lt;h2 id="org512d658"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org512d658"&gt;
+&lt;div id="outline-container-org861aabb" class="outline-2"&gt;
+&lt;h2 id="org861aabb"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org861aabb"&gt;
 &lt;p&gt;
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -616,18 +616,18 @@ search: while (true) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3bc921b" class="outline-3"&gt;
-&lt;h3 id="org3bc921b"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3bc921b"&gt;
+&lt;div id="outline-container-org47e6388" class="outline-3"&gt;
+&lt;h3 id="org47e6388"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org47e6388"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1351f51" class="outline-2"&gt;
-&lt;h2 id="org1351f51"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1351f51"&gt;
+&lt;div id="outline-container-orga050dc5" class="outline-2"&gt;
+&lt;h2 id="orga050dc5"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga050dc5"&gt;
 &lt;p&gt;
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -773,9 +773,9 @@ export function brighten({ data: d }) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga8aaebc" class="outline-3"&gt;
-&lt;h3 id="orga8aaebc"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga8aaebc"&gt;
+&lt;div id="outline-container-org2a78717" class="outline-3"&gt;
+&lt;h3 id="org2a78717"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2a78717"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -787,9 +787,9 @@ Posted by Hitoshi Uchida
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-org6844971" class="outline-2"&gt;
-&lt;h2 id="org6844971"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6844971"&gt;
+&lt;div id="outline-container-org015d010" class="outline-2"&gt;
+&lt;h2 id="org015d010"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org015d010"&gt;
 &lt;p&gt;
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
@@ -820,9 +820,9 @@ operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1cfbd39" class="outline-2"&gt;
-&lt;h2 id="org1cfbd39"&gt;General usage of fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1cfbd39"&gt;
+&lt;div id="outline-container-orge5c2d5d" class="outline-2"&gt;
+&lt;h2 id="orge5c2d5d"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge5c2d5d"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -856,9 +856,9 @@ well.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgda481cd" class="outline-2"&gt;
-&lt;h2 id="orgda481cd"&gt;Filtering Git branches by fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgda481cd"&gt;
+&lt;div id="outline-container-orgd8dec0d" class="outline-2"&gt;
+&lt;h2 id="orgd8dec0d"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd8dec0d"&gt;
 &lt;p&gt;
 There are three commands below.
 &lt;/p&gt;
@@ -939,9 +939,9 @@ git-log-fzf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/spa
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org85e3dc4" class="outline-2"&gt;
-&lt;h2 id="org85e3dc4"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org85e3dc4"&gt;
+&lt;div id="outline-container-org2302007" class="outline-2"&gt;
+&lt;h2 id="org2302007"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2302007"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -974,9 +974,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc76bfba" class="outline-2"&gt;
-&lt;h2 id="orgc76bfba"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc76bfba"&gt;
+&lt;div id="outline-container-org275ff69" class="outline-2"&gt;
+&lt;h2 id="org275ff69"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org275ff69"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -1041,9 +1041,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga03de7a" class="outline-2"&gt;
-&lt;h2 id="orga03de7a"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga03de7a"&gt;
+&lt;div id="outline-container-org07039fc" class="outline-2"&gt;
+&lt;h2 id="org07039fc"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org07039fc"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -1142,9 +1142,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdb53314" class="outline-2"&gt;
-&lt;h2 id="orgdb53314"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdb53314"&gt;
+&lt;div id="outline-container-org6bbf98b" class="outline-2"&gt;
+&lt;h2 id="org6bbf98b"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6bbf98b"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -1157,9 +1157,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdb847ed" class="outline-2"&gt;
-&lt;h2 id="orgdb847ed"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdb847ed"&gt;
+&lt;div id="outline-container-org941159f" class="outline-2"&gt;
+&lt;h2 id="org941159f"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org941159f"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -1172,9 +1172,9 @@ desired fonts used for video generation.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org6ca6182" class="outline-2"&gt;
-&lt;h2 id="org6ca6182"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6ca6182"&gt;
+&lt;div id="outline-container-orgaa830c5" class="outline-2"&gt;
+&lt;h2 id="orgaa830c5"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaa830c5"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -1217,9 +1217,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgff7a04a" class="outline-2"&gt;
-&lt;h2 id="orgff7a04a"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgff7a04a"&gt;
+&lt;div id="outline-container-org8cfad35" class="outline-2"&gt;
+&lt;h2 id="org8cfad35"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8cfad35"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -1268,9 +1268,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf793d73" class="outline-2"&gt;
-&lt;h2 id="orgf793d73"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf793d73"&gt;
+&lt;div id="outline-container-org1ac90c1" class="outline-2"&gt;
+&lt;h2 id="org1ac90c1"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1ac90c1"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -1301,9 +1301,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgcc0b146" class="outline-2"&gt;
-&lt;h2 id="orgcc0b146"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcc0b146"&gt;
+&lt;div id="outline-container-org0118dcc" class="outline-2"&gt;
+&lt;h2 id="org0118dcc"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0118dcc"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -1349,9 +1349,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3d9614d" class="outline-2"&gt;
-&lt;h2 id="org3d9614d"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3d9614d"&gt;
+&lt;div id="outline-container-orga39206f" class="outline-2"&gt;
+&lt;h2 id="orga39206f"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga39206f"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -1388,27 +1388,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf0c34d7" class="outline-4"&gt;
-&lt;h4 id="orgf0c34d7"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf0c34d7"&gt;
+&lt;div id="outline-container-orgf41bd29" class="outline-4"&gt;
+&lt;h4 id="orgf41bd29"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf41bd29"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbb70299" class="outline-4"&gt;
-&lt;h4 id="orgbb70299"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbb70299"&gt;
+&lt;div id="outline-container-org0a0a6ed" class="outline-4"&gt;
+&lt;h4 id="org0a0a6ed"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0a0a6ed"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8ec40bb" class="outline-4"&gt;
-&lt;h4 id="org8ec40bb"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org8ec40bb"&gt;
+&lt;div id="outline-container-orgaecdcab" class="outline-4"&gt;
+&lt;h4 id="orgaecdcab"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgaecdcab"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -1416,18 +1416,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org491e616" class="outline-4"&gt;
-&lt;h4 id="org491e616"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org491e616"&gt;
+&lt;div id="outline-container-org6b61601" class="outline-4"&gt;
+&lt;h4 id="org6b61601"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6b61601"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgff9e792" class="outline-4"&gt;
-&lt;h4 id="orgff9e792"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgff9e792"&gt;
+&lt;div id="outline-container-org76dd8bb" class="outline-4"&gt;
+&lt;h4 id="org76dd8bb"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org76dd8bb"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -1436,9 +1436,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1f1ea5d" class="outline-2"&gt;
-&lt;h2 id="org1f1ea5d"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1f1ea5d"&gt;
+&lt;div id="outline-container-org6553c93" class="outline-2"&gt;
+&lt;h2 id="org6553c93"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6553c93"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;
