@@ -8,6 +8,7 @@
 .. link: 
 .. description: 
 .. type: text
+.. previewimage: /images/sentry-javascript/error_detail.png
 
 #+END_COMMENT
 

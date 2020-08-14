@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 15:33:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 15:50:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Bui Dinh Cuong
 &lt;/p&gt;
 
-&lt;div id="outline-container-org2abd2f5" class="outline-2"&gt;
-&lt;h2 id="org2abd2f5"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2abd2f5"&gt;
+&lt;div id="outline-container-org7eacbe6" class="outline-2"&gt;
+&lt;h2 id="org7eacbe6"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7eacbe6"&gt;
 &lt;p&gt;
 In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9ef12c1" class="outline-2"&gt;
-&lt;h2 id="org9ef12c1"&gt;Definitions&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9ef12c1"&gt;
+&lt;div id="outline-container-orge4bfda7" class="outline-2"&gt;
+&lt;h2 id="orge4bfda7"&gt;Definitions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge4bfda7"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4338cb8" class="outline-3"&gt;
-&lt;h3 id="org4338cb8"&gt;Morphing&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4338cb8"&gt;
+&lt;div id="outline-container-org458503f" class="outline-3"&gt;
+&lt;h3 id="org458503f"&gt;Morphing&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org458503f"&gt;
 &lt;p&gt;
 Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
 &lt;/p&gt;
@@ -29,9 +29,9 @@ Source: &lt;a href="https://en.wikipedia.org/wiki/Morphing"&gt;https://en.wikipe
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga0702fe" class="outline-3"&gt;
-&lt;h3 id="orga0702fe"&gt;HyperMorph&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga0702fe"&gt;
+&lt;div id="outline-container-orgcf3466b" class="outline-3"&gt;
+&lt;h3 id="orgcf3466b"&gt;HyperMorph&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcf3466b"&gt;
 &lt;p&gt;
 There are many terminologies on HyperMorph that you can check on &lt;a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf"&gt;https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf&lt;/a&gt;.
 &lt;/p&gt;
@@ -45,9 +45,9 @@ When we define enough of points, it will be able to create very smooth video.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf24cea" class="outline-2"&gt;
-&lt;h2 id="orgcf24cea"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcf24cea"&gt;
+&lt;div id="outline-container-org5abd567" class="outline-2"&gt;
+&lt;h2 id="org5abd567"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5abd567"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Define the set of points on the 1st image and a corresponding set of points from 2nd image.&lt;/li&gt;
 &lt;li&gt;Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.&lt;/li&gt;
@@ -73,9 +73,9 @@ And here is the output video (I converted to GIF file to display here easily):
 Posted by Le Thanh Tung
 &lt;/p&gt;
 
-&lt;div id="outline-container-org84dfe2d" class="outline-2"&gt;
-&lt;h2 id="org84dfe2d"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org84dfe2d"&gt;
+&lt;div id="outline-container-orgdc35a5d" class="outline-2"&gt;
+&lt;h2 id="orgdc35a5d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdc35a5d"&gt;
 &lt;p&gt;
 Sentry is a service that helps you to monitor and fix crashes in realtime.
 Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
@@ -86,9 +86,9 @@ I rate it very useful to debug in front end.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org22e4860" class="outline-2"&gt;
-&lt;h2 id="org22e4860"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org22e4860"&gt;
+&lt;div id="outline-container-org5cdba15" class="outline-2"&gt;
+&lt;h2 id="org5cdba15"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5cdba15"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
 
@@ -115,9 +115,9 @@ Here are some examples.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb2f9a60" class="outline-2"&gt;
-&lt;h2 id="orgb2f9a60"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb2f9a60"&gt;
+&lt;div id="outline-container-org376996b" class="outline-2"&gt;
+&lt;h2 id="org376996b"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org376996b"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
 &lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
@@ -135,9 +135,9 @@ Note: if there're a lot of events, we need to configure number of posts in a cha
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org443022d" class="outline-2"&gt;
-&lt;h2 id="org443022d"&gt;Customize data in debug log&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org443022d"&gt;
+&lt;div id="outline-container-org04e6846" class="outline-2"&gt;
+&lt;h2 id="org04e6846"&gt;Customize data in debug log&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org04e6846"&gt;
 &lt;p&gt;
 Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
 &lt;/p&gt;
@@ -787,9 +787,9 @@ Posted by Hitoshi Uchida
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-org015d010" class="outline-2"&gt;
-&lt;h2 id="org015d010"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org015d010"&gt;
+&lt;div id="outline-container-orgf9d6ede" class="outline-2"&gt;
+&lt;h2 id="orgf9d6ede"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf9d6ede"&gt;
 &lt;p&gt;
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
@@ -820,9 +820,9 @@ operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge5c2d5d" class="outline-2"&gt;
-&lt;h2 id="orge5c2d5d"&gt;General usage of fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge5c2d5d"&gt;
+&lt;div id="outline-container-org1c7f4a7" class="outline-2"&gt;
+&lt;h2 id="org1c7f4a7"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1c7f4a7"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -856,9 +856,9 @@ well.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd8dec0d" class="outline-2"&gt;
-&lt;h2 id="orgd8dec0d"&gt;Filtering Git branches by fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd8dec0d"&gt;
+&lt;div id="outline-container-orgc3ba864" class="outline-2"&gt;
+&lt;h2 id="orgc3ba864"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc3ba864"&gt;
 &lt;p&gt;
 There are three commands below.
 &lt;/p&gt;
