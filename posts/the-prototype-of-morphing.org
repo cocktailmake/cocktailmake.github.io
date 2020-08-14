@@ -8,6 +8,7 @@
 .. link: 
 .. description: 
 .. type: text
+.. previewimage: /images/the-prototype-of-morphing/dog_and_cat.png
 
 #+END_COMMENT
 
