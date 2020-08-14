@@ -9,10 +9,8 @@
 .. description: 
 .. type: text
 .. previewimage: /images/the-prototype-of-morphing/dog_and_cat.png
-
+.. author: Bui Dinh Cuong
 #+END_COMMENT
-
-Posted by Bui Dinh Cuong
 
 * Abstract
 In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.

@@ -8,10 +8,8 @@
 .. link: 
 .. description: 
 .. type: text
-
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 * Abstract
 Our video generation service RICHKA enables users to customize

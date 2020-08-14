@@ -9,10 +9,8 @@
 .. description: 
 .. type: text
 .. previewimage: /images/sentry-javascript/error_detail.png
-
+.. author: Le Thanh Tung
 #+END_COMMENT
-
-Posted by Le Thanh Tung
 
 * Abstract
 
