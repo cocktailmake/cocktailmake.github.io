@@ -3,7 +3,7 @@
 #+BEGIN_COMMENT
 .. title: Emacs modeline enhancement for Git diff
 .. slug: emacs-modeline-enhancement-for-git-diff
-.. date: 2020-08-12 23:56:24 UTC+09:00
+.. date: 2021-08-12 23:56:24 UTC+09:00
 .. tags: emacs, git
 .. category: tool
 .. link: 
