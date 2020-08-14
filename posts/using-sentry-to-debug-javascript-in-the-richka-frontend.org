@@ -1,3 +1,4 @@
+#+OPTIONS: ^:nil
 #+BEGIN_COMMENT
 .. title: Using Sentry to debug JavaScript in the RICHKA front end
 .. slug: using-sentry-to-debug-javascript-in-the-richka-frontend
@@ -83,7 +84,7 @@ function sentry_capture_message(data, extra, message) {
 }
 #+END_SRC
 
-For example about debug function:
+For example about a target function to debug:
 
 
 #+BEGIN_SRC javascript
@@ -128,6 +129,7 @@ function deleteSearchKeyword(data_id){
 #+END_SRC
 
 Here are some of the results after customization.
+The logs with prefix response0000, response0044 - response0054 are the ones split by our custom JavaScript function sentry_capture_message.
 
 [[img-url:/images/sentry-javascript/additonal_data.png]]
 
