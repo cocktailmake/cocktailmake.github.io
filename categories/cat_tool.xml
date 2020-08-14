@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about tool)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_tool.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Wed, 12 Aug 2020 06:53:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about tool)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_tool.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 06:22:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs modeline enhancement for Git diff</title><link>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-orge5cab12" class="outline-2"&gt;
+&lt;h2 id="orge5cab12"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge5cab12"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/vc.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgf9bff9a" class="outline-2"&gt;
+&lt;h2 id="orgf9bff9a"&gt;Sample&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf9bff9a"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/modeline.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(defadvice vc-git-mode-line-string (after plus-minus (file) compile activate)
+  "モードラインにgit diffの情報を表示する."
+  (setq ad-return-value
+	(concat (propertize ad-return-value 'face '(:foreground "white" :weight bold))
+		" ["
+		(let ((plus-minus (vc-git--run-command-string
+				   file "diff" "--numstat" "--")))
+		  (if (and plus-minus
+		       (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus))
+		       (concat
+			(propertize (format "+%s" (match-string 1 plus-minus)) 'face '(:foreground "green3"))
+			(propertize (format "-%s" (match-string 2 plus-minus)) 'face '(:inherit font-lock-warning-face)))
+		    (propertize "✔" 'face '(:foreground "green3" :weight bold))))
+		"]")))
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>git</category><guid>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</guid><pubDate>Wed, 12 Aug 2020 14:56:24 GMT</pubDate></item><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 

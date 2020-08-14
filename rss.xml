@@ -1,5 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Wed, 12 Aug 2020 06:53:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Released Narration Recording Service</title><link>https://cocktailmake.github.io/posts/released-narration-recording-service/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 06:37:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Using Sentry to debug JavaScript in the RICHKA front end</title><link>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Le Thanh Tung
+&lt;/p&gt;
+
+&lt;div id="outline-container-org4a4c80d" class="outline-2"&gt;
+&lt;h2 id="org4a4c80d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4a4c80d"&gt;
+&lt;p&gt;
+Sentry is a service that helps you to monitor and fix crashes in realtime.
+Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
+In this post, we describe our usage of Sentry for JavaScript to debug RICHKA front end.
+After using Sentry for a while, we see a lot of bugs in production environment. Information is quite detailed so it's easy to address.
+I rate it very useful to debug in front end.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org69c6d12" class="outline-2"&gt;
+&lt;h2 id="org69c6d12"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org69c6d12"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
+
+&lt;li&gt;In separated logs, we can assign to specific developers and comment, set statuses.&lt;/li&gt;
+
+&lt;li&gt;Because RICHKA Project developed by Django and Python, we configure Sentry JavaScript as base template. In Sentry account management, we can see a configuration or we can see a common JavaScript configuration in &lt;a href="https://docs.sentry.io/sdks/javascript/"&gt;here&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;Sentry integrates many third software : Slack, Git, GitLab, JIRA, Microsoft team, … RICHKA developers discuss in Slack so we integrated Sentry to Slack.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+Here are some examples.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/error_detail.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/events_before.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orga871502" class="outline-2"&gt;
+&lt;h2 id="orga871502"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga871502"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
+&lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
+&lt;li&gt;Assign a channel to report debug logs.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/slack_report.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+If a debug event occurs, Sentry server will send a post to the channel. Developers can easily track them.
+Note: if there're a lot of events, we need to configure number of posts in a channel.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4cd2edc" class="outline-2"&gt;
+&lt;h2 id="org4cd2edc"&gt;Customize data in debug log&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4cd2edc"&gt;
+&lt;p&gt;
+Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function sentry_capture_message(data, extra, message) {
+    Sentry.withScope(scope =&amp;gt; {
+	if (Array.isArray(data))
+	{
+	    let i = 0;
+	    for (let datum of data){
+		if (typeof datum == 'string') {
+		    if (datum.length &amp;gt;= 16000 &amp;amp;&amp;amp; datum.length &amp;lt;= 1024 * 1024) {
+			let stringArray = datum.split('\n');
+			for (let j = 0; j &amp;lt; stringArray.length; j++) {
+			    if (stringArray[j].trim().length &amp;gt; 0) {
+				i++;
+				scope.setExtra(extra + sprintf("%04d",i), stringArray[j]);
+			    }
+			}
+		    }
+		}
+		else {
+		    scope.setExtra(extra + sprintf("%04d",i), datum);
+		    i++;
+		}
+	    }
+	}
+	else scope.setExtra(extra, data);
+	Sentry.captureMessage(message);
+    });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+For example about a target function to debug:
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function deleteSearchKeyword(data_id){
+    if($('#stock-video &amp;gt; .stock_list &amp;gt; li.video').length &amp;gt; 0){
+	$('#stock-video &amp;gt; .stock_list &amp;gt; li.video').each(function(i, elem){
+	    let src = $(elem).find('p span video').attr('src');
+	    if(!src || src.endsWith('/static/')){
+		$(elem).remove();
+	    }
+	});
+	$('div#stock-video &amp;gt; div.stock_title').hide();
+	$('.stock_more').hide();
+    }
+    if ($('#stock-photo &amp;gt; .stock_list').length &amp;gt; 0 || $('#stock-video &amp;gt; .stock_list').length &amp;gt; 0) {
+	var materials_id = [];
+	$.each($('.materialIndex'), function(i,v) {
+	    materials_id.push($(v).val());
+	});
+	var el = $('.delete-keyword');
+	$.ajax({
+	    'url': '/delete_material_when_redirect',
+	    'type': 'POST',
+	    'data': {
+		'video_data_id': data_id,
+		'materials_id': materials_id
+	    },
+	    'dataType': 'json',
+	    'async': true,
+	    'success': function (response) {
+		if (!response.result) {
+		    console.warn('削除中にエラーが発生しました : deleteSearchKeyword');
+		    sentry_capture_message([data_id, response], 'response', `Delete Material When Redirect Error`);
+		}
+	    },
+	    'error': function(err) {
+		sentry_capture_message([data_id, err.responseText], 'response', `Delete Material When Redirect Error`);
+	    }
+	});
+    }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Here are some of the results after customization.
+The logs with prefix response0000, response0044 - response0054 are the ones split by our custom JavaScript function sentry_capture_message.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data2.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</guid><pubDate>Thu, 13 Aug 2020 01:53:48 GMT</pubDate></item><item><title>Emacs modeline enhancement for Git diff</title><link>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Hitoshi Uchida
+&lt;/p&gt;
+
+&lt;div id="outline-container-orge5cab12" class="outline-2"&gt;
+&lt;h2 id="orge5cab12"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge5cab12"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/vc.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgf9bff9a" class="outline-2"&gt;
+&lt;h2 id="orgf9bff9a"&gt;Sample&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf9bff9a"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/modeline.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(defadvice vc-git-mode-line-string (after plus-minus (file) compile activate)
+  "モードラインにgit diffの情報を表示する."
+  (setq ad-return-value
+	(concat (propertize ad-return-value 'face '(:foreground "white" :weight bold))
+		" ["
+		(let ((plus-minus (vc-git--run-command-string
+				   file "diff" "--numstat" "--")))
+		  (if (and plus-minus
+		       (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus))
+		       (concat
+			(propertize (format "+%s" (match-string 1 plus-minus)) 'face '(:foreground "green3"))
+			(propertize (format "-%s" (match-string 2 plus-minus)) 'face '(:inherit font-lock-warning-face)))
+		    (propertize "✔" 'face '(:foreground "green3" :weight bold))))
+		"]")))
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>git</category><guid>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</guid><pubDate>Wed, 12 Aug 2020 14:56:24 GMT</pubDate></item><item><title>Released Narration Recording Service</title><link>https://cocktailmake.github.io/posts/released-narration-recording-service/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
@@ -1072,9 +1269,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-org6f4ae8f" class="outline-2"&gt;
-&lt;h2 id="org6f4ae8f"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6f4ae8f"&gt;
+&lt;div id="outline-container-org1ed5d07" class="outline-2"&gt;
+&lt;h2 id="org1ed5d07"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1ed5d07"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -1120,9 +1317,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgc1ea362" class="outline-2"&gt;
-&lt;h2 id="orgc1ea362"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc1ea362"&gt;
+&lt;div id="outline-container-org9411565" class="outline-2"&gt;
+&lt;h2 id="org9411565"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9411565"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -1159,27 +1356,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org553e007" class="outline-4"&gt;
-&lt;h4 id="org553e007"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org553e007"&gt;
+&lt;div id="outline-container-orga6c9404" class="outline-4"&gt;
+&lt;h4 id="orga6c9404"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga6c9404"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf794a78" class="outline-4"&gt;
-&lt;h4 id="orgf794a78"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf794a78"&gt;
+&lt;div id="outline-container-orgeb39256" class="outline-4"&gt;
+&lt;h4 id="orgeb39256"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeb39256"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9befae5" class="outline-4"&gt;
-&lt;h4 id="org9befae5"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9befae5"&gt;
+&lt;div id="outline-container-org5636825" class="outline-4"&gt;
+&lt;h4 id="org5636825"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5636825"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -1187,18 +1384,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf126c7a" class="outline-4"&gt;
-&lt;h4 id="orgf126c7a"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf126c7a"&gt;
+&lt;div id="outline-container-org6ecd4f1" class="outline-4"&gt;
+&lt;h4 id="org6ecd4f1"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6ecd4f1"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga8932fe" class="outline-4"&gt;
-&lt;h4 id="orga8932fe"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga8932fe"&gt;
+&lt;div id="outline-container-orgb36c0b4" class="outline-4"&gt;
+&lt;h4 id="orgb36c0b4"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb36c0b4"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -1207,9 +1404,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org94d42eb" class="outline-2"&gt;
-&lt;h2 id="org94d42eb"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org94d42eb"&gt;
+&lt;div id="outline-container-org416ee5d" class="outline-2"&gt;
+&lt;h2 id="org416ee5d"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org416ee5d"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;
