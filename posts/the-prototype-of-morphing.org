@@ -3,8 +3,8 @@
 .. title: The prototype of Morphing
 .. slug: the-prototype-of-morphing
 .. date: 2020-08-14 15:00:00 UTC+09:00
-.. tags: richka
-.. category: richka
+.. tags: 
+.. category: RICHKA
 .. link: 
 .. description: 
 .. type: text
