@@ -9,22 +9,20 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/">
-<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Hitoshi Uchida">
 <link rel="prev" href="../progress-display-of-video-generation/" title="Realtime Display of Video Generation Progress" type="text/html">
 <link rel="next" href="../improvement-of-git-commands-with-fzf/" title="Improvement of Git commands with fzf" type="text/html">
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Batch generation of font preview images with multicore processing">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/">
-<meta property="og:description" content="Posted by Hitoshi Uchida
-
-
-
-Abstract
+<meta property="og:description" content="Abstract
 
 
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
-latter video generations are ru">
+latter video generations are run with the configurations.
+
+">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-06-21T22:22:13+09:00">
 <meta property="article:tag" content="GUI">
@@ -92,7 +90,7 @@ latter video generations are ru">
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
-                    Cocktail-Make
+                    <a class="u-url" href="../../authors/hitoshi-uchida/">Hitoshi Uchida</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -104,13 +102,9 @@ latter video generations are ru">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <p>
-Posted by Hitoshi Uchida
-</p>
-
-<div id="outline-container-org2302007" class="outline-2">
-<h2 id="org2302007">Abstract</h2>
-<div class="outline-text-2" id="text-org2302007">
+    <div id="outline-container-orga5753e8" class="outline-2">
+<h2 id="orga5753e8">Abstract</h2>
+<div class="outline-text-2" id="text-orga5753e8">
 <p>
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -142,9 +136,9 @@ implement in short time.
 </div>
 </div>
 
-<div id="outline-container-org275ff69" class="outline-2">
-<h2 id="org275ff69">Multi-core processing</h2>
-<div class="outline-text-2" id="text-org275ff69">
+<div id="outline-container-orgb8685fa" class="outline-2">
+<h2 id="orgb8685fa">Multi-core processing</h2>
+<div class="outline-text-2" id="text-orgb8685fa">
 <p>
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -209,9 +203,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-org07039fc" class="outline-2">
-<h2 id="org07039fc">Sample program</h2>
-<div class="outline-text-2" id="text-org07039fc">
+<div id="outline-container-orga0742c3" class="outline-2">
+<h2 id="orga0742c3">Sample program</h2>
+<div class="outline-text-2" id="text-orga0742c3">
 <p>
 The whole source code is below and we use <b>convert</b> command of
 <a href="https://imagemagick.org/index.php">ImageMagic</a> to generate font preview images. The images are actually
@@ -310,9 +304,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 </div>
 </div>
 
-<div id="outline-container-org6bbf98b" class="outline-2">
-<h2 id="org6bbf98b">Sample of generated preview images</h2>
-<div class="outline-text-2" id="text-org6bbf98b">
+<div id="outline-container-org314edd5" class="outline-2">
+<h2 id="org314edd5">Sample of generated preview images</h2>
+<div class="outline-text-2" id="text-org314edd5">
 <p>
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -324,9 +318,9 @@ enough and we can utilize the max of the CPU resources.
 </div>
 </div>
 
-<div id="outline-container-org941159f" class="outline-2">
-<h2 id="org941159f">Conclusion</h2>
-<div class="outline-text-2" id="text-org941159f">
+<div id="outline-container-orgb2b5eeb" class="outline-2">
+<h2 id="orgb2b5eeb">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb2b5eeb">
 <p>
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing

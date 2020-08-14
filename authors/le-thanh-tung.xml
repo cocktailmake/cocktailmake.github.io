@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts by Le Thanh Tung)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/le-thanh-tung.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:00:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Using Sentry to debug JavaScript in the RICHKA front end</title><link>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;div id="outline-container-org7e8212d" class="outline-2"&gt;
+&lt;h2 id="org7e8212d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7e8212d"&gt;
+&lt;p&gt;
+Sentry is a service that helps you to monitor and fix crashes in realtime.
+Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
+In this post, we describe our usage of Sentry for JavaScript to debug RICHKA front end.
+After using Sentry for a while, we see a lot of bugs in production environment. Information is quite detailed so it's easy to address.
+I rate it very useful to debug in front end.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6063d7a" class="outline-2"&gt;
+&lt;h2 id="org6063d7a"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6063d7a"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
+
+&lt;li&gt;In separated logs, we can assign to specific developers and comment, set statuses.&lt;/li&gt;
+
+&lt;li&gt;Because RICHKA Project developed by Django and Python, we configure Sentry JavaScript as base template. In Sentry account management, we can see a configuration or we can see a common JavaScript configuration in &lt;a href="https://docs.sentry.io/sdks/javascript/"&gt;here&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;Sentry integrates many third software : Slack, Git, GitLab, JIRA, Microsoft team, … RICHKA developers discuss in Slack so we integrated Sentry to Slack.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+Here are some examples.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/error_detail.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/events_before.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgca94b7e" class="outline-2"&gt;
+&lt;h2 id="orgca94b7e"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgca94b7e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
+&lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
+&lt;li&gt;Assign a channel to report debug logs.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/slack_report.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+If a debug event occurs, Sentry server will send a post to the channel. Developers can easily track them.
+Note: if there're a lot of events, we need to configure number of posts in a channel.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0aed575" class="outline-2"&gt;
+&lt;h2 id="org0aed575"&gt;Customize data in debug log&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0aed575"&gt;
+&lt;p&gt;
+Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function sentry_capture_message(data, extra, message) {
+    Sentry.withScope(scope =&amp;gt; {
+	if (Array.isArray(data))
+	{
+	    let i = 0;
+	    for (let datum of data){
+		if (typeof datum == 'string') {
+		    if (datum.length &amp;gt;= 16000 &amp;amp;&amp;amp; datum.length &amp;lt;= 1024 * 1024) {
+			let stringArray = datum.split('\n');
+			for (let j = 0; j &amp;lt; stringArray.length; j++) {
+			    if (stringArray[j].trim().length &amp;gt; 0) {
+				i++;
+				scope.setExtra(extra + sprintf("%04d",i), stringArray[j]);
+			    }
+			}
+		    }
+		}
+		else {
+		    scope.setExtra(extra + sprintf("%04d",i), datum);
+		    i++;
+		}
+	    }
+	}
+	else scope.setExtra(extra, data);
+	Sentry.captureMessage(message);
+    });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+For example about a target function to debug:
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function deleteSearchKeyword(data_id){
+    if($('#stock-video &amp;gt; .stock_list &amp;gt; li.video').length &amp;gt; 0){
+	$('#stock-video &amp;gt; .stock_list &amp;gt; li.video').each(function(i, elem){
+	    let src = $(elem).find('p span video').attr('src');
+	    if(!src || src.endsWith('/static/')){
+		$(elem).remove();
+	    }
+	});
+	$('div#stock-video &amp;gt; div.stock_title').hide();
+	$('.stock_more').hide();
+    }
+    if ($('#stock-photo &amp;gt; .stock_list').length &amp;gt; 0 || $('#stock-video &amp;gt; .stock_list').length &amp;gt; 0) {
+	var materials_id = [];
+	$.each($('.materialIndex'), function(i,v) {
+	    materials_id.push($(v).val());
+	});
+	var el = $('.delete-keyword');
+	$.ajax({
+	    'url': '/delete_material_when_redirect',
+	    'type': 'POST',
+	    'data': {
+		'video_data_id': data_id,
+		'materials_id': materials_id
+	    },
+	    'dataType': 'json',
+	    'async': true,
+	    'success': function (response) {
+		if (!response.result) {
+		    console.warn('削除中にエラーが発生しました : deleteSearchKeyword');
+		    sentry_capture_message([data_id, response], 'response', `Delete Material When Redirect Error`);
+		}
+	    },
+	    'error': function(err) {
+		sentry_capture_message([data_id, err.responseText], 'response', `Delete Material When Redirect Error`);
+	    }
+	});
+    }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Here are some of the results after customization.
+The logs with prefix response0000, response0044 - response0054 are the ones split by our custom JavaScript function sentry_capture_message.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data2.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</guid><pubDate>Thu, 13 Aug 2020 01:53:48 GMT</pubDate></item></channel></rss>

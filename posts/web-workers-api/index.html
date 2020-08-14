@@ -9,22 +9,18 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/posts/web-workers-api/">
-<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Cocktail-Make">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Hitoshi Uchida">
 <link rel="prev" href="../improvement-of-git-commands-with-fzf/" title="Improvement of Git commands with fzf" type="text/html">
 <link rel="next" href="../released-narration-recording-service/" title="Released Narration Recording Service" type="text/html">
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Web Workers API">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/web-workers-api/">
-<meta property="og:description" content="Posted by Hitoshi Uchida
-
-
-
-Abstract
+<meta property="og:description" content="Abstract
 
 
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on fork to create a new sub
-process and Web Worke">
+process and Web Workers API enables web applicati">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-07-26T15:00:00+09:00">
 <meta property="article:tag" content="JavaScript">
@@ -91,7 +87,7 @@ process and Web Worke">
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
-                    Cocktail-Make
+                    <a class="u-url" href="../../authors/hitoshi-uchida/">Hitoshi Uchida</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -103,13 +99,9 @@ process and Web Worke">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <p>
-Posted by Hitoshi Uchida
-</p>
-
-<div id="outline-container-org9140111" class="outline-2">
-<h2 id="org9140111">Abstract</h2>
-<div class="outline-text-2" id="text-org9140111">
+    <div id="outline-container-org1d1af50" class="outline-2">
+<h2 id="org1d1af50">Abstract</h2>
+<div class="outline-text-2" id="text-org1d1af50">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -132,9 +124,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-org7299a8e" class="outline-2">
-<h2 id="org7299a8e">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-org7299a8e">
+<div id="outline-container-org94061b6" class="outline-2">
+<h2 id="org94061b6">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-org94061b6">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -161,9 +153,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-orgce5bd1d" class="outline-3">
-<h3 id="orgce5bd1d">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-orgce5bd1d">
+<div id="outline-container-orgc62bc1a" class="outline-3">
+<h3 id="orgc62bc1a">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-orgc62bc1a">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -188,9 +180,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org861aabb" class="outline-2">
-<h2 id="org861aabb">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org861aabb">
+<div id="outline-container-org86ad5bd" class="outline-2">
+<h2 id="org86ad5bd">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org86ad5bd">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -271,18 +263,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-org47e6388" class="outline-3">
-<h3 id="org47e6388">Demo</h3>
-<div class="outline-text-3" id="text-org47e6388">
+<div id="outline-container-org10ef01b" class="outline-3">
+<h3 id="org10ef01b">Demo</h3>
+<div class="outline-text-3" id="text-org10ef01b">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orga050dc5" class="outline-2">
-<h2 id="orga050dc5">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-orga050dc5">
+<div id="outline-container-orgcc2a84b" class="outline-2">
+<h2 id="orgcc2a84b">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-orgcc2a84b">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -427,9 +419,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-org2a78717" class="outline-3">
-<h3 id="org2a78717">Demo</h3>
-<div class="outline-text-3" id="text-org2a78717">
+<div id="outline-container-org9172609" class="outline-3">
+<h3 id="org9172609">Demo</h3>
+<div class="outline-text-3" id="text-org9172609">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>

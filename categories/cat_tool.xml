@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about tool)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_tool.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 15:48:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
-Posted by Hitoshi Uchida
-&lt;/p&gt;
-
-&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about tool)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_tool.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 15:59:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgf9d6ede" class="outline-2"&gt;
-&lt;h2 id="orgf9d6ede"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf9d6ede"&gt;
+&lt;div id="outline-container-org8bc4d25" class="outline-2"&gt;
+&lt;h2 id="org8bc4d25"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8bc4d25"&gt;
 &lt;p&gt;
 We manage source codes with Git in development projects. In general,
 when we check the branches, we use a &lt;b&gt;git branch&lt;/b&gt; command below to
@@ -40,9 +36,9 @@ operations with fzf command such as &lt;b&gt;git branche&lt;/b&gt;, &lt;b&gt;git
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1c7f4a7" class="outline-2"&gt;
-&lt;h2 id="org1c7f4a7"&gt;General usage of fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1c7f4a7"&gt;
+&lt;div id="outline-container-org384b014" class="outline-2"&gt;
+&lt;h2 id="org384b014"&gt;General usage of fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org384b014"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; is a powerful Linux command and enables interactive filtering which
 can be used for any purpose with receiving stdout of any commands.
@@ -76,9 +72,9 @@ well.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgc3ba864" class="outline-2"&gt;
-&lt;h2 id="orgc3ba864"&gt;Filtering Git branches by fzf&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc3ba864"&gt;
+&lt;div id="outline-container-org837762f" class="outline-2"&gt;
+&lt;h2 id="org837762f"&gt;Filtering Git branches by fzf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org837762f"&gt;
 &lt;p&gt;
 There are three commands below.
 &lt;/p&gt;
