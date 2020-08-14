@@ -167,7 +167,7 @@ THEME_COLOR = '#5670d4'
 THEME_CONFIG = {
     DEFAULT_LANG: {
         # Show the latest featured post in a large box, with the previewimage as its background.
-        'featured_large': False,
+        'featured_large': True,
         # Show the first (remaining) two featured posts in small boxes.
         'featured_small': False,
         # Show featured posts on mobile.
@@ -1128,6 +1128,7 @@ SOCIAL_BUTTONS_CODE = """
 
 # Show link to source for the posts?
 # SHOW_SOURCELINK = True
+SHOW_SOURCELINK = False
 # Copy the source files for your pages?
 # Setting it to False implies SHOW_SOURCELINK = False
 # COPY_SOURCES = True
@@ -1203,6 +1204,20 @@ SOCIAL_BUTTONS_CODE = """
 # </form>
 # <!-- End of custom search -->
 # """ % SITE_URL
+
+SEARCH_FORM = """
+<!-- Google custom search -->
+<form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="%s">
+</form>
+<!-- End of custom search -->
+""" % SITE_URL
 
 # Use content distribution networks for jQuery, twitter-bootstrap css and js,
 # and html5shiv (for older versions of Internet Explorer)
@@ -1305,6 +1320,13 @@ BODY_END = '''
 #     # 'site': '@website',         # twitter nick for the website
 #     # 'creator': '@username',     # Username for the content creator / author.
 # }
+TWITTER_CARD = {
+    'use_twitter_cards': True, # enable Twitter Cards
+    'card': 'summary_large_image', # Card type, you can also use 'summary_large_image',
+                                  # see https://dev.twitter.com/cards/types
+    #'site': '@website',         # twitter nick for the website
+    #'creator': '@username',     # Username for the content creator / author.
+}
 
 # Bundle JS and CSS into single files to make site loading faster in a HTTP/1.1
 # environment but is not recommended for HTTP/2.0 when caching is used.
