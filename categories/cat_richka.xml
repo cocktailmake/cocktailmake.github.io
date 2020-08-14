@@ -1,5 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 07:55:40 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 08:37:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
+Posted by Bui Dinh Cuong
+&lt;/p&gt;
+
+&lt;div id="outline-container-org603869a" class="outline-2"&gt;
+&lt;h2 id="org603869a"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org603869a"&gt;
+&lt;p&gt;
+In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org19d8795" class="outline-2"&gt;
+&lt;h2 id="org19d8795"&gt;Definitions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org19d8795"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgeb588eb" class="outline-3"&gt;
+&lt;h3 id="orgeb588eb"&gt;Morphing&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeb588eb"&gt;
+&lt;p&gt;
+Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
+&lt;/p&gt;
+
+&lt;p&gt;
+Source: &lt;a href="https://en.wikipedia.org/wiki/Morphing"&gt;https://en.wikipedia.org/wiki/Morphing&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org006a252" class="outline-3"&gt;
+&lt;h3 id="org006a252"&gt;HyperMorph&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org006a252"&gt;
+&lt;p&gt;
+There are many terminologies on HyperMorph that you can check on &lt;a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf"&gt;https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Within this post, we just define a simple definition about HyperMorph on video generation. It is a set of points from a 1st image and a corresponding set of points from a 2nd image.
+A special effect will change two sets together and makes the 1st image become the 2nd image and vice versa.
+When we define enough of points, it will be able to create very smooth video.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1a239b6" class="outline-2"&gt;
+&lt;h2 id="org1a239b6"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1a239b6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Define the set of points on the 1st image and a corresponding set of points from 2nd image.&lt;/li&gt;
+&lt;li&gt;Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/the-prototype-of-morphing/dog_and_cat.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;With each moving step, capture the image on the canvas and add it as a frame of a video.&lt;/li&gt;
+&lt;li&gt;When capture enough frames of a video, we can export these frames into a video file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+And here is the output video (I converted to GIF file to display here easily):
+&lt;/p&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/the-prototype-of-morphing/video.gif" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</guid><pubDate>Fri, 14 Aug 2020 06:00:00 GMT</pubDate></item><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Cocktail-Make</dc:creator><description>&lt;p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
@@ -132,9 +202,9 @@ intentionally applies the traditional method to make more stable.&lt;/p&gt;
 Posted by Hitoshi Uchida
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb8eff41" class="outline-2"&gt;
-&lt;h2 id="orgb8eff41"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb8eff41"&gt;
+&lt;div id="outline-container-orgcc0b146" class="outline-2"&gt;
+&lt;h2 id="orgcc0b146"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcc0b146"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -180,9 +250,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org6caeb7c" class="outline-2"&gt;
-&lt;h2 id="org6caeb7c"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6caeb7c"&gt;
+&lt;div id="outline-container-org3d9614d" class="outline-2"&gt;
+&lt;h2 id="org3d9614d"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3d9614d"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -219,27 +289,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org62c924b" class="outline-4"&gt;
-&lt;h4 id="org62c924b"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org62c924b"&gt;
+&lt;div id="outline-container-orgf0c34d7" class="outline-4"&gt;
+&lt;h4 id="orgf0c34d7"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0c34d7"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa2ff71" class="outline-4"&gt;
-&lt;h4 id="orgfa2ff71"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfa2ff71"&gt;
+&lt;div id="outline-container-orgbb70299" class="outline-4"&gt;
+&lt;h4 id="orgbb70299"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbb70299"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf0124fd" class="outline-4"&gt;
-&lt;h4 id="orgf0124fd"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf0124fd"&gt;
+&lt;div id="outline-container-org8ec40bb" class="outline-4"&gt;
+&lt;h4 id="org8ec40bb"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8ec40bb"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -247,18 +317,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgced29e7" class="outline-4"&gt;
-&lt;h4 id="orgced29e7"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgced29e7"&gt;
+&lt;div id="outline-container-org491e616" class="outline-4"&gt;
+&lt;h4 id="org491e616"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org491e616"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org00fcb6a" class="outline-4"&gt;
-&lt;h4 id="org00fcb6a"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org00fcb6a"&gt;
+&lt;div id="outline-container-orgff9e792" class="outline-4"&gt;
+&lt;h4 id="orgff9e792"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgff9e792"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -267,9 +337,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org5ca926a" class="outline-2"&gt;
-&lt;h2 id="org5ca926a"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5ca926a"&gt;
+&lt;div id="outline-container-org1f1ea5d" class="outline-2"&gt;
+&lt;h2 id="org1f1ea5d"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1f1ea5d"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;

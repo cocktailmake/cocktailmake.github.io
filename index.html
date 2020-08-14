@@ -10,7 +10,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/using-sentry-to-debug-javascript-in-the-richka-frontend/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/the-prototype-of-morphing/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -63,7 +63,87 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/using-sentry-to-debug-javascript-in-the-richka-frontend/" class="u-url">Using Sentry to debug JavaScript in the RICHKA front end</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/the-prototype-of-morphing/" class="u-url">The prototype of Morphing</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Cocktail-Make
+            </span></p>
+            <p class="dateline">
+            <a href="posts/the-prototype-of-morphing/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-08-14T15:00:00+09:00" itemprop="datePublished" title="2020-08-14 15:00">2020-08-14 15:00</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+Posted by Bui Dinh Cuong
+</p>
+
+<div id="outline-container-org603869a" class="outline-2">
+<h2 id="org603869a">Abstract</h2>
+<div class="outline-text-2" id="text-org603869a">
+<p>
+In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org19d8795" class="outline-2">
+<h2 id="org19d8795">Definitions</h2>
+<div class="outline-text-2" id="text-org19d8795">
+</div>
+<div id="outline-container-orgeb588eb" class="outline-3">
+<h3 id="orgeb588eb">Morphing</h3>
+<div class="outline-text-3" id="text-orgeb588eb">
+<p>
+Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
+</p>
+
+<p>
+Source: <a href="https://en.wikipedia.org/wiki/Morphing">https://en.wikipedia.org/wiki/Morphing</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org006a252" class="outline-3">
+<h3 id="org006a252">HyperMorph</h3>
+<div class="outline-text-3" id="text-org006a252">
+<p>
+There are many terminologies on HyperMorph that you can check on <a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf">https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf</a>.
+</p>
+
+<p>
+Within this post, we just define a simple definition about HyperMorph on video generation. It is a set of points from a 1st image and a corresponding set of points from a 2nd image.
+A special effect will change two sets together and makes the 1st image become the 2nd image and vice versa.
+When we define enough of points, it will be able to create very smooth video.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1a239b6" class="outline-2">
+<h2 id="org1a239b6">How to create HyperMorph from two images with HTML &amp; JavaScript</h2>
+<div class="outline-text-2" id="text-org1a239b6">
+<ul class="org-ul">
+<li>Define the set of points on the 1st image and a corresponding set of points from 2nd image.</li>
+<li>Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.</li>
+</ul>
+<p>
+<img src="images/the-prototype-of-morphing/dog_and_cat.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>With each moving step, capture the image on the canvas and add it as a frame of a video.</li>
+<li>When capture enough frames of a video, we can export these frames into a video file.</li>
+</ul>
+<p>
+And here is the output video (I converted to GIF file to display here easily):
+</p>
+
+<p align="center">
+<img src="images/the-prototype-of-morphing/video.gif" alt="nil"></p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/using-sentry-to-debug-javascript-in-the-richka-frontend/" class="u-url">Using Sentry to debug JavaScript in the RICHKA front end</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Cocktail-Make
@@ -1360,9 +1440,9 @@ intentionally applies the traditional method to make more stable.</p>
 Posted by Hitoshi Uchida
 </p>
 
-<div id="outline-container-orgb8eff41" class="outline-2">
-<h2 id="orgb8eff41">Abstract</h2>
-<div class="outline-text-2" id="text-orgb8eff41">
+<div id="outline-container-orgcc0b146" class="outline-2">
+<h2 id="orgcc0b146">Abstract</h2>
+<div class="outline-text-2" id="text-orgcc0b146">
 <p>
 This is the first post from our engineer team.
 </p>
@@ -1408,9 +1488,9 @@ services demand higher development skills of web applications.
 </div>
 
 
-<div id="outline-container-org6caeb7c" class="outline-2">
-<h2 id="org6caeb7c">RICHKA Development Environment</h2>
-<div class="outline-text-2" id="text-org6caeb7c">
+<div id="outline-container-org3d9614d" class="outline-2">
+<h2 id="org3d9614d">RICHKA Development Environment</h2>
+<div class="outline-text-2" id="text-org3d9614d">
 <p>
 <img src="images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
 
@@ -1446,27 +1526,27 @@ around 13000.
 </p>
 </div>
 
-<div id="outline-container-org62c924b" class="outline-4">
-<h4 id="org62c924b">OS</h4>
-<div class="outline-text-4" id="text-org62c924b">
+<div id="outline-container-orgf0c34d7" class="outline-4">
+<h4 id="orgf0c34d7">OS</h4>
+<div class="outline-text-4" id="text-orgf0c34d7">
 <p>
 Ubuntu Server
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfa2ff71" class="outline-4">
-<h4 id="orgfa2ff71">Programming Language</h4>
-<div class="outline-text-4" id="text-orgfa2ff71">
+<div id="outline-container-orgbb70299" class="outline-4">
+<h4 id="orgbb70299">Programming Language</h4>
+<div class="outline-text-4" id="text-orgbb70299">
 <p>
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf0124fd" class="outline-4">
-<h4 id="orgf0124fd">Server Side Technologies</h4>
-<div class="outline-text-4" id="text-orgf0124fd">
+<div id="outline-container-org8ec40bb" class="outline-4">
+<h4 id="org8ec40bb">Server Side Technologies</h4>
+<div class="outline-text-4" id="text-org8ec40bb">
 <p>
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -1474,18 +1554,18 @@ multi core processing, load distribution
 </div>
 </div>
 
-<div id="outline-container-orgced29e7" class="outline-4">
-<h4 id="orgced29e7">Front End</h4>
-<div class="outline-text-4" id="text-orgced29e7">
+<div id="outline-container-org491e616" class="outline-4">
+<h4 id="org491e616">Front End</h4>
+<div class="outline-text-4" id="text-org491e616">
 <p>
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 </p>
 </div>
 </div>
 
-<div id="outline-container-org00fcb6a" class="outline-4">
-<h4 id="org00fcb6a">Regression Test</h4>
-<div class="outline-text-4" id="text-org00fcb6a">
+<div id="outline-container-orgff9e792" class="outline-4">
+<h4 id="orgff9e792">Regression Test</h4>
+<div class="outline-text-4" id="text-orgff9e792">
 <p>
 Jenkins, Django UnitTest, Selenium
 </p>
@@ -1494,9 +1574,9 @@ Jenkins, Django UnitTest, Selenium
 </div>
 
 
-<div id="outline-container-org5ca926a" class="outline-2">
-<h2 id="org5ca926a">Sequence of video generation</h2>
-<div class="outline-text-2" id="text-org5ca926a">
+<div id="outline-container-org1f1ea5d" class="outline-2">
+<h2 id="org1f1ea5d">Sequence of video generation</h2>
+<div class="outline-text-2" id="text-org1f1ea5d">
 <p>
 <img src="images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
 
