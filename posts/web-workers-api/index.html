@@ -21,12 +21,14 @@
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on fork to create a new sub
 process and Web Workers API enables web applicati">
+<meta property="og:image" content="https://cocktailmake.github.io/images/web-workers-api/slack-workers.png">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-07-26T15:00:00+09:00">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Cocktail-Make">
-<meta name="twitter:creator" content="cocktailmakeInc">
+<meta name="twitter:site" content="@cocktailmakeInc">
+<meta name="twitter:creator" content="@cocktailmakeInc">
+<meta name="twitter:image" content="https://cocktailmake.github.io/images/web-workers-api/slack-workers.png">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -101,9 +103,9 @@ process and Web Workers API enables web applicati">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf56a413" class="outline-2">
-<h2 id="orgf56a413">Abstract</h2>
-<div class="outline-text-2" id="text-orgf56a413">
+    <div id="outline-container-org4b423c4" class="outline-2">
+<h2 id="org4b423c4">Abstract</h2>
+<div class="outline-text-2" id="text-org4b423c4">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -126,9 +128,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-org5b629b9" class="outline-2">
-<h2 id="org5b629b9">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-org5b629b9">
+<div id="outline-container-orgbb3d96e" class="outline-2">
+<h2 id="orgbb3d96e">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-orgbb3d96e">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -155,9 +157,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-org59e8ed6" class="outline-3">
-<h3 id="org59e8ed6">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-org59e8ed6">
+<div id="outline-container-org7bb0261" class="outline-3">
+<h3 id="org7bb0261">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org7bb0261">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -182,9 +184,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org19b7ed6" class="outline-2">
-<h2 id="org19b7ed6">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org19b7ed6">
+<div id="outline-container-org4ee1111" class="outline-2">
+<h2 id="org4ee1111">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org4ee1111">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -265,18 +267,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-org7314026" class="outline-3">
-<h3 id="org7314026">Demo</h3>
-<div class="outline-text-3" id="text-org7314026">
+<div id="outline-container-orgc92c299" class="outline-3">
+<h3 id="orgc92c299">Demo</h3>
+<div class="outline-text-3" id="text-orgc92c299">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orge3cda1d" class="outline-2">
-<h2 id="orge3cda1d">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-orge3cda1d">
+<div id="outline-container-org6d5b893" class="outline-2">
+<h2 id="org6d5b893">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-org6d5b893">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -421,9 +423,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-orga7f1151" class="outline-3">
-<h3 id="orga7f1151">Demo</h3>
-<div class="outline-text-3" id="text-orga7f1151">
+<div id="outline-container-orga1425da" class="outline-3">
+<h3 id="orga1425da">Demo</h3>
+<div class="outline-text-3" id="text-orga1425da">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>

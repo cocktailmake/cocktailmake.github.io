@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about JavaScript)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/javascript.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:05:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Web Workers API</title><link>https://cocktailmake.github.io/posts/web-workers-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgf56a413" class="outline-2"&gt;
-&lt;h2 id="orgf56a413"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf56a413"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about JavaScript)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/javascript.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Aug 2020 13:57:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Web Workers API</title><link>https://cocktailmake.github.io/posts/web-workers-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org4b423c4" class="outline-2"&gt;
+&lt;h2 id="org4b423c4"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4b423c4"&gt;
 &lt;p&gt;
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on &lt;b&gt;&lt;b&gt;fork&lt;/b&gt;&lt;/b&gt; to create a new sub
@@ -25,9 +25,9 @@ close the browser tabs.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org5b629b9" class="outline-2"&gt;
-&lt;h2 id="org5b629b9"&gt;Architecture of Web Workers API&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5b629b9"&gt;
+&lt;div id="outline-container-orgbb3d96e" class="outline-2"&gt;
+&lt;h2 id="orgbb3d96e"&gt;Architecture of Web Workers API&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbb3d96e"&gt;
 &lt;p&gt;
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using &lt;b&gt;Worker.prototype.postMessage(message,
@@ -54,9 +54,9 @@ MDN : &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_A
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org59e8ed6" class="outline-3"&gt;
-&lt;h3 id="org59e8ed6"&gt;Implicit Side effect&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org59e8ed6"&gt;
+&lt;div id="outline-container-org7bb0261" class="outline-3"&gt;
+&lt;h3 id="org7bb0261"&gt;Implicit Side effect&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7bb0261"&gt;
 &lt;p&gt;
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -81,9 +81,9 @@ encounter serious issues of low performance and high CPU usage.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org19b7ed6" class="outline-2"&gt;
-&lt;h2 id="org19b7ed6"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org19b7ed6"&gt;
+&lt;div id="outline-container-org4ee1111" class="outline-2"&gt;
+&lt;h2 id="org4ee1111"&gt;#1 Sample program the worker process sends newly found prime&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4ee1111"&gt;
 &lt;p&gt;
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -165,18 +165,18 @@ search: while (true) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7314026" class="outline-3"&gt;
-&lt;h3 id="org7314026"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7314026"&gt;
+&lt;div id="outline-container-orgc92c299" class="outline-3"&gt;
+&lt;h3 id="orgc92c299"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc92c299"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge3cda1d" class="outline-2"&gt;
-&lt;h2 id="orge3cda1d"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge3cda1d"&gt;
+&lt;div id="outline-container-org6d5b893" class="outline-2"&gt;
+&lt;h2 id="org6d5b893"&gt;#2 Sample program the worker process applies image filer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6d5b893"&gt;
 &lt;p&gt;
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -322,9 +322,9 @@ export function brighten({ data: d }) {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga7f1151" class="outline-3"&gt;
-&lt;h3 id="orga7f1151"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga7f1151"&gt;
+&lt;div id="outline-container-orga1425da" class="outline-3"&gt;
+&lt;h3 id="orga1425da"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga1425da"&gt;
 &lt;iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;

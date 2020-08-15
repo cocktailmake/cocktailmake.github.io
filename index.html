@@ -325,9 +325,9 @@ The logs with prefix response0000, response0044 - response0054 are the ones spli
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org8f7f0d8" class="outline-2">
-<h2 id="org8f7f0d8">Abstract</h2>
-<div class="outline-text-2" id="text-org8f7f0d8">
+    <div id="outline-container-orgb70beab" class="outline-2">
+<h2 id="orgb70beab">Abstract</h2>
+<div class="outline-text-2" id="text-orgb70beab">
 <p>
 Some RICHKA users requested that they would like to input their
 narration into the videos and recently we released a new web
@@ -361,9 +361,9 @@ the video source and the recorded voices.
 </div>
 </div>
 
-<div id="outline-container-org4fe89fc" class="outline-2">
-<h2 id="org4fe89fc">Development Environment</h2>
-<div class="outline-text-2" id="text-org4fe89fc">
+<div id="outline-container-org74eb542" class="outline-2">
+<h2 id="org74eb542">Development Environment</h2>
+<div class="outline-text-2" id="text-org74eb542">
 <p>
 Web servers are based on Django, and additional 8 Python packages such
 as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
@@ -387,9 +387,9 @@ of speech technology, we will make a new post and share the detail.
 </div>
 </div>
 
-<div id="outline-container-org27a7c6d" class="outline-2">
-<h2 id="org27a7c6d">Voice Recording</h2>
-<div class="outline-text-2" id="text-org27a7c6d">
+<div id="outline-container-org78c3043" class="outline-2">
+<h2 id="org78c3043">Voice Recording</h2>
+<div class="outline-text-2" id="text-org78c3043">
 <p>
 One of primary features is to record voice per cue point inputted
 with the mic. When users click the recording button, the recording
@@ -411,9 +411,9 @@ player.</li>
 <img src="images/released-narration-recording-service/voice-recording.png" alt="nil"></p>
 </div>
 
-<div id="outline-container-org0556121" class="outline-3">
-<h3 id="org0556121">Direct Conversion to MP3 on JavaScript layer</h3>
-<div class="outline-text-3" id="text-org0556121">
+<div id="outline-container-org0403749" class="outline-3">
+<h3 id="org0403749">Direct Conversion to MP3 on JavaScript layer</h3>
+<div class="outline-text-3" id="text-org0403749">
 <p>
 At the 1st step, the MIME type of the audio data retrieved by WebRTC
 is audio/webm in default and it tended to be large data size and the
@@ -429,9 +429,9 @@ to the server side.
 </div>
 </div>
 
-<div id="outline-container-org9a30f86" class="outline-3">
-<h3 id="org9a30f86">Dedicated video player to sync video and voices</h3>
-<div class="outline-text-3" id="text-org9a30f86">
+<div id="outline-container-orgaf476c3" class="outline-3">
+<h3 id="orgaf476c3">Dedicated video player to sync video and voices</h3>
+<div class="outline-text-3" id="text-orgaf476c3">
 <p>
 At the 3rd step, we implemented a dedicated video player to playback
 the video source with overlaying the recorded voices without
@@ -450,9 +450,9 @@ player ready to play.
 </div>
 </div>
 
-<div id="outline-container-org269ae38" class="outline-2">
-<h2 id="org269ae38">Video Generation</h2>
-<div class="outline-text-2" id="text-org269ae38">
+<div id="outline-container-org67d42df" class="outline-2">
+<h2 id="org67d42df">Video Generation</h2>
+<div class="outline-text-2" id="text-org67d42df">
 <p>
 After users have inputted the voices to cue points, user are ready to
 generate videos with overlying recorded voices. The generated ones
@@ -546,9 +546,9 @@ out.mp4.
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgf56a413" class="outline-2">
-<h2 id="orgf56a413">Abstract</h2>
-<div class="outline-text-2" id="text-orgf56a413">
+    <div id="outline-container-org4b423c4" class="outline-2">
+<h2 id="org4b423c4">Abstract</h2>
+<div class="outline-text-2" id="text-org4b423c4">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -571,9 +571,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-org5b629b9" class="outline-2">
-<h2 id="org5b629b9">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-org5b629b9">
+<div id="outline-container-orgbb3d96e" class="outline-2">
+<h2 id="orgbb3d96e">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-orgbb3d96e">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -600,9 +600,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-org59e8ed6" class="outline-3">
-<h3 id="org59e8ed6">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-org59e8ed6">
+<div id="outline-container-org7bb0261" class="outline-3">
+<h3 id="org7bb0261">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org7bb0261">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -627,9 +627,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org19b7ed6" class="outline-2">
-<h2 id="org19b7ed6">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org19b7ed6">
+<div id="outline-container-org4ee1111" class="outline-2">
+<h2 id="org4ee1111">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org4ee1111">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -710,18 +710,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-org7314026" class="outline-3">
-<h3 id="org7314026">Demo</h3>
-<div class="outline-text-3" id="text-org7314026">
+<div id="outline-container-orgc92c299" class="outline-3">
+<h3 id="orgc92c299">Demo</h3>
+<div class="outline-text-3" id="text-orgc92c299">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orge3cda1d" class="outline-2">
-<h2 id="orge3cda1d">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-orge3cda1d">
+<div id="outline-container-org6d5b893" class="outline-2">
+<h2 id="org6d5b893">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-org6d5b893">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -866,9 +866,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-orga7f1151" class="outline-3">
-<h3 id="orga7f1151">Demo</h3>
-<div class="outline-text-3" id="text-orga7f1151">
+<div id="outline-container-orga1425da" class="outline-3">
+<h3 id="orga1425da">Demo</h3>
+<div class="outline-text-3" id="text-orga1425da">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>
@@ -1046,9 +1046,9 @@ git-log-fzf<span class="o">()</span> <span class="o">{</span> <span class="c1">#
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org6f21bfa" class="outline-2">
-<h2 id="org6f21bfa">Abstract</h2>
-<div class="outline-text-2" id="text-org6f21bfa">
+    <div id="outline-container-orge07454d" class="outline-2">
+<h2 id="orge07454d">Abstract</h2>
+<div class="outline-text-2" id="text-orge07454d">
 <p>
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -1080,9 +1080,9 @@ implement in short time.
 </div>
 </div>
 
-<div id="outline-container-org29f6ced" class="outline-2">
-<h2 id="org29f6ced">Multi-core processing</h2>
-<div class="outline-text-2" id="text-org29f6ced">
+<div id="outline-container-org4512701" class="outline-2">
+<h2 id="org4512701">Multi-core processing</h2>
+<div class="outline-text-2" id="text-org4512701">
 <p>
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -1147,9 +1147,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-org6ee802a" class="outline-2">
-<h2 id="org6ee802a">Sample program</h2>
-<div class="outline-text-2" id="text-org6ee802a">
+<div id="outline-container-orgebf2907" class="outline-2">
+<h2 id="orgebf2907">Sample program</h2>
+<div class="outline-text-2" id="text-orgebf2907">
 <p>
 The whole source code is below and we use <b>convert</b> command of
 <a href="https://imagemagick.org/index.php">ImageMagic</a> to generate font preview images. The images are actually
@@ -1248,9 +1248,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 </div>
 </div>
 
-<div id="outline-container-org6e76766" class="outline-2">
-<h2 id="org6e76766">Sample of generated preview images</h2>
-<div class="outline-text-2" id="text-org6e76766">
+<div id="outline-container-orgb4bcd77" class="outline-2">
+<h2 id="orgb4bcd77">Sample of generated preview images</h2>
+<div class="outline-text-2" id="text-orgb4bcd77">
 <p>
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -1262,9 +1262,9 @@ enough and we can utilize the max of the CPU resources.
 </div>
 </div>
 
-<div id="outline-container-orgccf3a65" class="outline-2">
-<h2 id="orgccf3a65">Conclusion</h2>
-<div class="outline-text-2" id="text-orgccf3a65">
+<div id="outline-container-orge949173" class="outline-2">
+<h2 id="orge949173">Conclusion</h2>
+<div class="outline-text-2" id="text-orge949173">
 <p>
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -1286,9 +1286,9 @@ desired fonts used for video generation.</p>
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgc3c22b8" class="outline-2">
-<h2 id="orgc3c22b8">Abstract</h2>
-<div class="outline-text-2" id="text-orgc3c22b8">
+    <div id="outline-container-org2c62cf8" class="outline-2">
+<h2 id="org2c62cf8">Abstract</h2>
+<div class="outline-text-2" id="text-org2c62cf8">
 <p>
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -1331,9 +1331,9 @@ blog.
 </div>
 </div>
 
-<div id="outline-container-org1bd2ac7" class="outline-2">
-<h2 id="org1bd2ac7">Technical Restriction of HTTP streaming</h2>
-<div class="outline-text-2" id="text-org1bd2ac7">
+<div id="outline-container-orge0088d2" class="outline-2">
+<h2 id="orge0088d2">Technical Restriction of HTTP streaming</h2>
+<div class="outline-text-2" id="text-orge0088d2">
 <p width="1500px">
 <img src="images/progress-display-of-video-generation/restriction.png" alt="nil"></p>
 
@@ -1380,9 +1380,9 @@ RICHKA\r\n
 </div>
 
 
-<div id="outline-container-org60fecc3" class="outline-2">
-<h2 id="org60fecc3">Realtime Display of Video Generation Progress after HTTP Redirect</h2>
-<div class="outline-text-2" id="text-org60fecc3">
+<div id="outline-container-org29a8344" class="outline-2">
+<h2 id="org29a8344">Realtime Display of Video Generation Progress after HTTP Redirect</h2>
+<div class="outline-text-2" id="text-org29a8344">
 <p width="1500px">
 <img src="images/progress-display-of-video-generation/solution.png" alt="nil"></p>
 
@@ -1420,9 +1420,9 @@ intentionally applies the traditional method to make more stable.</p>
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org095d13e" class="outline-2">
-<h2 id="org095d13e">Abstract</h2>
-<div class="outline-text-2" id="text-org095d13e">
+    <div id="outline-container-org6b41a16" class="outline-2">
+<h2 id="org6b41a16">Abstract</h2>
+<div class="outline-text-2" id="text-org6b41a16">
 <p>
 This is the first post from our engineer team.
 </p>
@@ -1468,9 +1468,9 @@ services demand higher development skills of web applications.
 </div>
 
 
-<div id="outline-container-org7e2ef62" class="outline-2">
-<h2 id="org7e2ef62">RICHKA Development Environment</h2>
-<div class="outline-text-2" id="text-org7e2ef62">
+<div id="outline-container-org65f2623" class="outline-2">
+<h2 id="org65f2623">RICHKA Development Environment</h2>
+<div class="outline-text-2" id="text-org65f2623">
 <p>
 <img src="images/big-picture-of-richka/technologies-building-richka.png" alt="nil"></p>
 
@@ -1506,27 +1506,27 @@ around 13000.
 </p>
 </div>
 
-<div id="outline-container-org6081c5c" class="outline-4">
-<h4 id="org6081c5c">OS</h4>
-<div class="outline-text-4" id="text-org6081c5c">
+<div id="outline-container-org3d39103" class="outline-4">
+<h4 id="org3d39103">OS</h4>
+<div class="outline-text-4" id="text-org3d39103">
 <p>
 Ubuntu Server
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf05bd59" class="outline-4">
-<h4 id="orgf05bd59">Programming Language</h4>
-<div class="outline-text-4" id="text-orgf05bd59">
+<div id="outline-container-org660957a" class="outline-4">
+<h4 id="org660957a">Programming Language</h4>
+<div class="outline-text-4" id="text-org660957a">
 <p>
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 </p>
 </div>
 </div>
 
-<div id="outline-container-org49a643b" class="outline-4">
-<h4 id="org49a643b">Server Side Technologies</h4>
-<div class="outline-text-4" id="text-org49a643b">
+<div id="outline-container-org8879a54" class="outline-4">
+<h4 id="org8879a54">Server Side Technologies</h4>
+<div class="outline-text-4" id="text-org8879a54">
 <p>
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -1534,18 +1534,18 @@ multi core processing, load distribution
 </div>
 </div>
 
-<div id="outline-container-org6453228" class="outline-4">
-<h4 id="org6453228">Front End</h4>
-<div class="outline-text-4" id="text-org6453228">
+<div id="outline-container-org5ac2f63" class="outline-4">
+<h4 id="org5ac2f63">Front End</h4>
+<div class="outline-text-4" id="text-org5ac2f63">
 <p>
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgca71678" class="outline-4">
-<h4 id="orgca71678">Regression Test</h4>
-<div class="outline-text-4" id="text-orgca71678">
+<div id="outline-container-org7232afa" class="outline-4">
+<h4 id="org7232afa">Regression Test</h4>
+<div class="outline-text-4" id="text-org7232afa">
 <p>
 Jenkins, Django UnitTest, Selenium
 </p>
@@ -1554,9 +1554,9 @@ Jenkins, Django UnitTest, Selenium
 </div>
 
 
-<div id="outline-container-org6cdf490" class="outline-2">
-<h2 id="org6cdf490">Sequence of video generation</h2>
-<div class="outline-text-2" id="text-org6cdf490">
+<div id="outline-container-orga2f136f" class="outline-2">
+<h2 id="orga2f136f">Sequence of video generation</h2>
+<div class="outline-text-2" id="text-orga2f136f">
 <p>
 <img src="images/big-picture-of-richka/video-generation-sequence.png" alt="nil"></p>
 
