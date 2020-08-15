@@ -25,6 +25,8 @@ process and Web Workers API enables web applicati">
 <meta property="article:published_time" content="2020-07-26T15:00:00+09:00">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="Cocktail-Make">
+<meta name="twitter:creator" content="@cocktailmakeInc">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -99,9 +101,9 @@ process and Web Workers API enables web applicati">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org1d1af50" class="outline-2">
-<h2 id="org1d1af50">Abstract</h2>
-<div class="outline-text-2" id="text-org1d1af50">
+    <div id="outline-container-orgf56a413" class="outline-2">
+<h2 id="orgf56a413">Abstract</h2>
+<div class="outline-text-2" id="text-orgf56a413">
 <p>
 In this post, we describe Web Workers API which was introduced in 2010 as
 one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
@@ -124,9 +126,9 @@ close the browser tabs.
 </div>
 
 
-<div id="outline-container-org94061b6" class="outline-2">
-<h2 id="org94061b6">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-org94061b6">
+<div id="outline-container-org5b629b9" class="outline-2">
+<h2 id="org5b629b9">Architecture of Web Workers API</h2>
+<div class="outline-text-2" id="text-org5b629b9">
 <p>
 The usage of Web Workers API is to communicate between a main process
 and a worker process with using <b>Worker.prototype.postMessage(message,
@@ -153,9 +155,9 @@ MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
 </pre></div>
 </div>
 
-<div id="outline-container-orgc62bc1a" class="outline-3">
-<h3 id="orgc62bc1a">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-orgc62bc1a">
+<div id="outline-container-org59e8ed6" class="outline-3">
+<h3 id="org59e8ed6">Implicit Side effect</h3>
+<div class="outline-text-3" id="text-org59e8ed6">
 <p>
 The general use case is to fork tiny processes running for a long time
 whose CPU loads are small as general resident application as
@@ -180,9 +182,9 @@ encounter serious issues of low performance and high CPU usage.
 </div>
 </div>
 
-<div id="outline-container-org86ad5bd" class="outline-2">
-<h2 id="org86ad5bd">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org86ad5bd">
+<div id="outline-container-org19b7ed6" class="outline-2">
+<h2 id="org19b7ed6">#1 Sample program the worker process sends newly found prime</h2>
+<div class="outline-text-2" id="text-org19b7ed6">
 <p>
 A 1st sample program is to delegate a dedicated process which
 continues to find prime numbers in the worker process and send to the
@@ -263,18 +265,18 @@ search: while (true) {
 </pre></div>
 </div>
 
-<div id="outline-container-org10ef01b" class="outline-3">
-<h3 id="org10ef01b">Demo</h3>
-<div class="outline-text-3" id="text-org10ef01b">
+<div id="outline-container-org7314026" class="outline-3">
+<h3 id="org7314026">Demo</h3>
+<div class="outline-text-3" id="text-org7314026">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgcc2a84b" class="outline-2">
-<h2 id="orgcc2a84b">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-orgcc2a84b">
+<div id="outline-container-orge3cda1d" class="outline-2">
+<h2 id="orge3cda1d">#2 Sample program the worker process applies image filer</h2>
+<div class="outline-text-2" id="text-orge3cda1d">
 <p>
 The 2st sample program is to delegate image filter processing to a
 worker process. The main process sends the pixel data of image files
@@ -419,9 +421,9 @@ export function brighten({ data: d }) {
 </pre></div>
 </div>
 
-<div id="outline-container-org9172609" class="outline-3">
-<h3 id="org9172609">Demo</h3>
-<div class="outline-text-3" id="text-org9172609">
+<div id="outline-container-orga7f1151" class="outline-3">
+<h3 id="orga7f1151">Demo</h3>
+<div class="outline-text-3" id="text-orga7f1151">
 <iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
 </div>
 </div>

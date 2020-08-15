@@ -15,19 +15,18 @@
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Released Narration Recording Service">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/released-narration-recording-service/">
-<meta property="og:description" content="Posted by Hitoshi Uchida
-
-
-
-Abstract
+<meta property="og:description" content="Abstract
 
 
 Some RICHKA users requested that they would like to input their
 narration into the videos and recently we released a new web
-application called ナレ撮り which enable">
+application called ナレ撮り which enables users to
+record the voice ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-08-12T15:38:24+09:00">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="Cocktail-Make">
+<meta name="twitter:creator" content="@cocktailmakeInc">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -102,13 +101,9 @@ application called ナレ撮り which enable">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <p>
-Posted by Hitoshi Uchida
-</p>
-
-<div id="outline-container-org9aee0c3" class="outline-2">
-<h2 id="org9aee0c3">Abstract</h2>
-<div class="outline-text-2" id="text-org9aee0c3">
+    <div id="outline-container-org8f7f0d8" class="outline-2">
+<h2 id="org8f7f0d8">Abstract</h2>
+<div class="outline-text-2" id="text-org8f7f0d8">
 <p>
 Some RICHKA users requested that they would like to input their
 narration into the videos and recently we released a new web
@@ -142,9 +137,9 @@ the video source and the recorded voices.
 </div>
 </div>
 
-<div id="outline-container-org8c63374" class="outline-2">
-<h2 id="org8c63374">Development Environment</h2>
-<div class="outline-text-2" id="text-org8c63374">
+<div id="outline-container-org4fe89fc" class="outline-2">
+<h2 id="org4fe89fc">Development Environment</h2>
+<div class="outline-text-2" id="text-org4fe89fc">
 <p>
 Web servers are based on Django, and additional 8 Python packages such
 as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
@@ -168,9 +163,9 @@ of speech technology, we will make a new post and share the detail.
 </div>
 </div>
 
-<div id="outline-container-orgbebd84d" class="outline-2">
-<h2 id="orgbebd84d">Voice Recording</h2>
-<div class="outline-text-2" id="text-orgbebd84d">
+<div id="outline-container-org27a7c6d" class="outline-2">
+<h2 id="org27a7c6d">Voice Recording</h2>
+<div class="outline-text-2" id="text-org27a7c6d">
 <p>
 One of primary features is to record voice per cue point inputted
 with the mic. When users click the recording button, the recording
@@ -192,9 +187,9 @@ player.</li>
 <img src="../../images/released-narration-recording-service/voice-recording.png" alt="nil"></p>
 </div>
 
-<div id="outline-container-orgba0ab00" class="outline-3">
-<h3 id="orgba0ab00">Direct Conversion to MP3 on JavaScript layer</h3>
-<div class="outline-text-3" id="text-orgba0ab00">
+<div id="outline-container-org0556121" class="outline-3">
+<h3 id="org0556121">Direct Conversion to MP3 on JavaScript layer</h3>
+<div class="outline-text-3" id="text-org0556121">
 <p>
 At the 1st step, the MIME type of the audio data retrieved by WebRTC
 is audio/webm in default and it tended to be large data size and the
@@ -210,9 +205,9 @@ to the server side.
 </div>
 </div>
 
-<div id="outline-container-org312628e" class="outline-3">
-<h3 id="org312628e">Dedicated video player to sync video and voices</h3>
-<div class="outline-text-3" id="text-org312628e">
+<div id="outline-container-org9a30f86" class="outline-3">
+<h3 id="org9a30f86">Dedicated video player to sync video and voices</h3>
+<div class="outline-text-3" id="text-org9a30f86">
 <p>
 At the 3rd step, we implemented a dedicated video player to playback
 the video source with overlaying the recorded voices without
@@ -231,9 +226,9 @@ player ready to play.
 </div>
 </div>
 
-<div id="outline-container-org47e661a" class="outline-2">
-<h2 id="org47e661a">Video Generation</h2>
-<div class="outline-text-2" id="text-org47e661a">
+<div id="outline-container-org269ae38" class="outline-2">
+<h2 id="org269ae38">Video Generation</h2>
+<div class="outline-text-2" id="text-org269ae38">
 <p>
 After users have inputted the voices to cue points, user are ready to
 generate videos with overlying recorded voices. The generated ones

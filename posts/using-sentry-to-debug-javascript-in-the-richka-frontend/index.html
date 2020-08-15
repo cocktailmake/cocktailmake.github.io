@@ -24,6 +24,9 @@ Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, 
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-08-13T10:53:48+09:00">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="Cocktail-Make">
+<meta name="twitter:creator" content="@cocktailmakeInc">
+<meta property="twitter:image" content="/images/sentry-javascript/error_detail.png">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -98,9 +101,9 @@ Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, 
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org7e8212d" class="outline-2">
-<h2 id="org7e8212d">Abstract</h2>
-<div class="outline-text-2" id="text-org7e8212d">
+    <div id="outline-container-orgb65112e" class="outline-2">
+<h2 id="orgb65112e">Abstract</h2>
+<div class="outline-text-2" id="text-orgb65112e">
 <p>
 Sentry is a service that helps you to monitor and fix crashes in realtime.
 Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
@@ -111,9 +114,9 @@ I rate it very useful to debug in front end.
 </div>
 </div>
 
-<div id="outline-container-org6063d7a" class="outline-2">
-<h2 id="org6063d7a">General usage of Sentry JavaScript</h2>
-<div class="outline-text-2" id="text-org6063d7a">
+<div id="outline-container-org6c6fa96" class="outline-2">
+<h2 id="org6c6fa96">General usage of Sentry JavaScript</h2>
+<div class="outline-text-2" id="text-org6c6fa96">
 <ol class="org-ol">
 <li>First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.</li>
 
@@ -138,9 +141,9 @@ Here are some examples.
 </div>
 
 
-<div id="outline-container-orgca94b7e" class="outline-2">
-<h2 id="orgca94b7e">Integration between Sentry debug and Slack</h2>
-<div class="outline-text-2" id="text-orgca94b7e">
+<div id="outline-container-orge914c28" class="outline-2">
+<h2 id="orge914c28">Integration between Sentry debug and Slack</h2>
+<div class="outline-text-2" id="text-orge914c28">
 <ol class="org-ol">
 <li>Create a new channel in Slack.</li>
 <li>Access Sentry project and Settings &gt; Integrations &gt; Slack and login Slack account.</li>
@@ -156,9 +159,9 @@ Note: if there're a lot of events, we need to configure number of posts in a cha
 </div>
 </div>
 
-<div id="outline-container-org0aed575" class="outline-2">
-<h2 id="org0aed575">Customize data in debug log</h2>
-<div class="outline-text-2" id="text-org0aed575">
+<div id="outline-container-orgc12db26" class="outline-2">
+<h2 id="orgc12db26">Customize data in debug log</h2>
+<div class="outline-text-2" id="text-orgc12db26">
 <p>
 Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
 </p>

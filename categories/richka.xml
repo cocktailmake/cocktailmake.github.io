@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orga5753e8" class="outline-2"&gt;
-&lt;h2 id="orga5753e8"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga5753e8"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:05:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Batch generation of font preview images with multicore processing</title><link>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org6f21bfa" class="outline-2"&gt;
+&lt;h2 id="org6f21bfa"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6f21bfa"&gt;
 &lt;p&gt;
 Our video generation service RICHKA enables users to customize
 image/video materials and texts, fonts, BGM, color schemes and the
@@ -34,9 +34,9 @@ implement in short time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb8685fa" class="outline-2"&gt;
-&lt;h2 id="orgb8685fa"&gt;Multi-core processing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb8685fa"&gt;
+&lt;div id="outline-container-org29f6ced" class="outline-2"&gt;
+&lt;h2 id="org29f6ced"&gt;Multi-core processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org29f6ced"&gt;
 &lt;p&gt;
 On RICHKA video servers, the number of installed fonts are over 1000
 and it takes much time to execute with sequential batch processing to
@@ -101,9 +101,9 @@ well.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga0742c3" class="outline-2"&gt;
-&lt;h2 id="orga0742c3"&gt;Sample program&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga0742c3"&gt;
+&lt;div id="outline-container-org6ee802a" class="outline-2"&gt;
+&lt;h2 id="org6ee802a"&gt;Sample program&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6ee802a"&gt;
 &lt;p&gt;
 The whole source code is below and we use &lt;b&gt;convert&lt;/b&gt; command of
 &lt;a href="https://imagemagick.org/index.php"&gt;ImageMagic&lt;/a&gt; to generate font preview images. The images are actually
@@ -202,9 +202,9 @@ then 'ABCDEFGabcdefg' is rendered as fallback.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org314edd5" class="outline-2"&gt;
-&lt;h2 id="org314edd5"&gt;Sample of generated preview images&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org314edd5"&gt;
+&lt;div id="outline-container-org6e76766" class="outline-2"&gt;
+&lt;h2 id="org6e76766"&gt;Sample of generated preview images&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e76766"&gt;
 &lt;p&gt;
 It took a few minutes to have generated the preview images with over
 1000 fonts and the sample ones are below.  The processing speed is
@@ -217,9 +217,9 @@ enough and we can utilize the max of the CPU resources.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb2b5eeb" class="outline-2"&gt;
-&lt;h2 id="orgb2b5eeb"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb2b5eeb"&gt;
+&lt;div id="outline-container-orgccf3a65" class="outline-2"&gt;
+&lt;h2 id="orgccf3a65"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgccf3a65"&gt;
 &lt;p&gt;
 We introduced a practical sample program to execute a batch processing
 to generate font preview images with over 1000 fonts with utilizing
@@ -228,9 +228,9 @@ servers stores the generated preview images into S3 and they are
 actually shown on RICHKA GUI and it helps users to visually select
 desired fonts used for video generation.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>GUI</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</guid><pubDate>Sun, 21 Jun 2020 13:22:13 GMT</pubDate></item><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org97bc5e0" class="outline-2"&gt;
-&lt;h2 id="org97bc5e0"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org97bc5e0"&gt;
+&lt;/div&gt;</description><category>GUI</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</guid><pubDate>Sun, 21 Jun 2020 13:22:13 GMT</pubDate></item><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgc3c22b8" class="outline-2"&gt;
+&lt;h2 id="orgc3c22b8"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc3c22b8"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -273,9 +273,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3d3306b" class="outline-2"&gt;
-&lt;h2 id="org3d3306b"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3d3306b"&gt;
+&lt;div id="outline-container-org1bd2ac7" class="outline-2"&gt;
+&lt;h2 id="org1bd2ac7"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1bd2ac7"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -324,9 +324,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9e14e43" class="outline-2"&gt;
-&lt;h2 id="org9e14e43"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9e14e43"&gt;
+&lt;div id="outline-container-org60fecc3" class="outline-2"&gt;
+&lt;h2 id="org60fecc3"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org60fecc3"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -353,9 +353,9 @@ proxies. Unfortunately, some of HTTP proxies block WebSocket
 connection to enhance the web security. Therefore, RICHKA
 intentionally applies the traditional method to make more stable.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</guid><pubDate>Sat, 16 May 2020 09:07:20 GMT</pubDate></item><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org6c2f03b" class="outline-2"&gt;
-&lt;h2 id="org6c2f03b"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6c2f03b"&gt;
+&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</guid><pubDate>Sat, 16 May 2020 09:07:20 GMT</pubDate></item><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org095d13e" class="outline-2"&gt;
+&lt;h2 id="org095d13e"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org095d13e"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -401,9 +401,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgccfc48b" class="outline-2"&gt;
-&lt;h2 id="orgccfc48b"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgccfc48b"&gt;
+&lt;div id="outline-container-org7e2ef62" class="outline-2"&gt;
+&lt;h2 id="org7e2ef62"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7e2ef62"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -440,27 +440,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7e30fe9" class="outline-4"&gt;
-&lt;h4 id="org7e30fe9"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7e30fe9"&gt;
+&lt;div id="outline-container-org6081c5c" class="outline-4"&gt;
+&lt;h4 id="org6081c5c"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6081c5c"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1ceed18" class="outline-4"&gt;
-&lt;h4 id="org1ceed18"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1ceed18"&gt;
+&lt;div id="outline-container-orgf05bd59" class="outline-4"&gt;
+&lt;h4 id="orgf05bd59"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf05bd59"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3e58535" class="outline-4"&gt;
-&lt;h4 id="org3e58535"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3e58535"&gt;
+&lt;div id="outline-container-org49a643b" class="outline-4"&gt;
+&lt;h4 id="org49a643b"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org49a643b"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -468,18 +468,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf089b11" class="outline-4"&gt;
-&lt;h4 id="orgf089b11"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf089b11"&gt;
+&lt;div id="outline-container-org6453228" class="outline-4"&gt;
+&lt;h4 id="org6453228"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6453228"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org85dc1d9" class="outline-4"&gt;
-&lt;h4 id="org85dc1d9"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org85dc1d9"&gt;
+&lt;div id="outline-container-orgca71678" class="outline-4"&gt;
+&lt;h4 id="orgca71678"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgca71678"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -488,9 +488,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8910f58" class="outline-2"&gt;
-&lt;h2 id="org8910f58"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8910f58"&gt;
+&lt;div id="outline-container-org6cdf490" class="outline-2"&gt;
+&lt;h2 id="org6cdf490"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6cdf490"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;
