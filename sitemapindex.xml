@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/bui-dinh-cuong.xml</loc>
-  <lastmod>2020-08-15T13:08:00Z</lastmod>
+  <lastmod>2020-08-15T13:27:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida.xml</loc>
@@ -23,7 +23,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_richka.xml</loc>
-  <lastmod>2020-08-15T13:08:00Z</lastmod>
+  <lastmod>2020-08-15T13:27:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_tool.xml</loc>
@@ -59,10 +59,10 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2020-08-15T13:08:00Z</lastmod>
+  <lastmod>2020-08-15T13:27:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2020-08-15T13:17:00Z</lastmod>
+  <lastmod>2020-08-15T13:31:00Z</lastmod>
  </sitemap>
 </sitemapindex>
