@@ -1323,9 +1323,9 @@ BODY_END = '''
 TWITTER_CARD = {
     'use_twitter_cards': True, # enable Twitter Cards
     'card': 'summary_large_image', # Card type, you can also use 'summary_large_image',
-                                  # see https://dev.twitter.com/cards/types
-    'site': 'Cocktail-Make',         # twitter nick for the website
-    'creator': 'cocktailmakeInc',     # Username for the content creator / author.
+                                   # see https://dev.twitter.com/cards/types
+    'site': '@cocktailmakeInc',         # twitter nick for the website
+    'creator': '@cocktailmakeInc',     # Username for the content creator / author.
 }
 
 # Bundle JS and CSS into single files to make site loading faster in a HTTP/1.1

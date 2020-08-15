@@ -9,6 +9,7 @@
 .. link: 
 .. description: 
 .. type: text
+.. previewimage: /images/released-narration-recording-service/sample-edit-page.png
 .. author: Hitoshi Uchida
 #+END_COMMENT
 
