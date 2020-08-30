@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2020-08-15T13:57:00Z</lastmod>
+  <lastmod>2020-08-30T13:10:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/</loc>
@@ -35,7 +35,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/</loc>
-  <lastmod>2020-08-14T16:05:00Z</lastmod>
+  <lastmod>2020-08-30T08:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/cat_recording/</loc>
@@ -52,6 +52,10 @@
  <url>
   <loc>https://cocktailmake.github.io/categories/cat_utility/</loc>
   <lastmod>2020-08-14T16:05:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/categories/emacs/</loc>
+  <lastmod>2020-08-30T08:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/fzf/</loc>
@@ -84,6 +88,10 @@
  <url>
   <loc>https://cocktailmake.github.io/posts/big-picture-of-richka/</loc>
   <lastmod>2020-08-14T16:05:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</loc>
+  <lastmod>2020-08-30T08:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</loc>

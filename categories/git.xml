@@ -1,5 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about git)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:05:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about git)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 30 Aug 2020 13:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs modeline enhancement for Git diff</title><link>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org553a176" class="outline-2"&gt;
+&lt;h2 id="org553a176"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org553a176"&gt;
+&lt;p&gt;
+Emacs has a built-in function vc-mode to work with version control
+systems such as CVS, Subversion, Git and so on. It enables to show
+diff / commit logs and commit codes without working with the
+dedicated commands on terminal applications. For Git, we can operate
+general git commands such as status / log / diff / checkout / commit /
+push. The screenshot below is a sample of vc-diff command to show git
+diff.
+&lt;/p&gt;
+
+&lt;p&gt;
+In this post, a utility function to enhance vc-diff command for Git is
+introduced with changing the behavior of the internal function of
+vc-git.el and improve the modeline for efficient coding.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/vc.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org826d1b3" class="outline-2"&gt;
+&lt;h2 id="org826d1b3"&gt;Show the numbers of diff lines on modeline&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org826d1b3"&gt;
+&lt;p&gt;
+When we open a file on Emacs tracked by Git, the branch name is shown
+on the modeline. This build-in feature is enabled by a lisp function
+vc-git-mode-line-string below defined in vc-git.el. We will extend
+the build-in behavior with &lt;b&gt;&lt;b&gt;defadvice&lt;/b&gt;&lt;/b&gt; to show the numbers of diff
+lines on modeline.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;+---[/usr/share/emacs/26.3/lisp/vc/vc-git.el.gz:339]&lt;/span&gt;
+&lt;span class="nv"&gt;| (defun vc-git-mode-line-string (file)&lt;/span&gt;
+&lt;span class="nv"&gt;|&lt;/span&gt;   &lt;span class="s"&gt;"Return a string for `vc-mode-line' to put in the mode line for FILE."&lt;/span&gt;
+&lt;span class="nv"&gt;|   (let* ((rev (vc-working-revision file 'Git))&lt;/span&gt;
+&lt;span class="nv"&gt;|&lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;disp-rev&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;vc-git--symbolic-ref&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;|                        (substring rev 0 7)))&lt;/span&gt;
+&lt;span class="nv"&gt;|&lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;def-ml&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;vc-default-mode-line-string&lt;/span&gt; &lt;span class="ss"&gt;'Git&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nv"&gt;|          (help-echo (get-text-property 0 'help-echo def-ml))&lt;/span&gt;
+&lt;span class="nv"&gt;|&lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;face&lt;/span&gt;   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;get-text-property&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="nv"&gt;def-ml&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="nv"&gt;|     (propertize (concat (substring def-ml 0 4) disp-rev)&lt;/span&gt;
+&lt;span class="nv"&gt;|&lt;/span&gt;                 &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="nv"&gt;face&lt;/span&gt;
+&lt;span class="err"&gt;|&lt;/span&gt;                 &lt;span class="ss"&gt;'help-echo&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;concat&lt;/span&gt; &lt;span class="nv"&gt;help-echo&lt;/span&gt; &lt;span class="s"&gt;"\nCurrent revision: "&lt;/span&gt; &lt;span class="nv"&gt;rev&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="nv"&gt;+---&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+To show the information of git diff, we can get each number of
+added/deleted lines with using &lt;b&gt;&lt;b&gt;git diff –numstat – FILE_NAME&lt;/b&gt;&lt;/b&gt;. An
+sample output with the command is below and the 1st column is the
+numbers of lines added to files and the 2nd one is the ones of deleted
+lines. If we execute with specifying a filename, we can get only for the file.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git diff --numstat --
+7       6       .bashrc
+2       1       .bashrc-common
+34      9       .emacs
+1       0       .folders
+4       4       .ssh/config-home
+5       1       emacslib/.aspell.en.pws
+4       3       emacslib/meeting-dev.template
+2       2       emacslib/my-edit.el
+108     11      emacslib/my-org.el
+4       60      emacslib/my-wl.el
+101     55      emacslib/wl-common.el
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The lisp function below is the final output of the utility function.
+The number of added lines is shown with green3 and the one of deleted lines is shown
+with a color predefined by font-lock-warning-face.
+If there is no diff on the opened file, "✔" is shown.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;defadvice&lt;/span&gt; &lt;span class="nv"&gt;vc-git-mode-line-string&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;after&lt;/span&gt; &lt;span class="nv"&gt;plus-minus&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;compile&lt;/span&gt; &lt;span class="nv"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="s"&gt;"Show the information of git diff on modeline."&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;ad-return-value&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;concat&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;propertize&lt;/span&gt; &lt;span class="nv"&gt;ad-return-value&lt;/span&gt; &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:foreground&lt;/span&gt; &lt;span class="s"&gt;"white"&lt;/span&gt; &lt;span class="ss"&gt;:weight&lt;/span&gt; &lt;span class="nv"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		&lt;span class="s"&gt;" ["&lt;/span&gt;
+		&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nv"&gt;plus-minus&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;vc-git--run-command-string&lt;/span&gt;
+				   &lt;span class="nv"&gt;file&lt;/span&gt; &lt;span class="s"&gt;"diff"&lt;/span&gt; &lt;span class="s"&gt;"--numstat"&lt;/span&gt; &lt;span class="s"&gt;"--"&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;and&lt;/span&gt; &lt;span class="nv"&gt;plus-minus&lt;/span&gt;
+		       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;string-match&lt;/span&gt; &lt;span class="s"&gt;"^\\([0-9]+\\)\t\\([0-9]+\\)\t"&lt;/span&gt; &lt;span class="nv"&gt;plus-minus&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;concat&lt;/span&gt;
+			&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;propertize&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;format&lt;/span&gt; &lt;span class="s"&gt;"+%s"&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;match-string&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;plus-minus&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:foreground&lt;/span&gt; &lt;span class="s"&gt;"green3"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+			&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;propertize&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;format&lt;/span&gt; &lt;span class="s"&gt;"-%s"&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;match-string&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;plus-minus&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:inherit&lt;/span&gt; &lt;span class="nv"&gt;font-lock-warning-face&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;propertize&lt;/span&gt; &lt;span class="s"&gt;"✔"&lt;/span&gt; &lt;span class="ss"&gt;'face&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:foreground&lt;/span&gt; &lt;span class="s"&gt;"green3"&lt;/span&gt; &lt;span class="ss"&gt;:weight&lt;/span&gt; &lt;span class="nv"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+		&lt;span class="s"&gt;"]"&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+As a screenshot below, the diff information is shown on modeline with the branch name.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/modeline.png" alt="nil"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>emacs</category><category>git</category><guid>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</guid><pubDate>Sun, 30 Aug 2020 13:00:00 GMT</pubDate></item><item><title>Improvement of Git commands with fzf</title><link>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/improvement-of-git-commands-with-fzf/demo-log.png" alt="nil"&gt;
 &lt;/p&gt;
 

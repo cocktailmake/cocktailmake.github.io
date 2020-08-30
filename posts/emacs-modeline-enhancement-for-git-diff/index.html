@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emacs modeline enhancement for Git diff | Cocktail-Make Developer Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Hitoshi Uchida">
+<link rel="prev" href="../the-prototype-of-morphing/" title="The prototype of Morphing" type="text/html">
+<meta property="og:site_name" content="Cocktail-Make Developer Blog">
+<meta property="og:title" content="Emacs modeline enhancement for Git diff">
+<meta property="og:url" content="https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/">
+<meta property="og:description" content="Abstract
+
+
+Emacs has a built-in function vc-mode to work with version control
+systems such as CVS, Subversion, Git and so on. It enables to show
+diff / commit logs and commit codes without working wit">
+<meta property="og:image" content="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/modeline.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-08-30T22:00:00+09:00">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cocktailmakeInc">
+<meta name="twitter:creator" content="@cocktailmakeInc">
+<meta name="twitter:image" content="https://cocktailmake.github.io/images/emacs-modeline-enhancement-for-git-diff/modeline.png">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://cocktailmake.github.io/">
+
+                <span id="blog-title">Cocktail-Make Developer Blog</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://cocktailmake.github.io/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Emacs modeline enhancement for Git diff</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/hitoshi-uchida/">Hitoshi Uchida</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-08-30T22:00:00+09:00" itemprop="datePublished" title="2020-08-30 22:00">2020-08-30 22:00</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org553a176" class="outline-2">
+<h2 id="org553a176">Abstract</h2>
+<div class="outline-text-2" id="text-org553a176">
+<p>
+Emacs has a built-in function vc-mode to work with version control
+systems such as CVS, Subversion, Git and so on. It enables to show
+diff / commit logs and commit codes without working with the
+dedicated commands on terminal applications. For Git, we can operate
+general git commands such as status / log / diff / checkout / commit /
+push. The screenshot below is a sample of vc-diff command to show git
+diff.
+</p>
+
+<p>
+In this post, a utility function to enhance vc-diff command for Git is
+introduced with changing the behavior of the internal function of
+vc-git.el and improve the modeline for efficient coding.
+</p>
+
+<p>
+<img src="../../images/emacs-modeline-enhancement-for-git-diff/vc.png" alt="nil"></p>
+</div>
+</div>
+
+
+<div id="outline-container-org826d1b3" class="outline-2">
+<h2 id="org826d1b3">Show the numbers of diff lines on modeline</h2>
+<div class="outline-text-2" id="text-org826d1b3">
+<p>
+When we open a file on Emacs tracked by Git, the branch name is shown
+on the modeline. This build-in feature is enabled by a lisp function
+vc-git-mode-line-string below defined in vc-git.el. We will extend
+the build-in behavior with <b><b>defadvice</b></b> to show the numbers of diff
+lines on modeline.
+</p>
+
+<div class="highlight"><pre><span></span><span class="nv">+---[/usr/share/emacs/26.3/lisp/vc/vc-git.el.gz:339]</span>
+<span class="nv">| (defun vc-git-mode-line-string (file)</span>
+<span class="nv">|</span>   <span class="s">"Return a string for `vc-mode-line' to put in the mode line for FILE."</span>
+<span class="nv">|   (let* ((rev (vc-working-revision file 'Git))</span>
+<span class="nv">|</span>          <span class="p">(</span><span class="nv">disp-rev</span> <span class="p">(</span><span class="nb">or</span> <span class="p">(</span><span class="nv">vc-git--symbolic-ref</span> <span class="nv">file</span><span class="p">)</span>
+<span class="nv">|                        (substring rev 0 7)))</span>
+<span class="nv">|</span>          <span class="p">(</span><span class="nv">def-ml</span> <span class="p">(</span><span class="nv">vc-default-mode-line-string</span> <span class="ss">'Git</span> <span class="nv">file</span><span class="p">))</span>
+<span class="nv">|          (help-echo (get-text-property 0 'help-echo def-ml))</span>
+<span class="nv">|</span>          <span class="p">(</span><span class="nv">face</span>   <span class="p">(</span><span class="nv">get-text-property</span> <span class="mi">0</span> <span class="ss">'face</span> <span class="nv">def-ml</span><span class="p">)))</span>
+<span class="nv">|     (propertize (concat (substring def-ml 0 4) disp-rev)</span>
+<span class="nv">|</span>                 <span class="ss">'face</span> <span class="nv">face</span>
+<span class="err">|</span>                 <span class="ss">'help-echo</span> <span class="p">(</span><span class="nv">concat</span> <span class="nv">help-echo</span> <span class="s">"\nCurrent revision: "</span> <span class="nv">rev</span><span class="p">))))</span>
+<span class="nv">+---</span>
+</pre></div>
+
+<p>
+To show the information of git diff, we can get each number of
+added/deleted lines with using <b><b>git diff –numstat – FILE_NAME</b></b>. An
+sample output with the command is below and the 1st column is the
+numbers of lines added to files and the 2nd one is the ones of deleted
+lines. If we execute with specifying a filename, we can get only for the file.
+</p>
+
+<div class="highlight"><pre><span></span>$ git diff --numstat --
+7       6       .bashrc
+2       1       .bashrc-common
+34      9       .emacs
+1       0       .folders
+4       4       .ssh/config-home
+5       1       emacslib/.aspell.en.pws
+4       3       emacslib/meeting-dev.template
+2       2       emacslib/my-edit.el
+108     11      emacslib/my-org.el
+4       60      emacslib/my-wl.el
+101     55      emacslib/wl-common.el
+</pre></div>
+
+<p>
+The lisp function below is the final output of the utility function.
+The number of added lines is shown with green3 and the one of deleted lines is shown
+with a color predefined by font-lock-warning-face.
+If there is no diff on the opened file, "✔" is shown.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">defadvice</span> <span class="nv">vc-git-mode-line-string</span> <span class="p">(</span><span class="nv">after</span> <span class="nv">plus-minus</span> <span class="p">(</span><span class="nv">file</span><span class="p">)</span> <span class="nb">compile</span> <span class="nv">activate</span><span class="p">)</span>
+  <span class="s">"Show the information of git diff on modeline."</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">ad-return-value</span>
+	<span class="p">(</span><span class="nv">concat</span> <span class="p">(</span><span class="nv">propertize</span> <span class="nv">ad-return-value</span> <span class="ss">'face</span> <span class="o">'</span><span class="p">(</span><span class="ss">:foreground</span> <span class="s">"white"</span> <span class="ss">:weight</span> <span class="nv">bold</span><span class="p">))</span>
+		<span class="s">" ["</span>
+		<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">plus-minus</span> <span class="p">(</span><span class="nv">vc-git--run-command-string</span>
+				   <span class="nv">file</span> <span class="s">"diff"</span> <span class="s">"--numstat"</span> <span class="s">"--"</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">plus-minus</span>
+		       <span class="p">(</span><span class="nv">string-match</span> <span class="s">"^\\([0-9]+\\)\t\\([0-9]+\\)\t"</span> <span class="nv">plus-minus</span><span class="p">))</span>
+		       <span class="p">(</span><span class="nv">concat</span>
+			<span class="p">(</span><span class="nv">propertize</span> <span class="p">(</span><span class="nb">format</span> <span class="s">"+%s"</span> <span class="p">(</span><span class="nv">match-string</span> <span class="mi">1</span> <span class="nv">plus-minus</span><span class="p">))</span> <span class="ss">'face</span> <span class="o">'</span><span class="p">(</span><span class="ss">:foreground</span> <span class="s">"green3"</span><span class="p">))</span>
+			<span class="p">(</span><span class="nv">propertize</span> <span class="p">(</span><span class="nb">format</span> <span class="s">"-%s"</span> <span class="p">(</span><span class="nv">match-string</span> <span class="mi">2</span> <span class="nv">plus-minus</span><span class="p">))</span> <span class="ss">'face</span> <span class="o">'</span><span class="p">(</span><span class="ss">:inherit</span> <span class="nv">font-lock-warning-face</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="nv">propertize</span> <span class="s">"✔"</span> <span class="ss">'face</span> <span class="o">'</span><span class="p">(</span><span class="ss">:foreground</span> <span class="s">"green3"</span> <span class="ss">:weight</span> <span class="nv">bold</span><span class="p">))))</span>
+		<span class="s">"]"</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+As a screenshot below, the diff information is shown on modeline with the branch name.
+</p>
+
+<p>
+<img src="../../images/emacs-modeline-enhancement-for-git-diff/modeline.png" alt="nil"></p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+            <li><a class="tag p-category" href="../../categories/git/" rel="tag">git</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../the-prototype-of-morphing/" rel="prev" title="The prototype of Morphing">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2020         <a href="mailto:">Cocktail-Make</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- Social buttons --><div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+<a class="addthis_button_more">Share</a>
+<ul>
+<li>
+<a class="addthis_button_twitter">Twitter</a>
+</li>
+<li>
+<a class="addthis_button_facebook">Facebook</a>
+</li>
+<li>
+<a class="addthis_button_linkedin">LinkedIn</a>
+</li>
+</ul>
+</div>
+<script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script><!-- End of social buttons --><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-145253993-3"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145253993-3');
+</script>
+</body>
+</html>
