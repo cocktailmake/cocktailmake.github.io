@@ -7,9 +7,9 @@
 .. link: 
 .. description: 
 .. type: text
+.. previewimage: /images/progress-display-of-video-generation/solution.png
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 * Abstract
 The video generation in RICHKA is to serialize high quality videos on

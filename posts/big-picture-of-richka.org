@@ -7,9 +7,9 @@
 .. link: 
 .. description: 
 .. type: text
+.. previewimage: /images/big-picture-of-richka/technologies-building-richka.png
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 * Abstract
 This is the first post from our engineer team.

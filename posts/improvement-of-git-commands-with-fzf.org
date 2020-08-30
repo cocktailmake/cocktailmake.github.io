@@ -8,10 +8,9 @@
 .. link: 
 .. description: 
 .. type: text
-
+.. previewimage: /images/improvement-of-git-commands-with-fzf/demo-log.png
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 [[img-url:/images/improvement-of-git-commands-with-fzf/demo-log.png]]
 

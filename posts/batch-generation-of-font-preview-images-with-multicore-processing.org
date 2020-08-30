@@ -8,10 +8,9 @@
 .. link: 
 .. description: 
 .. type: text
-
+.. previewimage: /images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 * Abstract
 Our video generation service RICHKA enables users to customize

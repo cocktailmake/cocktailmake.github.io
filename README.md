@@ -76,10 +76,31 @@ https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/
 $ nikola new_post -f orgmode
 ```
 
-Please add your name as author on the top of the post. The format is,
+3.1. Add your name as author on the top of the post.
+
+The format is,
 
 ```
-Posted by YOUR_NAME
+.. author: YOUR NAME
+```
+
+3.2. Add `previewimage` and set a image path
+
+For examples,
+
+```
+#+BEGIN_COMMENT
+.. title: Improvement of Git commands with fzf
+.. slug: improvement-of-git-commands-with-fzf
+.. date: 2020-07-04 23:30:00 UTC+09:00
+.. tags: git, fzf
+.. category: tool
+.. link: 
+.. description: 
+.. type: text
+.. previewimage: /images/improvement-of-git-commands-with-fzf/demo-log.png
+.. author: Hitoshi Uchida
+#+END_COMMENT
 ```
 
 4. Check the pages on web browsers

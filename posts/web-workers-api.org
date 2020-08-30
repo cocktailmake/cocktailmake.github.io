@@ -7,9 +7,9 @@
 .. link:
 .. description: 
 .. type: text
+.. previewimage: /images/web-workers-api/slack-workers.png
+.. author: Hitoshi Uchida
 #+END_COMMENT
-
-Posted by Hitoshi Uchida
 
 * Abstract
 

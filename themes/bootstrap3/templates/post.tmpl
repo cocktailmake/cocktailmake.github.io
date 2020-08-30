@@ -22,6 +22,9 @@
     % endif
     ${helper.open_graph_metadata(post)}
     ${helper.twitter_card_information(post)}
+    %if post.previewimage:
+        <meta name="twitter:image" content="${url_replacer(permalink, post.previewimage, lang, 'absolute')}">
+    %endif
     ${helper.meta_translations(post)}
     ${math.math_styles_ifpost(post)}
 </%block>
