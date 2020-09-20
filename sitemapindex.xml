@@ -10,6 +10,10 @@
   <lastmod>2020-08-15T13:27:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://cocktailmake.github.io/authors/duc-to.xml</loc>
+  <lastmod>2020-09-20T04:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida.xml</loc>
   <lastmod>2020-08-30T13:10:00Z</lastmod>
  </sitemap>
@@ -63,10 +67,10 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2020-08-30T13:10:00Z</lastmod>
+  <lastmod>2020-09-20T04:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2020-08-30T13:10:00Z</lastmod>
+  <lastmod>2020-09-20T04:21:00Z</lastmod>
  </sitemap>
 </sitemapindex>

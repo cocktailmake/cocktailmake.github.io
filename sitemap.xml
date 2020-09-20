@@ -15,15 +15,19 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2020-08-30T13:10:00Z</lastmod>
+  <lastmod>2020-09-03T00:28:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/</loc>
-  <lastmod>2020-08-14T16:05:00Z</lastmod>
+  <lastmod>2020-09-03T00:28:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/bui-dinh-cuong/</loc>
   <lastmod>2020-08-14T16:05:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/authors/duc-to/</loc>
+  <lastmod>2020-09-03T00:28:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida/</loc>
@@ -96,6 +100,14 @@
  <url>
   <loc>https://cocktailmake.github.io/posts/improvement-of-git-commands-with-fzf/</loc>
   <lastmod>2020-08-14T16:05:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/narration-recording-developer-document/</loc>
+  <lastmod>2020-09-03T00:28:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/narration-recording-git-habit/</loc>
+  <lastmod>2020-09-20T04:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</loc>

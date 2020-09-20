@@ -10,7 +10,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/emacs-modeline-enhancement-for-git-diff/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/narration-recording-git-habit/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -75,7 +75,188 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/emacs-modeline-enhancement-for-git-diff/" class="u-url">Emacs modeline enhancement for Git diff</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/narration-recording-git-habit/" class="u-url">Our Git Habit of Narration Recording project</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/duc-to/">Duc To</a>
+            </span></p>
+            <p class="dateline">
+            <a href="posts/narration-recording-git-habit/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-09-20T12:00:00+09:00" itemprop="datePublished" title="2020-09-20 12:00">2020-09-20 12:00</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgfd443f0" class="outline-2">
+<h2 id="orgfd443f0">Abstract</h2>
+<div class="outline-text-2" id="text-orgfd443f0">
+<p>
+We released a new web application called <b><span style="color: red">ナレ撮り</span></b>
+which enables users to record the voice as narration on web browsers
+and combine them with video sources and generate videos in last month.
+In this post, we introduce our daily Git habit how to handle multiple
+branches to add new features and release official versions and hotfix
+releasing for bug fixing as professional development.
+</p>
+
+<p>
+Our development team refers to a good article of <a href="https://nvie.com/posts/a-successful-git-branching-model/">Git Workflow</a> and the
+format of commit log of <a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit">AngularJS guys</a>.
+</p>
+
+<p>
+<img src="images/narration-recording-git-habit/git-model@2x.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-orgeca88dd" class="outline-2">
+<h2 id="orgeca88dd">Branches</h2>
+<div class="outline-text-2" id="text-orgeca88dd">
+</div>
+<div id="outline-container-orgba7386b" class="outline-3">
+<h3 id="orgba7386b">Feature branches</h3>
+<div class="outline-text-3" id="text-orgba7386b">
+<p>
+When you develop new features or fix bugs and the total modified lines
+will be relatively larger compared with prior ones you developed, then
+you should create new branches and merge after finishing the
+developments as general Git culture.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5bcd7fe" class="outline-3">
+<h3 id="org5bcd7fe">Stage branch</h3>
+<div class="outline-text-3" id="text-org5bcd7fe">
+<p>
+It is a primary development branch and feature branches will be merged
+to stage branch after successfully tested and reviewed.
+</p>
+
+<p>
+This branch is a head of any other branches, but there is a
+possibility any degrade happens with merging the working branches into
+this branch. Therefore we can't release this branch as official
+version right now.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org85764e3" class="outline-3">
+<h3 id="org85764e3">Release branches</h3>
+<div class="outline-text-3" id="text-org85764e3">
+<ul class="org-ul">
+<li>On each release, we create a new release branch based on latest
+stage branch for both recording and video repositories (even though
+there may not have any changes since last release for one
+repository).</li>
+<li>The release branch should be named as <b><b>release/[VERSION_NUMBER]</b></b>.</li>
+<li>Sometimes a hotfix releasing is needed and we can apply hotfix commits to
+the release branches</li>
+</ul>
+<p>
+<img src="images/narration-recording-git-habit/hotfix-branches@2x.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-orgc7b6758" class="outline-3">
+<h3 id="orgc7b6758">Tags</h3>
+<div class="outline-text-3" id="text-orgc7b6758">
+<p>
+Tags are created with the release branches of both recording and video repositories
+after the final reviewing the release has been successfully passed.
+</p>
+
+<p>
+<img src="images/narration-recording-git-habit/git-model@2x.png" alt="nil"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga4eb5a3" class="outline-2">
+<h2 id="orga4eb5a3">Commit logs</h2>
+<div class="outline-text-2" id="text-orga4eb5a3">
+<p>
+We apply <a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit">3rd party knowledge</a> for the format of commit logs from AngularJS guys.
+We follow the tiny rule in the article as below.
+</p>
+
+<div class="highlight"><pre><span></span>&lt;type&gt;<span class="o">(</span>&lt;scope&gt;<span class="o">)</span>: &lt;subject&gt;
+</pre></div>
+
+<p>
+Type : Must be one of the following:
+</p>
+
+<div class="highlight"><pre><span></span>| Type     | Meaning                                                                                                |
+|----------+--------------------------------------------------------------------------------------------------------|
+| feat     | A new feature                                                                                          |
+| fix      | A bug fix                                                                                              |
+| docs     | Documentation only changes                                                                             |
+| style    | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
+| refactor | A code change that neither fixes a bug nor adds a feature                                              |
+| perf     | A code change that improves performance                                                                |
+| test     | Adding missing or correcting existing tests                                                            |
+| chore    | Changes to the build process or auxiliary tools and libraries such as documentation generation         |
+</pre></div>
+
+<p>
+For examples, our commit logs would be below.
+</p>
+
+<div class="highlight"><pre><span></span>fix(gui): Fixed file uploading. Refs #REC-XXX
+fix(video): Make ffmpeg video generation more stable. Refs #REC-XXX
+test(django): Added new tests for admin contract page. Refs #REC-XXX
+feat(gui) : Added Narration script function. Refs #REC-XXX 
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org65f0e50" class="outline-2">
+<h2 id="org65f0e50">Utilize special keywords in commit logs</h2>
+<div class="outline-text-2" id="text-org65f0e50">
+<p>
+When we commit, we fill understandable commit logs and use special
+keywords such as Refs #TICKET_NUMBER to make the references with the
+corresponding tickets.  Therefore before committing, we create tickets
+at first and make the references with the commit logs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc61fc1e" class="outline-2">
+<h2 id="orgc61fc1e">Rules for merging</h2>
+<div class="outline-text-2" id="text-orgc61fc1e">
+<p>
+When we merge branches, we have a rule to add "<b><b>–no-ff</b></b>" as command
+option to suppress fast-forward of the default behavior of Git.
+</p>
+
+<p>
+For examples: <code>git merge --no-ff feature/REC-00</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1edb6c2" class="outline-2">
+<h2 id="org1edb6c2">Modification of DB models</h2>
+<div class="outline-text-2" id="text-org1edb6c2">
+<p>
+When we modify the models of Django with development tasks, we do that
+on stage branch at first. We sometimes encountered DB migration issue
+on stage branch and it also caused runtime issues on our individual
+working branches. To prevent from happening the same issue, we applied
+a simple work flow to modify DB models only on stage branch.
+</p>
+
+<ol class="org-ol">
+<li>If you need to modify models of Django, checkout stage branch at first</li>
+<li>Modify the models and execute migration against staging DB</li>
+<li>Merge stage branch into your working branches</li>
+</ol>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/emacs-modeline-enhancement-for-git-diff/" class="u-url">Emacs modeline enhancement for Git diff</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
