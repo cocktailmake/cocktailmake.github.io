@@ -13,7 +13,7 @@
 # Abstract
 
 In this post, I will explain the mechanism of Web API provided by RICHKA.  
-In addition to operations from a normal Web browser, RICHIKA provides a Web API mechanism for use by access from   other than the browser for asynchronous processing, etc., and for future expansion.  
+In addition to operations from a normal Web browser, RICHKA provides a Web API mechanism for use by access from   other than the browser for asynchronous processing, etc., and for future expansion.  
  
 Due to the mechanism of WebAPI, it is possible to mainly use the following functions.
 - Manipulation of specific data
@@ -25,7 +25,18 @@ Due to the mechanism of WebAPI, it is possible to mainly use the following funct
 # Basic usage
 
 The Web API provided by RICHKA is implemented based on the REST format using the [Django Rest Framework](https://www.django-rest-framework.org/) and is easy to use.  
-For example, the following is a Web API for operating projects in RICHIKA.  
+
+The Web APIs currently available include the following.
+
+|type|explain|
+|:--|:--|
+|user|Acquisition of user information, authentication function, etc.|
+|video data|Editing video data and generationg and projects, etc.|
+|format|Reference of format information used for editing video data, etc.|
+|webhook|Settings for webhook notifications|  
+|||  
+  
+For example, the following is a Web API for operating projects in RICHKA.  
 （Currently, it is mainly intended for internal use, so it is different from what is actually available.）  
 
 |METHOD|URI|explain|
@@ -35,8 +46,8 @@ For example, the following is a Web API for operating projects in RICHIKA.
 |POST|https://xxxxxx/v1/projects/|Create a project|
 |PUT|https://xxxxxx/v1/projects/id/|Update project information|
 |DELETE|https://xxxxxx/v1/projects/id/|Delete the project|
-
-
+|||  
+  
 Each WebAPI is called using a pre-issued API token.  
 If you call the Web API with the required parameters, the HTTP response status will be returned according to the result.  
 The following is an example of calling the Web API that creates a project.   
@@ -95,3 +106,29 @@ There are several Web API-specific models for logging and limiting.
 
 Contains backend classes called from view.  
 It mainly includes a wrapper for video generation processing and a webhook mechanism.  
+
+
+# Example of using WebAPI for RICHKA
+
+RICHKA and other related services have already begun to use some WebAPIs, but for example, users can generate videos completely asynchronously by calling the WebAPIs in the following flow.
+
+```
+
+User → Call authentication Web API → Web API Server
+├─────────────────────────────────── ← ─┘
+↓
+│
+├─ → Call Create Video Data Web API → Web API Server
+├─────────────────────────────────── ← ─┘
+↓
+│
+├─ → Call Generate Video Data Web API → Web API Server ─┐
+│                                                       │
+│                                                   Video Server → Generate Video
+│                                                       │
+├──────────────────────────── ← Web hook notification ←─┘
+↓
+│
+:
+
+```
