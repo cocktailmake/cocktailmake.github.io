@@ -25,29 +25,26 @@ Due to the mechanism of WebAPI, it is possible to mainly use the following funct
 # Basic usage
 
 The Web API provided by RICHKA is implemented based on the REST format using the [Django Rest Framework](https://www.django-rest-framework.org/) and is easy to use.  
+The Web APIs currently available include the following.  
 
-The Web APIs currently available include the following.
-
-|type|explain|
-|:--|:--|
-|user|Acquisition of user information, authentication function, etc.|
-|video data|Editing video data and generationg and projects, etc.|
-|format|Reference of format information used for editing video data, etc.|
-|webhook|Settings for webhook notifications|  
-|||  
+| type | explain |
+| :-- | :-- |
+| user | Acquisition of user information, authentication function, etc. |
+| video data | Editing video data and generationg and projects, etc. |
+| format | Reference of format information used for editing video data, etc. |
+| webhook | Settings for webhook notifications |
   
 For example, the following is a Web API for operating projects in RICHKA.  
 （Currently, it is mainly intended for internal use, so it is different from what is actually available.）  
 
-|METHOD|URI|explain|
-|:--|:--|:--|
-|GET|https://xxxxxx/v1/projects/|Get a list of projects|
-|GET|https://xxxxxx/v1/projects/id/|Get information about a specific project|
-|POST|https://xxxxxx/v1/projects/|Create a project|
-|PUT|https://xxxxxx/v1/projects/id/|Update project information|
-|DELETE|https://xxxxxx/v1/projects/id/|Delete the project|
-|||  
-  
+| METHOD | URI | explain |
+| :-- | :-- | :-- |
+| GET | https://xxxxxx/v1/projects/ | Get a list of projects |
+| GET | https://xxxxxx/v1/projects/id/ | Get information about a specific project |
+| POST | https://xxxxxx/v1/projects/ | Create a project |
+| PUT | https://xxxxxx/v1/projects/id/ | Update project information |
+| DELETE | https://xxxxxx/v1/projects/id/ | Delete the project |
+
 Each WebAPI is called using a pre-issued API token.  
 If you call the Web API with the required parameters, the HTTP response status will be returned according to the result.  
 The following is an example of calling the Web API that creates a project.   
@@ -112,23 +109,15 @@ It mainly includes a wrapper for video generation processing and a webhook mecha
 
 RICHKA and other related services have already begun to use some WebAPIs, but for example, users can generate videos completely asynchronously by calling the WebAPIs in the following flow.
 
-```
-
-User → Call authentication Web API → Web API Server
-├─────────────────────────────────── ← ─┘
-↓
-│
-├─ → Call Create Video Data Web API → Web API Server
-├─────────────────────────────────── ← ─┘
-↓
-│
-├─ → Call Generate Video Data Web API → Web API Server ─┐
-│                                                       │
-│                                                   Video Server → Generate Video
-│                                                       │
-├──────────────────────────── ← Web hook notification ←─┘
-↓
-│
-:
-
+```plantuml
+activate User
+  User -> WebAPIServer : Call authentication Web API 
+  WebAPIServer -> User
+  User -> WebAPIServer : Call Create Video Data Web API 
+  WebAPIServer -> User
+  User -> WebAPIServer : Call Generate Video Data Web API 
+  WebAPIServer -> VideoServer : Generate Video
+  VideoServer -> WebAPIServer
+  WebAPIServer -> User : Web hook notification
+deactivate User
 ```
