@@ -110,15 +110,4 @@ It mainly includes a wrapper for video generation processing and a webhook mecha
 
 RICHKA and other related services have already begun to use some WebAPIs, but for example, users can generate videos completely asynchronously by calling the WebAPIs in the following flow.
 
-```plantuml
-activate User
-  User -> WebAPIServer : Call authentication Web API 
-  WebAPIServer -> User
-  User -> WebAPIServer : Call Create Video Data Web API 
-  WebAPIServer -> User
-  User -> WebAPIServer : Call Generate Video Data Web API 
-  WebAPIServer -> VideoServer : Generate Video
-  VideoServer -> WebAPIServer
-  WebAPIServer -> User : Web hook notification
-deactivate User
-```
+![simple image1](/images/abstract-of-web-api/example/example.png)
