@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 12:31:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;figure&gt;&lt;img src="https://cocktailmake.github.io/images/abstract-of-web-api/api-scene-setting.png"&gt;&lt;/figure&gt; &lt;div id="outline-container-org961a3ab" class="outline-2"&gt;
-&lt;h2 id="org961a3ab"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org961a3ab"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 12:39:17 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgd723eb5" class="outline-2"&gt;
+&lt;h2 id="orgd723eb5"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd723eb5"&gt;
 &lt;p&gt;
 RICHKA provides two interfaces with GUI and Web API to enables users
 to easily create video data with setting images, videos and texts and
@@ -34,9 +34,9 @@ The basic sequence diagram to generate videos is below.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgac75d60" class="outline-2"&gt;
-&lt;h2 id="orgac75d60"&gt;Client Authentication&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgac75d60"&gt;
+&lt;div id="outline-container-org63c1569" class="outline-2"&gt;
+&lt;h2 id="org63c1569"&gt;Client Authentication&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org63c1569"&gt;
 &lt;p&gt;
 To call Web API, API clients need to set tokens &lt;code&gt;TOKEN_AUTH&lt;/code&gt; in every
 request. The tokens are published with sending HTTP POST to
@@ -55,9 +55,9 @@ every time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8d456f3" class="outline-2"&gt;
-&lt;h2 id="org8d456f3"&gt;Create New Project&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8d456f3"&gt;
+&lt;div id="outline-container-org69ec953" class="outline-2"&gt;
+&lt;h2 id="org69ec953"&gt;Create New Project&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org69ec953"&gt;
 &lt;p&gt;
 A new project directory is created with sending HTTP POST to
 &lt;code&gt;/api/v1/projects/&lt;/code&gt; as below.
@@ -80,9 +80,9 @@ HTTP GET to &lt;code&gt;/v1/projects/PROJECT_ID/&lt;/code&gt;.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org10bc34e" class="outline-2"&gt;
-&lt;h2 id="org10bc34e"&gt;Get a list of video templates&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org10bc34e"&gt;
+&lt;div id="outline-container-orga883e26" class="outline-2"&gt;
+&lt;h2 id="orga883e26"&gt;Get a list of video templates&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga883e26"&gt;
 &lt;p&gt;
 API clients can get a list of available template IDs TEMPLATE_ID with
 sending HTTP GET to &lt;code&gt;/api/v1/template_groups/&lt;/code&gt;.
@@ -95,9 +95,9 @@ sending HTTP GET to &lt;code&gt;/api/v1/template_groups/&lt;/code&gt;.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5d53741" class="outline-2"&gt;
-&lt;h2 id="org5d53741"&gt;Create New Video Data&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5d53741"&gt;
+&lt;div id="outline-container-orga83850a" class="outline-2"&gt;
+&lt;h2 id="orga83850a"&gt;Create New Video Data&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga83850a"&gt;
 &lt;p&gt;
 A new video data is created with sending HTTP POST to
 &lt;code&gt;/api/v1/videos/&lt;/code&gt; with specifying the created project id &lt;code&gt;PROJECT_ID&lt;/code&gt;
@@ -117,9 +117,9 @@ video data &lt;code&gt;VIDEO_ID&lt;/code&gt; is returned to the clients.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd4d0995" class="outline-2"&gt;
-&lt;h2 id="orgd4d0995"&gt;Set Images / Videos / Texts into Scenes&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd4d0995"&gt;
+&lt;div id="outline-container-org8fd9ef8" class="outline-2"&gt;
+&lt;h2 id="org8fd9ef8"&gt;Set Images / Videos / Texts into Scenes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8fd9ef8"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-scene-setting.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -167,9 +167,9 @@ scenes of the video data with using the identifiers &lt;code&gt;IMAGE_NAME_1&lt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1321da8" class="outline-2"&gt;
-&lt;h2 id="org1321da8"&gt;Generate Videos&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1321da8"&gt;
+&lt;div id="outline-container-org3d72f40" class="outline-2"&gt;
+&lt;h2 id="org3d72f40"&gt;Generate Videos&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3d72f40"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-video-generation.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -201,9 +201,9 @@ the account setting page beforehand will be called back with sending
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd66b416" class="outline-2"&gt;
-&lt;h2 id="orgd66b416"&gt;Download Video Contents&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd66b416"&gt;
+&lt;div id="outline-container-orgf0cdd9e" class="outline-2"&gt;
+&lt;h2 id="orgf0cdd9e"&gt;Download Video Contents&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf0cdd9e"&gt;
 &lt;p&gt;
 API clients can get the downloadable S3 URLs with sending HTTP GET
 with &lt;code&gt;/api/v1/videos/VIDEO_ID/&lt;/code&gt;.
