@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts by Le Thanh Tung)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/le-thanh-tung.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Aug 2020 16:25:39 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Using Sentry to debug JavaScript in the RICHKA front end</title><link>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;div id="outline-container-orgb65112e" class="outline-2"&gt;
-&lt;h2 id="orgb65112e"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb65112e"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts by Le Thanh Tung)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/le-thanh-tung.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 06:13:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Using Sentry to debug JavaScript in the RICHKA front end</title><link>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;div id="outline-container-orgaff90b9" class="outline-2"&gt;
+&lt;h2 id="orgaff90b9"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaff90b9"&gt;
 &lt;p&gt;
 Sentry is a service that helps you to monitor and fix crashes in realtime.
 Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
@@ -12,9 +12,9 @@ I rate it very useful to debug in front end.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6c6fa96" class="outline-2"&gt;
-&lt;h2 id="org6c6fa96"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6c6fa96"&gt;
+&lt;div id="outline-container-org3485dd9" class="outline-2"&gt;
+&lt;h2 id="org3485dd9"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3485dd9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
 
@@ -41,9 +41,9 @@ Here are some examples.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge914c28" class="outline-2"&gt;
-&lt;h2 id="orge914c28"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge914c28"&gt;
+&lt;div id="outline-container-org5f0dcd7" class="outline-2"&gt;
+&lt;h2 id="org5f0dcd7"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5f0dcd7"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
 &lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
@@ -61,9 +61,9 @@ Note: if there're a lot of events, we need to configure number of posts in a cha
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc12db26" class="outline-2"&gt;
-&lt;h2 id="orgc12db26"&gt;Customize data in debug log&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc12db26"&gt;
+&lt;div id="outline-container-org0f50933" class="outline-2"&gt;
+&lt;h2 id="org0f50933"&gt;Customize data in debug log&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0f50933"&gt;
 &lt;p&gt;
 Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
 &lt;/p&gt;

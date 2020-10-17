@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about emacs)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 30 Aug 2020 13:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs modeline enhancement for Git diff</title><link>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org553a176" class="outline-2"&gt;
-&lt;h2 id="org553a176"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org553a176"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about emacs)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 06:13:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs modeline enhancement for Git diff</title><link>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgc1a9ee9" class="outline-2"&gt;
+&lt;h2 id="orgc1a9ee9"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc1a9ee9"&gt;
 &lt;p&gt;
 Emacs has a built-in function vc-mode to work with version control
 systems such as CVS, Subversion, Git and so on. It enables to show
@@ -25,9 +25,9 @@ vc-git.el and improve the modeline for efficient coding.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org826d1b3" class="outline-2"&gt;
-&lt;h2 id="org826d1b3"&gt;Show the numbers of diff lines on modeline&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org826d1b3"&gt;
+&lt;div id="outline-container-orge646e04" class="outline-2"&gt;
+&lt;h2 id="orge646e04"&gt;Show the numbers of diff lines on modeline&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge646e04"&gt;
 &lt;p&gt;
 When we open a file on Emacs tracked by Git, the branch name is shown
 on the modeline. This build-in feature is enabled by a lisp function

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts by Bui Dinh Cuong)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/bui-dinh-cuong.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Aug 2020 13:27:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Bui Dinh Cuong</dc:creator><description>&lt;div id="outline-container-org2fe7b5e" class="outline-2"&gt;
-&lt;h2 id="org2fe7b5e"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2fe7b5e"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts by Bui Dinh Cuong)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/bui-dinh-cuong.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 06:13:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Bui Dinh Cuong</dc:creator><description>&lt;div id="outline-container-orgbef4249" class="outline-2"&gt;
+&lt;h2 id="orgbef4249"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbef4249"&gt;
 &lt;p&gt;
 In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5d0ff7a" class="outline-2"&gt;
-&lt;h2 id="org5d0ff7a"&gt;Definitions&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5d0ff7a"&gt;
+&lt;div id="outline-container-orgc592ea6" class="outline-2"&gt;
+&lt;h2 id="orgc592ea6"&gt;Definitions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc592ea6"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5992405" class="outline-3"&gt;
-&lt;h3 id="org5992405"&gt;Morphing&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5992405"&gt;
+&lt;div id="outline-container-org2ff595b" class="outline-3"&gt;
+&lt;h3 id="org2ff595b"&gt;Morphing&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2ff595b"&gt;
 &lt;p&gt;
 Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
 &lt;/p&gt;
@@ -25,9 +25,9 @@ Source: &lt;a href="https://en.wikipedia.org/wiki/Morphing"&gt;https://en.wikipe
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfb8d30d" class="outline-3"&gt;
-&lt;h3 id="orgfb8d30d"&gt;HyperMorph&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfb8d30d"&gt;
+&lt;div id="outline-container-org6ffa1b2" class="outline-3"&gt;
+&lt;h3 id="org6ffa1b2"&gt;HyperMorph&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ffa1b2"&gt;
 &lt;p&gt;
 There are many terminologies on HyperMorph that you can check on &lt;a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf"&gt;https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf&lt;/a&gt;.
 &lt;/p&gt;
@@ -41,9 +41,9 @@ When we define enough of points, it will be able to create very smooth video.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgecc2545" class="outline-2"&gt;
-&lt;h2 id="orgecc2545"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgecc2545"&gt;
+&lt;div id="outline-container-org59d60c7" class="outline-2"&gt;
+&lt;h2 id="org59d60c7"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org59d60c7"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Define the set of points on the 1st image and a corresponding set of points from 2nd image.&lt;/li&gt;
 &lt;li&gt;Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.&lt;/li&gt;

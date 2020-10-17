@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about Web API)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/web-api.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 12:31:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;figure&gt;&lt;img src="https://cocktailmake.github.io/images/abstract-of-web-api/api-scene-setting.png"&gt;&lt;/figure&gt; &lt;div id="outline-container-org961a3ab" class="outline-2"&gt;
+&lt;h2 id="org961a3ab"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org961a3ab"&gt;
+&lt;p&gt;
+RICHKA provides two interfaces with GUI and Web API to enables users
+to easily create video data with setting images, videos and texts and
+generating videos. In this post, we describe the Web API whose
+architecture conforms to the general REST architecture. It enables
+users to integrate the primary features of RICHKA into their systems
+such as smartphone application to generate videos with using the photo
+album.
+&lt;/p&gt;
+
+&lt;p&gt;
+The main functions of Web API are below, and they are built with &lt;a href="https://www.django-rest-framework.org/"&gt;Django REST Framework&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Authenticate API clients and publish API tokens&lt;/li&gt;
+&lt;li&gt;Get list of projects/videos&lt;/li&gt;
+&lt;li&gt;Create projects / videos&lt;/li&gt;
+&lt;li&gt;Set images / videos / texts to scenes of videos&lt;/li&gt;
+&lt;li&gt;Generate video files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The basic sequence diagram to generate videos is below.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/sequence.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgac75d60" class="outline-2"&gt;
+&lt;h2 id="orgac75d60"&gt;Client Authentication&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgac75d60"&gt;
+&lt;p&gt;
+To call Web API, API clients need to set tokens &lt;code&gt;TOKEN_AUTH&lt;/code&gt; in every
+request. The tokens are published with sending HTTP POST to
+&lt;code&gt;/api/v1/api-token-auth/&lt;/code&gt; with the account information. API clients
+should store the tokens into their database to suppress this API call
+every time.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/accounts/login/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "email": "USER_EMAIL",&lt;/span&gt;
+&lt;span class="s1"&gt;       "password": "USER_PASSWORD"&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8d456f3" class="outline-2"&gt;
+&lt;h2 id="org8d456f3"&gt;Create New Project&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d456f3"&gt;
+&lt;p&gt;
+A new project directory is created with sending HTTP POST to
+&lt;code&gt;/api/v1/projects/&lt;/code&gt; as below.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/projects/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "name": "New Project",&lt;/span&gt;
+&lt;span class="s1"&gt;       "is_shared": true&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The ID of the created project &lt;code&gt;PROJECT_ID&lt;/code&gt; is returned to the clients.
+The detail information of the project can be obtained with sending
+HTTP GET to &lt;code&gt;/v1/projects/PROJECT_ID/&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org10bc34e" class="outline-2"&gt;
+&lt;h2 id="org10bc34e"&gt;Get a list of video templates&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org10bc34e"&gt;
+&lt;p&gt;
+API clients can get a list of available template IDs TEMPLATE_ID with
+sending HTTP GET to &lt;code&gt;/api/v1/template_groups/&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X GET https://API_HOST/api/v1/template_groups/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5d53741" class="outline-2"&gt;
+&lt;h2 id="org5d53741"&gt;Create New Video Data&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5d53741"&gt;
+&lt;p&gt;
+A new video data is created with sending HTTP POST to
+&lt;code&gt;/api/v1/videos/&lt;/code&gt; with specifying the created project id &lt;code&gt;PROJECT_ID&lt;/code&gt;
+and the selected video template &lt;code&gt;TEMPLATE_ID&lt;/code&gt;.  The ID of the created
+video data &lt;code&gt;VIDEO_ID&lt;/code&gt; is returned to the clients.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/videos/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "name": "your video title",&lt;/span&gt;
+&lt;span class="s1"&gt;       "project_id": "PROJECT_ID",&lt;/span&gt;
+&lt;span class="s1"&gt;       "template_id": TEMPLATE_ID&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd4d0995" class="outline-2"&gt;
+&lt;h2 id="orgd4d0995"&gt;Set Images / Videos / Texts into Scenes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd4d0995"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-scene-setting.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+For 1st step, API clients need to upload the image/video files to be
+available in the video data with &lt;code&gt;VIDEO_ID&lt;/code&gt;.
+Then &lt;code&gt;IMAGE_NAME_1&lt;/code&gt; and &lt;code&gt;IMAGE_NAME_2&lt;/code&gt; are returned to the clients.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="n"&gt;POST&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;API_HOST&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;videos&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;VIDEO_ID&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;images&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="s1"&gt;'files[]=@/path/to/image/1.png'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="s1"&gt;'files[]=@/path/to/image/2.jpeg'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+After uploading the file contents, API clients can set the images into
+scenes of the video data with using the identifiers &lt;code&gt;IMAGE_NAME_1&lt;/code&gt; and
+&lt;code&gt;IMAGE_NAME_2&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="n"&gt;PUT&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;API_HOST&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;videos&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;VIDEO_ID&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="s1"&gt;'{&lt;/span&gt;
+    &lt;span class="s2"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"New video'&lt;/span&gt;&lt;span class="se"&gt;\'&lt;/span&gt;&lt;span class="s2"&gt;'s name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"bgm_file"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;BGM_ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"memo"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"New Memo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"slides"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="s2"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"text"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"テキスト"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"image_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"IMAGE_NAME_1"&lt;/span&gt;
+	&lt;span class="p"&gt;},&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="s2"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"text"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"テキスト"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"image_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"IMAGE_NAME_2"&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1321da8" class="outline-2"&gt;
+&lt;h2 id="org1321da8"&gt;Generate Videos&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1321da8"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-video-generation.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+After the scenes have been set up, API clients can request to start
+the video generation with video servers.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/videos/VIDEO_ID/generate/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+When the video generation has been done, a Webhook URL registered in
+the account setting page beforehand will be called back with sending
+&lt;code&gt;VIDEO_ID&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+  video_id: VIDEO_ID,
+  user_id: xxxxx,
+  time: &lt;span class="m"&gt;2020&lt;/span&gt;-01-01 &lt;span class="m"&gt;01&lt;/span&gt;:02:03,
+  webhook_id: &lt;span class="m"&gt;1234&lt;/span&gt;,
+  type: webhook
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd66b416" class="outline-2"&gt;
+&lt;h2 id="orgd66b416"&gt;Download Video Contents&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd66b416"&gt;
+&lt;p&gt;
+API clients can get the downloadable S3 URLs with sending HTTP GET
+with &lt;code&gt;/api/v1/videos/VIDEO_ID/&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X GET https://API_HOST/api/v1/videos/VIDEO_ID/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Web API</category><guid>https://cocktailmake.github.io/posts/richka-web-api/</guid><pubDate>Fri, 16 Oct 2020 06:38:24 GMT</pubDate></item></channel></rss>

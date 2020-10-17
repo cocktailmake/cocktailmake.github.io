@@ -12,6 +12,7 @@
 <link rel="canonical" href="https://cocktailmake.github.io/posts/narration-recording-git-habit/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Duc To">
 <link rel="prev" href="../emacs-modeline-enhancement-for-git-diff/" title="Emacs modeline enhancement for Git diff" type="text/html">
+<link rel="next" href="../richka-web-api/" title="RICHKA Web API" type="text/html">
 <meta property="og:site_name" content="Cocktail-Make Developer Blog">
 <meta property="og:title" content="Our Git Habit of Narration Recording project">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/narration-recording-git-habit/">
@@ -98,9 +99,9 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgfd443f0" class="outline-2">
-<h2 id="orgfd443f0">Abstract</h2>
-<div class="outline-text-2" id="text-orgfd443f0">
+    <div id="outline-container-orgefcd2c7" class="outline-2">
+<h2 id="orgefcd2c7">Abstract</h2>
+<div class="outline-text-2" id="text-orgefcd2c7">
 <p>
 We released a new web application called <b><span style="color: red">ナレ撮り</span></b>
 which enables users to record the voice as narration on web browsers
@@ -120,13 +121,13 @@ format of commit log of <a href="https://github.com/angular/angular/blob/master/
 </div>
 </div>
 
-<div id="outline-container-orgeca88dd" class="outline-2">
-<h2 id="orgeca88dd">Branches</h2>
-<div class="outline-text-2" id="text-orgeca88dd">
+<div id="outline-container-orge7f2ed0" class="outline-2">
+<h2 id="orge7f2ed0">Branches</h2>
+<div class="outline-text-2" id="text-orge7f2ed0">
 </div>
-<div id="outline-container-orgba7386b" class="outline-3">
-<h3 id="orgba7386b">Feature branches</h3>
-<div class="outline-text-3" id="text-orgba7386b">
+<div id="outline-container-org1003e5e" class="outline-3">
+<h3 id="org1003e5e">Feature branches</h3>
+<div class="outline-text-3" id="text-org1003e5e">
 <p>
 When you develop new features or fix bugs and the total modified lines
 will be relatively larger compared with prior ones you developed, then
@@ -136,9 +137,9 @@ developments as general Git culture.
 </div>
 </div>
 
-<div id="outline-container-org5bcd7fe" class="outline-3">
-<h3 id="org5bcd7fe">Stage branch</h3>
-<div class="outline-text-3" id="text-org5bcd7fe">
+<div id="outline-container-org4b1fd48" class="outline-3">
+<h3 id="org4b1fd48">Stage branch</h3>
+<div class="outline-text-3" id="text-org4b1fd48">
 <p>
 It is a primary development branch and feature branches will be merged
 to stage branch after successfully tested and reviewed.
@@ -153,9 +154,9 @@ version right now.
 </div>
 </div>
 
-<div id="outline-container-org85764e3" class="outline-3">
-<h3 id="org85764e3">Release branches</h3>
-<div class="outline-text-3" id="text-org85764e3">
+<div id="outline-container-org160236d" class="outline-3">
+<h3 id="org160236d">Release branches</h3>
+<div class="outline-text-3" id="text-org160236d">
 <ul class="org-ul">
 <li>On each release, we create a new release branch based on latest
 stage branch for both recording and video repositories (even though
@@ -170,9 +171,9 @@ the release branches</li>
 </div>
 </div>
 
-<div id="outline-container-orgc7b6758" class="outline-3">
-<h3 id="orgc7b6758">Tags</h3>
-<div class="outline-text-3" id="text-orgc7b6758">
+<div id="outline-container-org0d02ab1" class="outline-3">
+<h3 id="org0d02ab1">Tags</h3>
+<div class="outline-text-3" id="text-org0d02ab1">
 <p>
 Tags are created with the release branches of both recording and video repositories
 after the final reviewing the release has been successfully passed.
@@ -184,9 +185,9 @@ after the final reviewing the release has been successfully passed.
 </div>
 </div>
 
-<div id="outline-container-orga4eb5a3" class="outline-2">
-<h2 id="orga4eb5a3">Commit logs</h2>
-<div class="outline-text-2" id="text-orga4eb5a3">
+<div id="outline-container-orgbe946ce" class="outline-2">
+<h2 id="orgbe946ce">Commit logs</h2>
+<div class="outline-text-2" id="text-orgbe946ce">
 <p>
 We apply <a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit">3rd party knowledge</a> for the format of commit logs from AngularJS guys.
 We follow the tiny rule in the article as below.
@@ -223,9 +224,9 @@ feat(gui) : Added Narration script function. Refs #REC-XXX
 </div>
 </div>
 
-<div id="outline-container-org65f0e50" class="outline-2">
-<h2 id="org65f0e50">Utilize special keywords in commit logs</h2>
-<div class="outline-text-2" id="text-org65f0e50">
+<div id="outline-container-orgc4aa91d" class="outline-2">
+<h2 id="orgc4aa91d">Utilize special keywords in commit logs</h2>
+<div class="outline-text-2" id="text-orgc4aa91d">
 <p>
 When we commit, we fill understandable commit logs and use special
 keywords such as Refs #TICKET_NUMBER to make the references with the
@@ -235,9 +236,9 @@ at first and make the references with the commit logs.
 </div>
 </div>
 
-<div id="outline-container-orgc61fc1e" class="outline-2">
-<h2 id="orgc61fc1e">Rules for merging</h2>
-<div class="outline-text-2" id="text-orgc61fc1e">
+<div id="outline-container-orgcca7d04" class="outline-2">
+<h2 id="orgcca7d04">Rules for merging</h2>
+<div class="outline-text-2" id="text-orgcca7d04">
 <p>
 When we merge branches, we have a rule to add "<b><b>–no-ff</b></b>" as command
 option to suppress fast-forward of the default behavior of Git.
@@ -249,9 +250,9 @@ For examples: <code>git merge --no-ff feature/REC-00</code>
 </div>
 </div>
 
-<div id="outline-container-org1edb6c2" class="outline-2">
-<h2 id="org1edb6c2">Modification of DB models</h2>
-<div class="outline-text-2" id="text-org1edb6c2">
+<div id="outline-container-orgf39a98b" class="outline-2">
+<h2 id="orgf39a98b">Modification of DB models</h2>
+<div class="outline-text-2" id="text-orgf39a98b">
 <p>
 When we modify the models of Django with development tasks, we do that
 on stage branch at first. We sometimes encountered DB migration issue
@@ -274,6 +275,9 @@ a simple work flow to modify DB models only on stage branch.
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../emacs-modeline-enhancement-for-git-diff/" rel="prev" title="Emacs modeline enhancement for Git diff">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../richka-web-api/" rel="next" title="RICHKA Web API">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>

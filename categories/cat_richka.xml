@@ -1,20 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Aug 2020 13:57:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Bui Dinh Cuong</dc:creator><description>&lt;div id="outline-container-org2fe7b5e" class="outline-2"&gt;
-&lt;h2 id="org2fe7b5e"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2fe7b5e"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 12:31:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;figure&gt;&lt;img src="https://cocktailmake.github.io/images/abstract-of-web-api/api-scene-setting.png"&gt;&lt;/figure&gt; &lt;div id="outline-container-org961a3ab" class="outline-2"&gt;
+&lt;h2 id="org961a3ab"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org961a3ab"&gt;
+&lt;p&gt;
+RICHKA provides two interfaces with GUI and Web API to enables users
+to easily create video data with setting images, videos and texts and
+generating videos. In this post, we describe the Web API whose
+architecture conforms to the general REST architecture. It enables
+users to integrate the primary features of RICHKA into their systems
+such as smartphone application to generate videos with using the photo
+album.
+&lt;/p&gt;
+
+&lt;p&gt;
+The main functions of Web API are below, and they are built with &lt;a href="https://www.django-rest-framework.org/"&gt;Django REST Framework&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Authenticate API clients and publish API tokens&lt;/li&gt;
+&lt;li&gt;Get list of projects/videos&lt;/li&gt;
+&lt;li&gt;Create projects / videos&lt;/li&gt;
+&lt;li&gt;Set images / videos / texts to scenes of videos&lt;/li&gt;
+&lt;li&gt;Generate video files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The basic sequence diagram to generate videos is below.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/sequence.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgac75d60" class="outline-2"&gt;
+&lt;h2 id="orgac75d60"&gt;Client Authentication&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgac75d60"&gt;
+&lt;p&gt;
+To call Web API, API clients need to set tokens &lt;code&gt;TOKEN_AUTH&lt;/code&gt; in every
+request. The tokens are published with sending HTTP POST to
+&lt;code&gt;/api/v1/api-token-auth/&lt;/code&gt; with the account information. API clients
+should store the tokens into their database to suppress this API call
+every time.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/accounts/login/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "email": "USER_EMAIL",&lt;/span&gt;
+&lt;span class="s1"&gt;       "password": "USER_PASSWORD"&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8d456f3" class="outline-2"&gt;
+&lt;h2 id="org8d456f3"&gt;Create New Project&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d456f3"&gt;
+&lt;p&gt;
+A new project directory is created with sending HTTP POST to
+&lt;code&gt;/api/v1/projects/&lt;/code&gt; as below.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/projects/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "name": "New Project",&lt;/span&gt;
+&lt;span class="s1"&gt;       "is_shared": true&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The ID of the created project &lt;code&gt;PROJECT_ID&lt;/code&gt; is returned to the clients.
+The detail information of the project can be obtained with sending
+HTTP GET to &lt;code&gt;/v1/projects/PROJECT_ID/&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org10bc34e" class="outline-2"&gt;
+&lt;h2 id="org10bc34e"&gt;Get a list of video templates&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org10bc34e"&gt;
+&lt;p&gt;
+API clients can get a list of available template IDs TEMPLATE_ID with
+sending HTTP GET to &lt;code&gt;/api/v1/template_groups/&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X GET https://API_HOST/api/v1/template_groups/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5d53741" class="outline-2"&gt;
+&lt;h2 id="org5d53741"&gt;Create New Video Data&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5d53741"&gt;
+&lt;p&gt;
+A new video data is created with sending HTTP POST to
+&lt;code&gt;/api/v1/videos/&lt;/code&gt; with specifying the created project id &lt;code&gt;PROJECT_ID&lt;/code&gt;
+and the selected video template &lt;code&gt;TEMPLATE_ID&lt;/code&gt;.  The ID of the created
+video data &lt;code&gt;VIDEO_ID&lt;/code&gt; is returned to the clients.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/videos/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -d &lt;span class="s1"&gt;'{&lt;/span&gt;
+&lt;span class="s1"&gt;       "name": "your video title",&lt;/span&gt;
+&lt;span class="s1"&gt;       "project_id": "PROJECT_ID",&lt;/span&gt;
+&lt;span class="s1"&gt;       "template_id": TEMPLATE_ID&lt;/span&gt;
+&lt;span class="s1"&gt;     }'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd4d0995" class="outline-2"&gt;
+&lt;h2 id="orgd4d0995"&gt;Set Images / Videos / Texts into Scenes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd4d0995"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-scene-setting.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+For 1st step, API clients need to upload the image/video files to be
+available in the video data with &lt;code&gt;VIDEO_ID&lt;/code&gt;.
+Then &lt;code&gt;IMAGE_NAME_1&lt;/code&gt; and &lt;code&gt;IMAGE_NAME_2&lt;/code&gt; are returned to the clients.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="n"&gt;POST&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;API_HOST&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;videos&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;VIDEO_ID&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;images&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="s1"&gt;'files[]=@/path/to/image/1.png'&lt;/span&gt; \
+     &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="s1"&gt;'files[]=@/path/to/image/2.jpeg'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+After uploading the file contents, API clients can set the images into
+scenes of the video data with using the identifiers &lt;code&gt;IMAGE_NAME_1&lt;/code&gt; and
+&lt;code&gt;IMAGE_NAME_2&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="n"&gt;PUT&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;API_HOST&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;videos&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;VIDEO_ID&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt; \
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="s1"&gt;'{&lt;/span&gt;
+    &lt;span class="s2"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"New video'&lt;/span&gt;&lt;span class="se"&gt;\'&lt;/span&gt;&lt;span class="s2"&gt;'s name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"bgm_file"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;BGM_ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"memo"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"New Memo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;"slides"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="s2"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"text"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"テキスト"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"image_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"IMAGE_NAME_1"&lt;/span&gt;
+	&lt;span class="p"&gt;},&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="s2"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"text"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"テキスト"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	    &lt;span class="s2"&gt;"image_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"IMAGE_NAME_2"&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1321da8" class="outline-2"&gt;
+&lt;h2 id="org1321da8"&gt;Generate Videos&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1321da8"&gt;
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/richka-web-api/api-video-generation.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+After the scenes have been set up, API clients can request to start
+the video generation with video servers.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X POST https://API_HOST/api/v1/videos/VIDEO_ID/generate/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+When the video generation has been done, a Webhook URL registered in
+the account setting page beforehand will be called back with sending
+&lt;code&gt;VIDEO_ID&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+  video_id: VIDEO_ID,
+  user_id: xxxxx,
+  time: &lt;span class="m"&gt;2020&lt;/span&gt;-01-01 &lt;span class="m"&gt;01&lt;/span&gt;:02:03,
+  webhook_id: &lt;span class="m"&gt;1234&lt;/span&gt;,
+  type: webhook
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd66b416" class="outline-2"&gt;
+&lt;h2 id="orgd66b416"&gt;Download Video Contents&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd66b416"&gt;
+&lt;p&gt;
+API clients can get the downloadable S3 URLs with sending HTTP GET
+with &lt;code&gt;/api/v1/videos/VIDEO_ID/&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -X GET https://API_HOST/api/v1/videos/VIDEO_ID/ &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Authorization: Token TOKEN_AUTH'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -H &lt;span class="s1"&gt;'Content-Type: application/json'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Web API</category><guid>https://cocktailmake.github.io/posts/richka-web-api/</guid><pubDate>Fri, 16 Oct 2020 06:38:24 GMT</pubDate></item><item><title>The prototype of Morphing</title><link>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</link><dc:creator>Bui Dinh Cuong</dc:creator><description>&lt;div id="outline-container-orgbef4249" class="outline-2"&gt;
+&lt;h2 id="orgbef4249"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbef4249"&gt;
 &lt;p&gt;
 In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5d0ff7a" class="outline-2"&gt;
-&lt;h2 id="org5d0ff7a"&gt;Definitions&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5d0ff7a"&gt;
+&lt;div id="outline-container-orgc592ea6" class="outline-2"&gt;
+&lt;h2 id="orgc592ea6"&gt;Definitions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc592ea6"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5992405" class="outline-3"&gt;
-&lt;h3 id="org5992405"&gt;Morphing&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5992405"&gt;
+&lt;div id="outline-container-org2ff595b" class="outline-3"&gt;
+&lt;h3 id="org2ff595b"&gt;Morphing&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2ff595b"&gt;
 &lt;p&gt;
 Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
 &lt;/p&gt;
@@ -25,9 +240,9 @@ Source: &lt;a href="https://en.wikipedia.org/wiki/Morphing"&gt;https://en.wikipe
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfb8d30d" class="outline-3"&gt;
-&lt;h3 id="orgfb8d30d"&gt;HyperMorph&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfb8d30d"&gt;
+&lt;div id="outline-container-org6ffa1b2" class="outline-3"&gt;
+&lt;h3 id="org6ffa1b2"&gt;HyperMorph&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ffa1b2"&gt;
 &lt;p&gt;
 There are many terminologies on HyperMorph that you can check on &lt;a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf"&gt;https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf&lt;/a&gt;.
 &lt;/p&gt;
@@ -41,9 +256,9 @@ When we define enough of points, it will be able to create very smooth video.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgecc2545" class="outline-2"&gt;
-&lt;h2 id="orgecc2545"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgecc2545"&gt;
+&lt;div id="outline-container-org59d60c7" class="outline-2"&gt;
+&lt;h2 id="org59d60c7"&gt;How to create HyperMorph from two images with HTML &amp;amp; JavaScript&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org59d60c7"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Define the set of points on the 1st image and a corresponding set of points from 2nd image.&lt;/li&gt;
 &lt;li&gt;Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.&lt;/li&gt;
@@ -65,9 +280,9 @@ And here is the output video (I converted to GIF file to display here easily):
 &lt;p align="center"&gt;
 &lt;img src="https://cocktailmake.github.io/images/the-prototype-of-morphing/video.gif" alt="nil"&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</guid><pubDate>Fri, 14 Aug 2020 06:00:00 GMT</pubDate></item><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org2c62cf8" class="outline-2"&gt;
-&lt;h2 id="org2c62cf8"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2c62cf8"&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</guid><pubDate>Fri, 14 Aug 2020 06:00:00 GMT</pubDate></item><item><title>Realtime Display of Video Generation Progress</title><link>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org4d7a98c" class="outline-2"&gt;
+&lt;h2 id="org4d7a98c"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4d7a98c"&gt;
 &lt;p&gt;
 The video generation in RICHKA is to serialize high quality videos on
 video servers with using video templates designed by export
@@ -110,9 +325,9 @@ blog.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge0088d2" class="outline-2"&gt;
-&lt;h2 id="orge0088d2"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge0088d2"&gt;
+&lt;div id="outline-container-orgbf1d2fb" class="outline-2"&gt;
+&lt;h2 id="orgbf1d2fb"&gt;Technical Restriction of HTTP streaming&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbf1d2fb"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/restriction.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -161,9 +376,9 @@ RICHKA\r\n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org29a8344" class="outline-2"&gt;
-&lt;h2 id="org29a8344"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org29a8344"&gt;
+&lt;div id="outline-container-orgd55d948" class="outline-2"&gt;
+&lt;h2 id="orgd55d948"&gt;Realtime Display of Video Generation Progress after HTTP Redirect&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd55d948"&gt;
 &lt;p width="1500px"&gt;
 &lt;img src="https://cocktailmake.github.io/images/progress-display-of-video-generation/solution.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -190,9 +405,9 @@ proxies. Unfortunately, some of HTTP proxies block WebSocket
 connection to enhance the web security. Therefore, RICHKA
 intentionally applies the traditional method to make more stable.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</guid><pubDate>Sat, 16 May 2020 09:07:20 GMT</pubDate></item><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org6b41a16" class="outline-2"&gt;
-&lt;h2 id="org6b41a16"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6b41a16"&gt;
+&lt;/div&gt;</description><category>Infra</category><category>RICHKA</category><guid>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</guid><pubDate>Sat, 16 May 2020 09:07:20 GMT</pubDate></item><item><title>Big picture of RICHKA</title><link>https://cocktailmake.github.io/posts/big-picture-of-richka/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org35a09f3" class="outline-2"&gt;
+&lt;h2 id="org35a09f3"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org35a09f3"&gt;
 &lt;p&gt;
 This is the first post from our engineer team.
 &lt;/p&gt;
@@ -238,9 +453,9 @@ services demand higher development skills of web applications.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org65f2623" class="outline-2"&gt;
-&lt;h2 id="org65f2623"&gt;RICHKA Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org65f2623"&gt;
+&lt;div id="outline-container-org2840d2c" class="outline-2"&gt;
+&lt;h2 id="org2840d2c"&gt;RICHKA Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2840d2c"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/technologies-building-richka.png" alt="nil"&gt;
 &lt;/p&gt;
@@ -277,27 +492,27 @@ around 13000.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3d39103" class="outline-4"&gt;
-&lt;h4 id="org3d39103"&gt;OS&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3d39103"&gt;
+&lt;div id="outline-container-org6e4b2ca" class="outline-4"&gt;
+&lt;h4 id="org6e4b2ca"&gt;OS&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6e4b2ca"&gt;
 &lt;p&gt;
 Ubuntu Server
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org660957a" class="outline-4"&gt;
-&lt;h4 id="org660957a"&gt;Programming Language&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org660957a"&gt;
+&lt;div id="outline-container-orgcab8702" class="outline-4"&gt;
+&lt;h4 id="orgcab8702"&gt;Programming Language&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgcab8702"&gt;
 &lt;p&gt;
 Python, JavaScript, HTML5, CSS3, JSX, Bash
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8879a54" class="outline-4"&gt;
-&lt;h4 id="org8879a54"&gt;Server Side Technologies&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org8879a54"&gt;
+&lt;div id="outline-container-org0dfe5bd" class="outline-4"&gt;
+&lt;h4 id="org0dfe5bd"&gt;Server Side Technologies&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0dfe5bd"&gt;
 &lt;p&gt;
 Django, MySQL, HTTP2, Web API, video generation engine, image processing,
 multi core processing, load distribution
@@ -305,18 +520,18 @@ multi core processing, load distribution
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5ac2f63" class="outline-4"&gt;
-&lt;h4 id="org5ac2f63"&gt;Front End&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5ac2f63"&gt;
+&lt;div id="outline-container-org92acb9d" class="outline-4"&gt;
+&lt;h4 id="org92acb9d"&gt;Front End&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org92acb9d"&gt;
 &lt;p&gt;
 jQuery, jQuery UI, Vue.js, video.js, cropper.js, smartcrop.js, Bootstrap and much more
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7232afa" class="outline-4"&gt;
-&lt;h4 id="org7232afa"&gt;Regression Test&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7232afa"&gt;
+&lt;div id="outline-container-org8d5b681" class="outline-4"&gt;
+&lt;h4 id="org8d5b681"&gt;Regression Test&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8d5b681"&gt;
 &lt;p&gt;
 Jenkins, Django UnitTest, Selenium
 &lt;/p&gt;
@@ -325,9 +540,9 @@ Jenkins, Django UnitTest, Selenium
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga2f136f" class="outline-2"&gt;
-&lt;h2 id="orga2f136f"&gt;Sequence of video generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga2f136f"&gt;
+&lt;div id="outline-container-orgf72d417" class="outline-2"&gt;
+&lt;h2 id="orgf72d417"&gt;Sequence of video generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf72d417"&gt;
 &lt;p&gt;
 &lt;img src="https://cocktailmake.github.io/images/big-picture-of-richka/video-generation-sequence.png" alt="nil"&gt;
 &lt;/p&gt;

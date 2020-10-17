@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about Recording)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_recording.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sun, 20 Sep 2020 06:16:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Our Git Habit of Narration Recording project</title><link>https://cocktailmake.github.io/posts/narration-recording-git-habit/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-orgfd443f0" class="outline-2"&gt;
-&lt;h2 id="orgfd443f0"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfd443f0"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about Recording)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_recording.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Sat, 17 Oct 2020 06:13:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Our Git Habit of Narration Recording project</title><link>https://cocktailmake.github.io/posts/narration-recording-git-habit/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-orgefcd2c7" class="outline-2"&gt;
+&lt;h2 id="orgefcd2c7"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgefcd2c7"&gt;
 &lt;p&gt;
 We released a new web application called &lt;b&gt;&lt;span style="color: red"&gt;ナレ撮り&lt;/span&gt;&lt;/b&gt;
 which enables users to record the voice as narration on web browsers
@@ -22,13 +22,13 @@ format of commit log of &lt;a href="https://github.com/angular/angular/blob/mast
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgeca88dd" class="outline-2"&gt;
-&lt;h2 id="orgeca88dd"&gt;Branches&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeca88dd"&gt;
+&lt;div id="outline-container-orge7f2ed0" class="outline-2"&gt;
+&lt;h2 id="orge7f2ed0"&gt;Branches&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge7f2ed0"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgba7386b" class="outline-3"&gt;
-&lt;h3 id="orgba7386b"&gt;Feature branches&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgba7386b"&gt;
+&lt;div id="outline-container-org1003e5e" class="outline-3"&gt;
+&lt;h3 id="org1003e5e"&gt;Feature branches&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1003e5e"&gt;
 &lt;p&gt;
 When you develop new features or fix bugs and the total modified lines
 will be relatively larger compared with prior ones you developed, then
@@ -38,9 +38,9 @@ developments as general Git culture.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5bcd7fe" class="outline-3"&gt;
-&lt;h3 id="org5bcd7fe"&gt;Stage branch&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5bcd7fe"&gt;
+&lt;div id="outline-container-org4b1fd48" class="outline-3"&gt;
+&lt;h3 id="org4b1fd48"&gt;Stage branch&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4b1fd48"&gt;
 &lt;p&gt;
 It is a primary development branch and feature branches will be merged
 to stage branch after successfully tested and reviewed.
@@ -55,9 +55,9 @@ version right now.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org85764e3" class="outline-3"&gt;
-&lt;h3 id="org85764e3"&gt;Release branches&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org85764e3"&gt;
+&lt;div id="outline-container-org160236d" class="outline-3"&gt;
+&lt;h3 id="org160236d"&gt;Release branches&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org160236d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;On each release, we create a new release branch based on latest
 stage branch for both recording and video repositories (even though
@@ -74,9 +74,9 @@ the release branches&lt;/li&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc7b6758" class="outline-3"&gt;
-&lt;h3 id="orgc7b6758"&gt;Tags&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc7b6758"&gt;
+&lt;div id="outline-container-org0d02ab1" class="outline-3"&gt;
+&lt;h3 id="org0d02ab1"&gt;Tags&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0d02ab1"&gt;
 &lt;p&gt;
 Tags are created with the release branches of both recording and video repositories
 after the final reviewing the release has been successfully passed.
@@ -89,9 +89,9 @@ after the final reviewing the release has been successfully passed.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga4eb5a3" class="outline-2"&gt;
-&lt;h2 id="orga4eb5a3"&gt;Commit logs&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga4eb5a3"&gt;
+&lt;div id="outline-container-orgbe946ce" class="outline-2"&gt;
+&lt;h2 id="orgbe946ce"&gt;Commit logs&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbe946ce"&gt;
 &lt;p&gt;
 We apply &lt;a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit"&gt;3rd party knowledge&lt;/a&gt; for the format of commit logs from AngularJS guys.
 We follow the tiny rule in the article as below.
@@ -128,9 +128,9 @@ feat(gui) : Added Narration script function. Refs #REC-XXX
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org65f0e50" class="outline-2"&gt;
-&lt;h2 id="org65f0e50"&gt;Utilize special keywords in commit logs&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org65f0e50"&gt;
+&lt;div id="outline-container-orgc4aa91d" class="outline-2"&gt;
+&lt;h2 id="orgc4aa91d"&gt;Utilize special keywords in commit logs&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc4aa91d"&gt;
 &lt;p&gt;
 When we commit, we fill understandable commit logs and use special
 keywords such as Refs #TICKET_NUMBER to make the references with the
@@ -140,9 +140,9 @@ at first and make the references with the commit logs.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc61fc1e" class="outline-2"&gt;
-&lt;h2 id="orgc61fc1e"&gt;Rules for merging&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc61fc1e"&gt;
+&lt;div id="outline-container-orgcca7d04" class="outline-2"&gt;
+&lt;h2 id="orgcca7d04"&gt;Rules for merging&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcca7d04"&gt;
 &lt;p&gt;
 When we merge branches, we have a rule to add "&lt;b&gt;&lt;b&gt;–no-ff&lt;/b&gt;&lt;/b&gt;" as command
 option to suppress fast-forward of the default behavior of Git.
@@ -154,9 +154,9 @@ For examples: &lt;code&gt;git merge --no-ff feature/REC-00&lt;/code&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1edb6c2" class="outline-2"&gt;
-&lt;h2 id="org1edb6c2"&gt;Modification of DB models&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1edb6c2"&gt;
+&lt;div id="outline-container-orgf39a98b" class="outline-2"&gt;
+&lt;h2 id="orgf39a98b"&gt;Modification of DB models&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf39a98b"&gt;
 &lt;p&gt;
 When we modify the models of Django with development tasks, we do that
 on stage branch at first. We sometimes encountered DB migration issue
@@ -171,9 +171,9 @@ a simple work flow to modify DB models only on stage branch.
 &lt;li&gt;Merge stage branch into your working branches&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>git</category><guid>https://cocktailmake.github.io/posts/narration-recording-git-habit/</guid><pubDate>Sun, 20 Sep 2020 03:00:00 GMT</pubDate></item><item><title>Released Narration Recording Service</title><link>https://cocktailmake.github.io/posts/released-narration-recording-service/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgb70beab" class="outline-2"&gt;
-&lt;h2 id="orgb70beab"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb70beab"&gt;
+&lt;/div&gt;</description><category>git</category><guid>https://cocktailmake.github.io/posts/narration-recording-git-habit/</guid><pubDate>Sun, 20 Sep 2020 03:00:00 GMT</pubDate></item><item><title>Released Narration Recording Service</title><link>https://cocktailmake.github.io/posts/released-narration-recording-service/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgffb2583" class="outline-2"&gt;
+&lt;h2 id="orgffb2583"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgffb2583"&gt;
 &lt;p&gt;
 Some RICHKA users requested that they would like to input their
 narration into the videos and recently we released a new web
@@ -208,9 +208,9 @@ the video source and the recorded voices.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org74eb542" class="outline-2"&gt;
-&lt;h2 id="org74eb542"&gt;Development Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org74eb542"&gt;
+&lt;div id="outline-container-org8a60249" class="outline-2"&gt;
+&lt;h2 id="org8a60249"&gt;Development Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8a60249"&gt;
 &lt;p&gt;
 Web servers are based on Django, and additional 8 Python packages such
 as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
@@ -235,9 +235,9 @@ of speech technology, we will make a new post and share the detail.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org78c3043" class="outline-2"&gt;
-&lt;h2 id="org78c3043"&gt;Voice Recording&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org78c3043"&gt;
+&lt;div id="outline-container-org40154b4" class="outline-2"&gt;
+&lt;h2 id="org40154b4"&gt;Voice Recording&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org40154b4"&gt;
 &lt;p&gt;
 One of primary features is to record voice per cue point inputted
 with the mic. When users click the recording button, the recording
@@ -261,9 +261,9 @@ player.&lt;/li&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0403749" class="outline-3"&gt;
-&lt;h3 id="org0403749"&gt;Direct Conversion to MP3 on JavaScript layer&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0403749"&gt;
+&lt;div id="outline-container-orgd42815e" class="outline-3"&gt;
+&lt;h3 id="orgd42815e"&gt;Direct Conversion to MP3 on JavaScript layer&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd42815e"&gt;
 &lt;p&gt;
 At the 1st step, the MIME type of the audio data retrieved by WebRTC
 is audio/webm in default and it tended to be large data size and the
@@ -279,9 +279,9 @@ to the server side.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaf476c3" class="outline-3"&gt;
-&lt;h3 id="orgaf476c3"&gt;Dedicated video player to sync video and voices&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgaf476c3"&gt;
+&lt;div id="outline-container-org5f26fb8" class="outline-3"&gt;
+&lt;h3 id="org5f26fb8"&gt;Dedicated video player to sync video and voices&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5f26fb8"&gt;
 &lt;p&gt;
 At the 3rd step, we implemented a dedicated video player to playback
 the video source with overlaying the recorded voices without
@@ -300,9 +300,9 @@ player ready to play.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org67d42df" class="outline-2"&gt;
-&lt;h2 id="org67d42df"&gt;Video Generation&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org67d42df"&gt;
+&lt;div id="outline-container-org24bb778" class="outline-2"&gt;
+&lt;h2 id="org24bb778"&gt;Video Generation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org24bb778"&gt;
 &lt;p&gt;
 After users have inputted the voices to cue points, user are ready to
 generate videos with overlying recorded voices. The generated ones
