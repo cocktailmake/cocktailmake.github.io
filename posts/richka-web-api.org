@@ -9,7 +9,7 @@
 .. link: 
 .. description: 
 .. type: text
-.. previewimage: /images/abstract-of-web-api/api-scene-setting.png
+.. previewimage: /images/richka-web-api/sequence.png
 .. author: Hitoshi Uchida
 #+END_COMMENT
 
