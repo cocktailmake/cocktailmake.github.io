@@ -1,0 +1,222 @@
+#+OPTIONS: ^:nil
+#+INCLUDE: ./org-macros.setup
+#+BEGIN_COMMENT
+.. title: RICHKA Web API
+.. slug: richka-web-api
+.. date: 2020-10-16 15:38:24 UTC+09:00
+.. tags: Web API
+.. category: RICHKA
+.. link: 
+.. description: 
+.. type: text
+.. previewimage: /images/abstract-of-web-api/api-scene-setting.png
+.. author: Hitoshi Uchida
+#+END_COMMENT
+
+* Abstract
+
+RICHKA provides two interfaces with GUI and Web API to enables users
+to easily create video data with setting images, videos and texts and
+generating videos. In this post, we describe the Web API whose
+architecture conforms to the general REST architecture. It enables
+users to integrate the primary features of RICHKA into their systems
+such as smartphone application to generate videos with using the photo
+album.
+
+The main functions of Web API are below, and they are built with [[https://www.django-rest-framework.org/][Django REST Framework]].
+
+- Authenticate API clients and publish API tokens
+- Get list of projects/videos
+- Create projects / videos
+- Set images / videos / texts to scenes of videos
+- Generate video files
+
+The basic sequence diagram to generate videos is below.
+
+#+BEGIN_SRC plantuml :file ../images/richka-web-api/sequence.png :exports none
+participant "API Client" as Client
+participant "API Server" as Server
+participant "Video Server" as Video
+Client  -> Server : user account
+activate Server
+Server -> Client  : token
+deactivate Server
+
+Client -> Server  : create new project
+activate Server
+Server -> Client  :
+deactivate Server
+
+Client -> Server  : create new video
+activate Server
+Server -> Client  :
+deactivate Server
+
+Client -> Server  : set images / videos / texts scenes
+activate Server
+Server -> Client
+deactivate Server
+
+Client -> Server  : start video generation
+activate Server
+Server -> Video   : request video generation
+activate Video
+Video  -> Video   : generate video
+Video  -> Server  : notify progress ratio
+deactivate Video
+Server -> Client  : Webhook notification
+deactivate Server
+
+Client -> Server  : get URL of generated video
+activate Server
+Server -> Client  : return downloadable URL
+deactivate Server
+#+END_SRC
+
+[[img-url:/images/richka-web-api/sequence.png]]
+
+* Client Authentication
+
+To call Web API, API clients need to set tokens ~TOKEN_AUTH~ in every
+request. The tokens are published with sending HTTP POST to
+~/api/v1/api-token-auth/~ with the account information. API clients
+should store the tokens into their database to suppress this API call
+every time.
+
+#+BEGIN_SRC sh
+curl -X POST https://API_HOST/api/v1/accounts/login/ \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "email": "USER_EMAIL",
+       "password": "USER_PASSWORD"
+     }'
+#+END_SRC
+
+* Create New Project
+
+A new project directory is created with sending HTTP POST to
+~/api/v1/projects/~ as below.
+
+#+BEGIN_SRC sh
+curl -X POST https://API_HOST/api/v1/projects/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "name": "New Project",
+       "is_shared": true
+     }'
+#+END_SRC
+
+The ID of the created project ~PROJECT_ID~ is returned to the clients.
+The detail information of the project can be obtained with sending
+HTTP GET to ~/v1/projects/PROJECT_ID/~.
+
+* Get a list of video templates
+
+API clients can get a list of available template IDs TEMPLATE_ID with
+sending HTTP GET to ~/api/v1/template_groups/~.
+
+#+BEGIN_SRC sh
+curl -X GET https://API_HOST/api/v1/template_groups/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'Content-Type: application/json'
+#+END_SRC
+
+* Create New Video Data
+
+A new video data is created with sending HTTP POST to
+~/api/v1/videos/~ with specifying the created project id ~PROJECT_ID~
+and the selected video template ~TEMPLATE_ID~.  The ID of the created
+video data ~VIDEO_ID~ is returned to the clients.
+
+#+BEGIN_SRC sh
+curl -X POST https://API_HOST/api/v1/videos/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "name": "your video title",
+       "project_id": "PROJECT_ID",
+       "template_id": TEMPLATE_ID
+     }'
+#+END_SRC
+
+* Set Images / Videos / Texts into Scenes
+
+[[img-url:/images/richka-web-api/api-scene-setting.png]]
+
+For 1st step, API clients need to upload the image/video files to be
+available in the video data with ~VIDEO_ID~.
+Then ~IMAGE_NAME_1~ and ~IMAGE_NAME_2~ are returned to the clients.
+
+#+BEGIN_SRC python
+curl -X POST https://API_HOST/api/v1/videos/VIDEO_ID/images/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+     -F 'files[]=@/path/to/image/1.png' \
+     -F 'files[]=@/path/to/image/2.jpeg'
+#+END_SRC
+
+After uploading the file contents, API clients can set the images into
+scenes of the video data with using the identifiers ~IMAGE_NAME_1~ and
+~IMAGE_NAME_2~.
+
+#+BEGIN_SRC python
+curl -X PUT https://API_HOST/api/v1/videos/VIDEO_ID/ \
+  -H 'Authorization: Token TOKEN_AUTH' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "New video'\''s name",
+    "bgm_file": BGM_ID,
+    "memo": "New Memo",
+    "slides": [
+        {
+            "index": 0,
+            "text": "テキスト",
+            "image_name": "IMAGE_NAME_1"
+        },
+        {
+            "index": 1,
+            "text": "テキスト",
+            "image_name": "IMAGE_NAME_2"
+        }
+    ]
+}'
+#+END_SRC
+
+* Generate Videos
+
+[[img-url:/images/richka-web-api/api-video-generation.png]]
+
+After the scenes have been set up, API clients can request to start
+the video generation with video servers.
+
+#+BEGIN_SRC sh
+curl -X POST https://API_HOST/api/v1/videos/VIDEO_ID/generate/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'Content-Type: application/json'
+#+END_SRC
+
+When the video generation has been done, a Webhook URL registered in
+the account setting page beforehand will be called back with sending
+~VIDEO_ID~.
+
+#+BEGIN_SRC sh
+{
+  video_id: VIDEO_ID,
+  user_id: xxxxx,
+  time: 2020-01-01 01:02:03,
+  webhook_id: 1234,
+  type: webhook
+}
+#+END_SRC
+
+* Download Video Contents
+
+API clients can get the downloadable S3 URLs with sending HTTP GET
+with ~/api/v1/videos/VIDEO_ID/~.
+
+#+BEGIN_SRC sh
+curl -X GET https://API_HOST/api/v1/videos/VIDEO_ID/ \
+     -H 'Authorization: Token TOKEN_AUTH' \
+     -H 'Content-Type: application/json'
+#+END_SRC
