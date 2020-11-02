@@ -11,7 +11,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/richka-web-api/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/find-security-issues-with-bandit/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,7 +76,154 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/richka-web-api/" class="u-url">RICHKA Web API</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/find-security-issues-with-bandit/" class="u-url">Find Security Issues With Bandit</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/bui-dinh-cuong/">Bui Dinh Cuong</a>
+            </span></p>
+            <p class="dateline">
+            <a href="posts/find-security-issues-with-bandit/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-10-31T17:43:55+09:00" itemprop="datePublished" title="2020-10-31 17:43">2020-10-31 17:43</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org5d81642" class="outline-2">
+<h2 id="org5d81642">Abstract</h2>
+<div class="outline-text-2" id="text-org5d81642">
+<p>
+In this post, we introduce a method of automating the process of code review of Python codes by using:
+</p>
+<ul class="org-ul">
+<li>
+<code>Bandit</code>: To perform code review &amp; find security issues of Python codes.</li>
+<li>
+<code>Jenkins</code>: Run this test automatically based on changes of code on target branch.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc76cbd3" class="outline-2">
+<h2 id="orgc76cbd3">Steps</h2>
+<div class="outline-text-2" id="text-orgc76cbd3">
+</div>
+<div id="outline-container-org6c88c67" class="outline-3">
+<h3 id="org6c88c67">Prepare environment</h3>
+<div class="outline-text-3" id="text-org6c88c67">
+<p>
+Before we start, make sure the system satisfy below mentioned requirements:
+</p>
+<ul class="org-ul">
+<li>Python2.7/Python3 installed</li>
+<li>Git &amp; pip configured</li>
+<li>Jenkins servers installed &amp; configured</li>
+<li>Identify git branch for code scanning</li>
+<li>Install <code>bandit</code> tool (See guide from <a href="https://github.com/PyCQA/bandit">https://github.com/PyCQA/bandit</a>)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6ff57b9" class="outline-3">
+<h3 id="org6ff57b9">Create Jenkins job</h3>
+<div class="outline-text-3" id="text-org6ff57b9">
+<p>
+From home page of Jenkins:
+</p>
+<ul class="org-ul">
+<li>Click "New Item"</li>
+<li>Enter a name of the new job, for example: "Security-Issues-Scanner"</li>
+<li>Choose "Freestyle project" then click "OK" to go to next steps</li>
+</ul>
+<p align="center">
+<img src="images/find-security-issues-with-bandit/create-new-jenkins-item.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org2a32c7a" class="outline-3">
+<h3 id="org2a32c7a">Configure Jenkins job</h3>
+<div class="outline-text-3" id="text-org2a32c7a">
+<p>
+After clicking "OK" button in the previous step, we will see a GUI that contains steps to configure Jenkins job. We will go over step by step.
+</p>
+
+<ul class="org-ul">
+<li>In "General" step, we should add a description for this Jenkins job and configure log rotation to prevent too many logs.</li>
+</ul>
+<p align="center">
+<img src="images/find-security-issues-with-bandit/general-information.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>In "Source Code Management" step, you have to do following actions:
+
+<ul class="org-ul">
+<li>Enter your repository (From GitHub, GitLab, Bitbucket, Backlog, .etc)</li>
+<li>Add credentials that can pull codes from a remote branch and select it.</li>
+<li>Provide a branch that you want to check (In this example, I want to scan stage branch).</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+<img src="images/find-security-issues-with-bandit/source-code-management.png" alt="nil"></p>
+
+<p>
+There are many other additional behaviors that you can add more. For example, your project has submodules and need to scan them as well, you can add "Advanced sub-modules behaviors" and do configure.
+Here is list most behaviors that you can add:
+</p>
+
+<p align="center">
+<img src="images/find-security-issues-with-bandit/source-code-additional-behaviors.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>In "Build Triggers" step, there are many options that you can run this job but I will choose "Poll SCM". This will allow me to configure to run this job like a crontab in Linux system. For example, I will run this job once an hour (Using Poll SCM then the job will run if there is a new change of code only).</li>
+</ul>
+<p align="center">
+<img src="images/find-security-issues-with-bandit/build-trigger-poll-scm.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>In "Build Environment" step, you can choose some options for building like "Delete workspace before build starts", Add timestamps to the Console Output", .etc. It's up to you. My suggestion is that you should add "Add timestamps to the Console Output" then you can know the build time when checking the output log again.</li>
+
+<li>"Build" step: Because I installed bandit on Jenkins server, so I will choose "Execute shell" for this step. I will use bandit to scan all source folder from git repository and try to find if there is any "High Severity" item. If there is any item, I will use "exit 1" to mark that this build is failed. Otherwise, the build is success. Then we can use "Post-build Actions" to define response actions with each type of status.</li>
+</ul>
+<p>
+Here is content of script that I will run:
+</p>
+
+<div class="highlight"><pre><span></span>bandit -r ./source <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> tee ./out.log
+<span class="nv">num</span><span class="o">=</span><span class="sb">`</span>grep <span class="s2">"Severity: High"</span> ./out.log <span class="p">|</span> wc -l<span class="sb">`</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$num</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="k">else</span>
+<span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+</pre></div>
+
+<p align="center">
+<img src="images/find-security-issues-with-bandit/build-script.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>"Post-build Actions" will support us to define actions that we want to do when the build is failed. There are many actions that we can choose:</li>
+</ul>
+<p align="center">
+<img src="images/find-security-issues-with-bandit/post-build-actions.png" alt="nil"></p>
+
+<p>
+With my opinion, I mostly use "E-mail Notification" then I will know when this job is failed to check and make it works as it should be.
+All's done! Now you can click "Save" and then click "Build Now" to build this job. If it's failed, you can go to the failed build and check "Console Output" to find out the reason and fix this. Otherwise, you can sleep well because there is no high severity issues on your code.
+</p>
+
+<p>
+Here is an example of an output that you can see on "Console Output" on a build item (You can see it when the job is running, it will be loaded in real-time).
+</p>
+
+<p align="center">
+<img src="images/find-security-issues-with-bandit/example-of-output-console.png" alt="nil"></p>
+
+<p>
+Thanks for your reading to the end of this post! I also want to thank "Digital Varys" with meaningful preview image!</p>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/richka-web-api/" class="u-url">RICHKA Web API</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
@@ -87,9 +234,9 @@
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgd723eb5" class="outline-2">
-<h2 id="orgd723eb5">Abstract</h2>
-<div class="outline-text-2" id="text-orgd723eb5">
+    <div id="outline-container-org430f534" class="outline-2">
+<h2 id="org430f534">Abstract</h2>
+<div class="outline-text-2" id="text-org430f534">
 <p>
 RICHKA provides two interfaces with GUI and Web API to enables users
 to easily create video data with setting images, videos and texts and
@@ -120,9 +267,9 @@ The basic sequence diagram to generate videos is below.
 </div>
 </div>
 
-<div id="outline-container-org63c1569" class="outline-2">
-<h2 id="org63c1569">Client Authentication</h2>
-<div class="outline-text-2" id="text-org63c1569">
+<div id="outline-container-org44d42ac" class="outline-2">
+<h2 id="org44d42ac">Client Authentication</h2>
+<div class="outline-text-2" id="text-org44d42ac">
 <p>
 To call Web API, API clients need to set tokens <code>TOKEN_AUTH</code> in every
 request. The tokens are published with sending HTTP POST to
@@ -141,9 +288,9 @@ every time.
 </div>
 </div>
 
-<div id="outline-container-org69ec953" class="outline-2">
-<h2 id="org69ec953">Create New Project</h2>
-<div class="outline-text-2" id="text-org69ec953">
+<div id="outline-container-org0dc33eb" class="outline-2">
+<h2 id="org0dc33eb">Create New Project</h2>
+<div class="outline-text-2" id="text-org0dc33eb">
 <p>
 A new project directory is created with sending HTTP POST to
 <code>/api/v1/projects/</code> as below.
@@ -166,9 +313,9 @@ HTTP GET to <code>/v1/projects/PROJECT_ID/</code>.
 </div>
 </div>
 
-<div id="outline-container-orga883e26" class="outline-2">
-<h2 id="orga883e26">Get a list of video templates</h2>
-<div class="outline-text-2" id="text-orga883e26">
+<div id="outline-container-orgdab025b" class="outline-2">
+<h2 id="orgdab025b">Get a list of video templates</h2>
+<div class="outline-text-2" id="text-orgdab025b">
 <p>
 API clients can get a list of available template IDs TEMPLATE_ID with
 sending HTTP GET to <code>/api/v1/template_groups/</code>.
@@ -181,9 +328,9 @@ sending HTTP GET to <code>/api/v1/template_groups/</code>.
 </div>
 </div>
 
-<div id="outline-container-orga83850a" class="outline-2">
-<h2 id="orga83850a">Create New Video Data</h2>
-<div class="outline-text-2" id="text-orga83850a">
+<div id="outline-container-org0c0b694" class="outline-2">
+<h2 id="org0c0b694">Create New Video Data</h2>
+<div class="outline-text-2" id="text-org0c0b694">
 <p>
 A new video data is created with sending HTTP POST to
 <code>/api/v1/videos/</code> with specifying the created project id <code>PROJECT_ID</code>
@@ -203,9 +350,9 @@ video data <code>VIDEO_ID</code> is returned to the clients.
 </div>
 </div>
 
-<div id="outline-container-org8fd9ef8" class="outline-2">
-<h2 id="org8fd9ef8">Set Images / Videos / Texts into Scenes</h2>
-<div class="outline-text-2" id="text-org8fd9ef8">
+<div id="outline-container-org9266698" class="outline-2">
+<h2 id="org9266698">Set Images / Videos / Texts into Scenes</h2>
+<div class="outline-text-2" id="text-org9266698">
 <p>
 <img src="images/richka-web-api/api-scene-setting.png" alt="nil"></p>
 
@@ -252,9 +399,9 @@ scenes of the video data with using the identifiers <code>IMAGE_NAME_1</code> an
 </div>
 </div>
 
-<div id="outline-container-org3d72f40" class="outline-2">
-<h2 id="org3d72f40">Generate Videos</h2>
-<div class="outline-text-2" id="text-org3d72f40">
+<div id="outline-container-org5b18dc6" class="outline-2">
+<h2 id="org5b18dc6">Generate Videos</h2>
+<div class="outline-text-2" id="text-org5b18dc6">
 <p>
 <img src="images/richka-web-api/api-video-generation.png" alt="nil"></p>
 
@@ -285,9 +432,9 @@ the account setting page beforehand will be called back with sending
 </div>
 </div>
 
-<div id="outline-container-orgf0cdd9e" class="outline-2">
-<h2 id="orgf0cdd9e">Download Video Contents</h2>
-<div class="outline-text-2" id="text-orgf0cdd9e">
+<div id="outline-container-org899fbac" class="outline-2">
+<h2 id="org899fbac">Download Video Contents</h2>
+<div class="outline-text-2" id="text-org899fbac">
 <p>
 API clients can get the downloadable S3 URLs with sending HTTP GET
 with <code>/api/v1/videos/VIDEO_ID/</code>.
@@ -1794,140 +1941,6 @@ multi-core CPU. Though we omitted in the sample code, our video
 servers stores the generated preview images into S3 and they are
 actually shown on RICHKA GUI and it helps users to visually select
 desired fonts used for video generation.</p>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/progress-display-of-video-generation/" class="u-url">Realtime Display of Video Generation Progress</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
-            </span></p>
-            <p class="dateline">
-            <a href="posts/progress-display-of-video-generation/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-05-16T18:07:20+09:00" itemprop="datePublished" title="2020-05-16 18:07">2020-05-16 18:07</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-org4d7a98c" class="outline-2">
-<h2 id="org4d7a98c">Abstract</h2>
-<div class="outline-text-2" id="text-org4d7a98c">
-<p>
-The video generation in RICHKA is to serialize high quality videos on
-video servers with using video templates designed by export
-designers. The processing is heavy load and takes several minutes,
-therefore RICHKA has a dedicated GUI feature to show the progress
-ratio in realtime so that users can check the remained waiting
-time. During the processing, video servers monitor the detail
-progresses and transmit to web servers to feedback to users on GUI.
-</p>
-
-<p>
-RICHKA uses HTTP streaming for the realtime transmitting of the
-progress ratio among servers. This feature is to continue send
-application data little by little formatted with HTTP chunked
-encoding. During sending them, the TCP connection is kept to open. The
-HTTP streaming is available on general high-level web server
-frameworks as well and we are ready to apply to product services
-without taking care the underlying protocol format by
-ourselves. However, we need to understand the restriction that the
-HTTP connection is per URL. The restriction is simple, but we
-sometimes encounter difficulties on practical service products.
-</p>
-
-<p>
-In the case of RICHKA, when users click a button to generate videos on
-editing pages, it redirects users to top page to see the progress
-ration on the video list so that users can edit other videos during
-generation videos. Then, the TCP connection between web browsers and
-web servers are disconnected in redirecting because of the restriction
-and the progress reporting from video servers don't reach to web
-browsers. To enable to show the realtime progress after HTTP
-redirecting, RICHKA has a dedicated server side processing and this
-post explains how RICHKA does. There are several alternatives to
-realize this feature, but RICHKA doesn't depend on additional external
-services and the internal architecture is also simple and straight
-forward. I think this architecture could be applied to general use
-cases and I hope this post provides some hints to readers of this
-blog.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgbf1d2fb" class="outline-2">
-<h2 id="orgbf1d2fb">Technical Restriction of HTTP streaming</h2>
-<div class="outline-text-2" id="text-orgbf1d2fb">
-<p width="1500px">
-<img src="images/progress-display-of-video-generation/restriction.png" alt="nil"></p>
-
-<p>
-The figure above represents the detail procedure how the progress reporting
-with the HTTP streaming is blocked. The bottom is the GUI of RICHKA
-and the left side is the editing page to input user data and the right
-side is the top page listing up users' videos. The blue arrow
-represents the HTTP redirect to navigate users to a top page and it is
-triggered when users click the button of video generation on the
-editing pages. In the timing, the HTTP streaming response from web
-servers are disconnected and the top page can't get the further
-progress ratio. The detail procedure in the figure is below.
-</p>
-
-<ol class="org-ol">
-<li>On edit pages, when users click a button to generate videos, it sends a HTTP request with XMLHttpRequest to one of web serves via load balancer. Then the browser is redirect to the top page listing video data.</li>
-<li>The Web server delegates the video generation to one of video servers with sending a HTTP request again. The video server loads a video template and start to generate a video</li>
-<li>During generating, the video server sends the progress ratio with HTTP chunked encoding whose application data is JSON format to the web server.</li>
-<li>The web server transfers the progress ratio received from the video server, but the TCP connection with the web browser has been already disconnected and the data can't reach it.</li>
-</ol>
-<p>
-For a reference, the chunked transfer encoding is like this. In
-general, CGI scripts response with using it. Content-Length header is
-not used because the expected data size is not known beforehand. A
-chunked data starts with the payload size and it ends with a line
-break CR LF. In the final chunk, we need to send an empty chunked data
-to notify it is last one to the receiver. In RICHKA, the application
-data is the progress ratio formatted with JSON.
-</p>
-
-<div class="highlight"><pre><span></span>HTTP/1.1 200 OK
-Content-Type: text/plain
-Transfer-Encoding: chunked
-
-5\r\n
-Hello\r\n
-6\r\n
-RICHKA\r\n
-0\r\n
-\r\n
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-orgd55d948" class="outline-2">
-<h2 id="orgd55d948">Realtime Display of Video Generation Progress after HTTP Redirect</h2>
-<div class="outline-text-2" id="text-orgd55d948">
-<p width="1500px">
-<img src="images/progress-display-of-video-generation/solution.png" alt="nil"></p>
-
-<p>
-To resolve this restriction deriving from the HTTP connection per URL,
-RICHKA realizes the realtime feedback of progress ratio with the
-architecture above for the specific case of redirecting. The detail procedure is below.
-</p>
-
-<ol class="org-ol">
-<li>ditto with the prior section</li>
-<li>The web server forks a dedicated process to communicate with the video server. It sends a HTTP request and delegates the video generation. In this timing, the TCP connection is disconnected with the web browser because of the redirection.</li>
-<li>The forked process is still alive and it continues to receive the progress ratio from video serves with HTTP chunked encoding.</li>
-<li>Every when the forked process receives the progress ratio, it saves into database as the progress data for the video data.</li>
-<li>After redirecting, the top page periodically sends HTTP GET request to the web server and show the progress data on GUI.</li>
-</ol>
-<p>
-At the last step, there is alternative method with WebSocket protocol,
-but RICHKA doesn't use because general users access from their company
-offices and it is general their networks apply HTTP
-proxies. Unfortunately, some of HTTP proxies block WebSocket
-connection to enhance the web security. Therefore, RICHKA
-intentionally applies the traditional method to make more stable.</p>
 </div>
 </div>
     </div>

@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/bui-dinh-cuong.xml</loc>
-  <lastmod>2020-10-17T06:13:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/duc-to.xml</loc>
@@ -15,11 +15,15 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida.xml</loc>
-  <lastmod>2020-10-17T12:39:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/le-thanh-tung.xml</loc>
   <lastmod>2020-10-17T06:13:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/bandit.xml</loc>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_recording.xml</loc>
@@ -27,7 +31,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_richka.xml</loc>
-  <lastmod>2020-10-17T12:39:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_tool.xml</loc>
@@ -66,15 +70,19 @@
   <lastmod>2020-10-17T06:13:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://cocktailmake.github.io/categories/security.xml</loc>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://cocktailmake.github.io/categories/web-api.xml</loc>
-  <lastmod>2020-10-17T12:39:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2020-10-17T12:39:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2020-10-17T12:39:00Z</lastmod>
+  <lastmod>2020-11-02T01:52:00Z</lastmod>
  </sitemap>
 </sitemapindex>
