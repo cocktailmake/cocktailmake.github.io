@@ -15,60 +15,60 @@
 
 * Abstract
 In this post, we introduce a method of automating the process of code review of Python codes by using:
-+ Bandit: To perform code review & find security issues of Python codes.
-+ Jenkins: Run this test automatically based on changes of code on target branch.
++ ~Bandit~: To perform code review & find security issues of Python codes.
++ ~Jenkins~: Run this test automatically based on changes of code on target branch.
 
 * Steps
 
 ** Prepare environment
-Before we start, make sure system satisfy below mentioned requirements:
+Before we start, make sure the system satisfy below mentioned requirements:
 + Python2.7/Python3 installed
 + Git & pip configured
 + Jenkins servers installed & configured
 + Identify git branch for code scanning
-+ Install bandit tool (See guide from https://github.com/PyCQA/bandit)
++ Install ~bandit~ tool (See guide from https://github.com/PyCQA/bandit)
 
-** Create Jenkins item
+** Create Jenkins job
 From home page of Jenkins:
 + Click "New Item"
-+ Enter name of new item, for example: "Security-Issues-Scanner"
-+ Choose "Freestyle project" then click "Ok" to go to next teps
++ Enter a name of the new job, for example: "Security-Issues-Scanner"
++ Choose "Freestyle project" then click "OK" to go to next steps
 
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/create-new-jenkins-item.png]]
 
-** Configure Jenkins item
-After clicking "Ok" button from previous step, we will see an GUI that contains steps to configure Jenkins item. We will go over step by step.
+** Configure Jenkins job
+After clicking "OK" button in the previous step, we will see a GUI that contains steps to configure Jenkins job. We will go over step by step.
 
-+ In "General" step, we should add description for this Jenkins item and configure log rotation to prevent too many logs.
++ In "General" step, we should add a description for this Jenkins job and configure log rotation to prevent too many logs.
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/general-information.png]]
 
 + In "Source Code Management" step, you have to do following actions:
 
-    - Eenter your repository (From Github, gitlab, bitbucket, backlog, .etc)
-    - Add credentials that can pull code from remote branch and select it. 
-    - Provide branch that you want to check (In this example, I want to scan stage branch).
+    - Enter your repository (From GitHub, GitLab, Bitbucket, Backlog, .etc)
+    - Add credentials that can pull codes from a remote branch and select it.
+    - Provide a branch that you want to check (In this example, I want to scan stage branch).
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/source-code-management.png]]
 
-There are many other additional behaviors that you can add more. For example, your project has submodules and need to scan them as well, you can add "Advanced sub-modules behaviours" and do configure.
-Here is list most of behaviors that you can add:
+There are many other additional behaviors that you can add more. For example, your project has submodules and need to scan them as well, you can add "Advanced sub-modules behaviors" and do configure.
+Here is list most behaviors that you can add:
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/source-code-additional-behaviors.png]]
 
-+ In "Build Triggers" step, there are many options that you can run this item but I will choose "Poll SCM". This will allow me to configure to run this item like a crontab in Linux system. For example, I will run this item one per hour (Using Poll SCM then the item will run if there is new change of code only).
++ In "Build Triggers" step, there are many options that you can run this job but I will choose "Poll SCM". This will allow me to configure to run this job like a crontab in Linux system. For example, I will run this job once an hour (Using Poll SCM then the job will run if there is a new change of code only).
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/build-trigger-poll-scm.png]]
 
 + In "Build Environment" step, you can choose some options for building like "Delete workspace before build starts", Add timestamps to the Console Output", .etc. It's up to you. My suggestion is that you should add "Add timestamps to the Console Output" then you can know the build time when checking the output log again.
 
-+ "Build" step: Because I installed bandit on Jenkins server so I will choose "Execute shell" for this step. I will use bandit to scan all source folder from git repository and try to find if there is any "High Severity" item. If there is any item, I will use "exit 1" to mark that this build is failed. Otherwise, the build is success. Then we can use "Post-build Actions" to define response actions with each type of status. 
++ "Build" step: Because I installed bandit on Jenkins server, so I will choose "Execute shell" for this step. I will use bandit to scan all source folder from git repository and try to find if there is any "High Severity" item. If there is any item, I will use "exit 1" to mark that this build is failed. Otherwise, the build is success. Then we can use "Post-build Actions" to define response actions with each type of status.
 
 Here is content of script that I will run:
 
@@ -85,15 +85,15 @@ fi
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/build-script.png]]
 
-+ "Post-build Actions" will support us to define actions that we want to do when build is failed. There are many actions that we can choose:
++ "Post-build Actions" will support us to define actions that we want to do when the build is failed. There are many actions that we can choose:
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/post-build-actions.png]]
 
-With my opinion, I mostly use email notification then I will know when this item is failed to check and make it works as it should be.
-All's done! Now you can click "Save" and then click "Build Now" to build this item. If it's failed, you can go to failed build and check "Console Output" to find out the reason and fix this. Otherwise you can sleep well because there is no high severity issues on your code.
+With my opinion, I mostly use "E-mail Notification" then I will know when this job is failed to check and make it works as it should be.
+All's done! Now you can click "Save" and then click "Build Now" to build this job. If it's failed, you can go to the failed build and check "Console Output" to find out the reason and fix this. Otherwise, you can sleep well because there is no high severity issues on your code.
 
-Here is an example of output that you can see on "Console Ouput" on a build item (You can see it when item is building, it will be loaded real-time).
+Here is an example of an output that you can see on "Console Output" on a build item (You can see it when the job is running, it will be loaded in real-time).
 
 #+ATTR_HTML: :align center
 [[img-url:/images/find-security-issues-with-bandit/example-of-output-console.png]]
