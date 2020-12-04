@@ -1,20 +1,25 @@
+#+OPTIONS: ^:nil
 #+BEGIN_COMMENT
-.. title: Ffmpeg wasm
+.. title: FFmpeg WASM
 .. slug: ffmpeg-wasm
 .. date: 2020-11-29 23:11:20 UTC+09:00
-.. tags: 
-.. category: 
+.. tags: JavaScript, wasm
+.. category: Recording
 .. link: 
-.. description: 
+.. description: We evaluated WebAssembly format of ffmpeg for video transcoding on JavaScript.
 .. type: text
 .. author: Duc To
+.. previewimage: TODO
 #+END_COMMENT
 
 * Introduction
 
-Ffmpeg wasm is a pure Webassembly / Javascript port of FFmpeg. It enables video & audio record, convert and stream right inside browsers.
-
+FFmpeg WASM is a pure WebAssembly / JavaScript port of FFmpeg. It enables video & audio record, convert and stream right inside browsers.
 The main Git repository for it is https://github.com/ffmpegwasm/ffmpeg.wasm
+
+TODO
+Describe the motivation why we evaluated and how we would like to integrate this technology into our products.
+
 
 * Licensing
 
@@ -24,8 +29,8 @@ The main Git repository for it is https://github.com/ffmpegwasm/ffmpeg.wasm
 
 * How it works
 
-- The only js file defined in html file is https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js but actually it is just a wrapper.
-- Based on the actual need in our triggered ffmpeg function, the js will load ffmpeg/core file ffmpeg-core.wasm and its js file ffmpeg-core.js. ffmpeg-core.wasm's file size at the time of testing is 22MB.
+- The only JavaScript file defined in HTML file is https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js but actually it is just a wrapper.
+- Based on the actual need in our triggered ffmpeg function, the JavaScript will load ffmpeg/core file ffmpeg-core.wasm and its JavaScript file ffmpeg-core.js. The size of ffmpeg-core.wasm at the time of testing is 22MB.
 - Sometimes we may need to use the newest version of @ffmpeg/core and we can define it using customized path.
 
 #+BEGIN_SRC javascript
@@ -36,11 +41,16 @@ const ffmpeg = createFFmpeg({
 
 - We can re-compile ffmpeg-core by checking build.sh inside https://github.com/ffmpegwasm/ffmpeg.wasm-core repository.
 
+TODO Put the actual source code you demonstrated.
+
+TODO Put some figures such as architecture etc.
+
+
 * Testing result
 
-- We made 3 test cases converting from h265 video file, mov file which recorded from MacOS and a sample move file which we get from the internet to MP# format:
-  - Convert the h265 format file in this ticket to mp4. It is successful but the progress takes very long to complete, more than 6 mins while if we do it with ffmpeg command it is just around 3 mins. So nearly double the time.
-  - Convert admin_sort mov video, which I think that you recorded it on Mac device to mp4 format. It is failed after few seconds using ffmpeg wasm library but it is successful using ffmpeg command.
-  - Convert the mov video which I downloaded from the internet to mp4 format. It is successful and the conversion time is quite fast, around 2 mins.
+- We made 3 test cases converting from H.265 video file, MOV file which recorded from MacOS and a sample MOV file which we get from the internet to MP# format:
+  - Convert the H.265 video to mp4. It is successful but the progress takes very long to complete, more than 6 minutes while if we do it with ffmpeg command it is just around 3 minutes. So nearly double the time.
+  - Convert admin_sort MOV video, which I think that you recorded it on Mac device to mp4 format. It is failed after few seconds using FFmpeg WASM library but it is successful using ffmpeg command.
+  - Convert the MOV video downloaded from the internet to mp4 format. It is successful and the conversion time is quite fast, around 2 minutes.
 
-At the moment of writting this article, ffmpeg wasm is twice slower and unstable, but it is worth monitoring the future progress and we may use WASM ImageMagic in future.
+At the moment of writing this article, FFmpeg WASM is twice slower and unstable, but it is worth monitoring the future progress, and we may use WASM of ImageMagic in the future.
