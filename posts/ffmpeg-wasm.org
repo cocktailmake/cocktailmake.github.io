@@ -17,9 +17,12 @@
 FFmpeg WASM is a pure WebAssembly / JavaScript port of FFmpeg. It enables video & audio record, convert and stream right inside browsers.
 The main Git repository for it is https://github.com/ffmpegwasm/ffmpeg.wasm
 
-TODO
-Describe the motivation why we evaluated and how we would like to integrate this technology into our products.
+Right now, in Recording process, we utilize user experience by uploading video source file directly from front-end web browser to S3 without going through any server using presigned S3 URL. The limitation of the approach is that we cannot convert the source video file as needed without going through the server (which increases a lot of waiting time for end users) Some handly cases for that needs are:
 
+- Unify video source format to mp4 from different video file format (mp4, mov)
+- Right now web browser does not support H265 video format and we need to convert to MP4 format to support playing it in web browser
+
+Based on the above needs, we research FFMPEG WASM library as we think that it would be nice if we can do the video conversion directly from web browser
 
 * Licensing
 
@@ -41,10 +44,39 @@ const ffmpeg = createFFmpeg({
 
 - We can re-compile ffmpeg-core by checking build.sh inside https://github.com/ffmpegwasm/ffmpeg.wasm-core repository.
 
-TODO Put the actual source code you demonstrated.
+* Testing example
 
-TODO Put some figures such as architecture etc.
+[[img-url:/images/ffmpeg-wasm/wasm_sample.png]]
 
+#+BEGIN_SRC html
+<body>
+  <video id="player" controls></video>
+  <input type="file" id="uploader">
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"></script>
+  <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+    const transcode = async ({ target: { files } }) => {
+      const { name } = files[0];
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+      await ffmpeg.run('-i', name,  'output.mp4');
+      //await ffmpeg.run('-i', name, '-q:v', 0, 'output.mp4');
+      const data = ffmpeg.FS('readFile', 'output.mp4');
+      const video = document.getElementById('player');
+      video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    }
+
+    document.getElementById('uploader').addEventListener('change', transcode);
+  </script>
+</body>
+#+END_SRC
+
+- We have a HTML page with 1 video tag and a file upload button.
+- When user click upload button and select a MOV video file, ffmpeg wasm library will be called to converted it to MP4 file (output.mp4).
+- When the conversion is completed, JS loads HTML video tag's source with the converted video's data and display on screen.
+
+[[img-url:/images/ffmpeg-wasm/wasm_figure1.png]]
 
 * Testing result
 
