@@ -1,0 +1,84 @@
+#+BEGIN_COMMENT
+.. title: Page speed improvement of videos on RICHKA GUI
+.. slug: page-speed-improvement-of-videos-on-richka-gui
+.. date: 2020-12-31 16:43:32 UTC+09:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+.. author: Le Thanh Tung
+#+END_COMMENT
+
+Like other video systems, RICHKA GUI also suffer the page loads too slowly because there are many images and videos.
+
+Our past effort to make the page speed of video list and format list on top and edit page faster with integrating a delayed loading of video contents.
+
+First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
++ TOP page: 
+    - show generated videos. (1)
+    - show template videos for selecting when creating a new video data. (2)
++ EDIT page:
+    - show videos and images in scenes for generating video. (3)
+    - show videos and images in library of video data, library of user, searching from videos and images side, capturing from other website, PDF file (4)
+    - show template videos for selecting another template (5) as same as (2)
+    - show generated video (6)
+    - show sample video (7)
+
+* There are our improvements:
+** Pagination and search
+    Number of videos and images are large. Displaying all of them is too slow, so we limited the number of videos and images.
+
+    Namely, we apply the improvement for (1), (2), (5) with number is 10; for (4) with number is 20; (6), (7) only has a video so it's no need.
+
+** Load the video only after loading the page
+    + Except for videos and images in scenes (3), we didn't get video in loading page processing.
+    + In almost of cases, we will call an Ajax for loading them.
+    + The flow is:
+        - After loading a page or loading popup, an Ajax will be called.
+        - In the request processing, a loading page or loading icon will be displayed.
+        - After response returned, hide the loading page or loading icon, then show videos and images.
+
+** Only loading a limited number of videos
+    In above improvement, in case of videos, we didn't show all of them in the same time. 
+#+BEGIN_SRC javascript
+function loadGroupVideojs(videoItems, modal_id, after_video_loading) {
+    loadVideojs(videoItems, 0, modal_id, after_video_loading);
+    setTimeout(loadVideojs(videoItems, 1, modal_id, after_video_loading), 50);
+    setTimeout(loadVideojs(videoItems, 2, modal_id, after_video_loading), 100);
+    setTimeout(loadVideojs(videoItems, 3, modal_id, after_video_loading), 150);
+    setTimeout(loadVideojs(videoItems, 4, modal_id, after_video_loading), 200);
+}
+function loadVideojs(videoItems, index, modal_id, after_video_loading){
+    var video = videoItems[index];
+    ...
+        var poster = video.getAttribute('xx-poster');
+        if (poster === null) {
+            if (video.getAttribute('preload') === 'none') {
+                video.setAttribute('preload', 'metadata');
+                addDurationTimeToVideo(video);
+            }
+        }
+    ...
+    index += 5;
+    if (index < videoItems.length) {
+        setTimeout(loadVideojs(videoItems, index, modal_id, after_video_loading), 400);
+    }
+}
+#+END_SRC
+
+    Like above code, we loaded five videos ~50ms~ apart. When a video is loaded, in the end of function ~loadVideojs~ will be loaded the next videos.
+
+    Function ~loadVideojs~ will be checked video in the end of list for stopping callback.
+
+** Use attribute ~preload~ and ~thumbnail~ of video tag
+    All videos in RICHKA system have thumbnail image. 
+    We split video into 2 types:
+        + Normal video: only play
+            - In this case, video tag will be rendered with 2 attributes: ~preload~ attribute is none and ~xx-poster~ attribute is video thumbnail
+            - When video is visible, poster attribute will be created from ~xx-poster~      
+            - When video is played, video will be loaded
+        + Special video: need video information such as height, width, duration time
+            - We will read video information and save to video name or database
+            - When video is rendered, we will use video thumbnail and use video information to crop
+            - When user hovers over a video, thumbnail image will be removed and video tag which attribute ~preload~ is ~metadata~ will be added with style of thumbnail image.
