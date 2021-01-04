@@ -1,0 +1,120 @@
+#+BEGIN_COMMENT
+.. title: License check by scancode-toolkit
+.. slug: license-check-by-scancode-toolkit
+.. date: 2021-01-04 09:30:52 UTC+09:00
+.. tags: license
+.. category: RICHKA
+.. link: 
+.. description: 
+.. type: text
+.. previewimage: /images/license-check-by-scancode-toolkit/step-6.png
+.. author: Bui Dinh Cuong
+
+#+END_COMMENT
+
+
+* Abstract
+In this post, we introduce a method of automating the process of Python codes license scanning by using:
++ ~Scancode-toolkit~: To perform code license scanning.
++ ~Jenkins~: Run this test automatically based on changes of code on target branch.
+
+* Steps
+
+** Prepare environment
+Before we start, make sure the system satisfy below mentioned requirements:
++ Python3.6 installed
++ Git & pip configured
++ Jenkins servers installed & configured
++ Identify git branch for code scanning
++ Install ~Scancode-toolkit~ tool (See guide from https://scancode-toolkit.readthedocs.io/en/latest/getting-started/newcomer.html#installing-scancode). Because our project is using Python3.8 which has not been supported by Scancode-toolkit (https://scancode-toolkit.readthedocs.io/en/latest/getting-started/install.html) so we have to use Miniconda (https://docs.conda.io/en/latest/miniconda.html) to create Python3.6 environment, build binary version and use it.
+
+** Create Jenkins job
+From home page of Jenkins:
++ Click "New Item"
++ Enter a name of the new job, for example: "Check-License-Scan-Code"
++ Choose "Freestyle project" then click "OK" to go to next steps
+
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-1.png]]
+
+** Configure Jenkins job
+After clicking "OK" button in the previous step, we will see a GUI that contains steps to configure Jenkins job. We will go over step by step.
+
++ In "General" step, we should add a description for this Jenkins job and configure log rotation to prevent too many logs.
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-2.png]]
+
++ In "Source Code Management" step, you have to do following actions:
+
+    - Enter your repository (From GitHub, GitLab, Bitbucket, Backlog, .etc)
+    - Add credentials that can pull codes from a remote branch and select it.
+    - Provide a branch that you want to check (In this example, I want to scan stage branch).
+
+Besides, there are many other additional behaviors that you can add more. For example, your project has submodules and need to scan them as well, you can add "Advanced sub-modules behaviors" and do configure. Our project has sub-modules so I added this behavior and do recursively.
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-3.png]]
+
+
++ In "Build Triggers" step, there are many options that you can run this job but I will choose "Poll SCM". This will allow me to configure to run this job like a crontab in Linux system. For example, I will run this job once an hour (Using Poll SCM then the job will run if there is a new change of code only). In "Build Environment" step, you can choose some options for building like "Delete workspace before build starts", Add timestamps to the Console Output", .etc. It's up to you. My suggestion is that you should add "Add timestamps to the Console Output" then you can know the build time when checking the output log again.
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-4.png]]
+
+
++ "Build" step: Because I installed bandit on Jenkins server, so I will choose "Execute shell" for this step. I will use bandit to scan all source folder from git repository and try to find if there is any "High Severity" item. If there is any item, I will use "exit 1" to mark that this build is failed. Otherwise, the build is success. Then we can use "Post-build Actions" to define response actions with each type of status.
+
+Here is content of script that I will run:
+
+#+BEGIN_SRC sh
+#!/bin/bash
+target_dir=./source
+result_dir=license-check-result
+mkdir -p $result_dir
+export LD_LIBRARY_PATH=/usr/lib64
+/home/jenkins/toolkits/scancode-toolkit-3.1.1/scancode --license --copyright --summary-with-details --processes 2 --json-pp $result_dir/result.json --html $result_dir/result.html $target_dir
+parsed_file="$result_dir/result1.json"
+JSON=`cat $result_dir/result.json`
+echo $JSON | tr '\r\n' ' ' | jq '.files[].licenses[].matched_rule.licenses | join(",")' > $parsed_file
+
+gpl="gpl"
+invalid_license_count=0
+
+while IFS= read line
+do
+	licenses=$(echo $line | sed "s/\"//g" | tr "," "\n")
+	sub_license_valid_count=0
+	for license in $licenses
+	do
+	    if [[ "$license" !=  *"$gpl"* ]]; then
+	    	sub_license_valid_count=$((sub_license_valid_count+1))
+	    	break
+	    fi
+	done
+	if [[ $sub_license_valid_count == 0 ]]; then
+		invalid_license_count=$((invalid_license_count+1))
+	fi
+done <"$parsed_file"
+
+
+if [ $invalid_license_count -gt 0 ];then
+    exit 1
+else
+    exit 0
+fi
+#+END_SRC
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-5.png]]
+
+"Post-build Actions" will support us to define actions that we want to do when the build is failed. There are many actions that we can choose. Following my opinion, I mostly use "E-mail Notification" then I will know when this job is failed to check and make it works as it should be.
+All's done! Now you can click "Save" and then click "Build Now" to build this job. If it's failed, you can go to the failed build and check "Console Output" to find out the reason and fix this. Otherwise, you can sleep well because there is no high severity issues on your code.
+
+Here is an example of an output that you can see on "Console Output" on a build item (You can see it when the job is running, it will be loaded in real-time).
+
+#+ATTR_HTML: :align center
+[[img-url:/images/license-check-by-scancode-toolkit/step-6.png]]
+
+Thanks for your reading to the end of this post!
