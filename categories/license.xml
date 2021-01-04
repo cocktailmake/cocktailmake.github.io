@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cocktail-Make Developer Blog (Posts about license)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/license.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;Cocktail-Make&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Jan 2021 07:16:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>License check by scancode-toolkit</title><link>https://cocktailmake.github.io/posts/license-check-by-scancode-toolkit/</link><dc:creator>Bui Dinh Cuong</dc:creator><description>&lt;div id="outline-container-orgbc006f8" class="outline-2"&gt;
+&lt;h2 id="orgbc006f8"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc006f8"&gt;
+&lt;p&gt;
+In this post, we introduce a method of automating the process of Python codes license scanning by using:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;Scancode-toolkit&lt;/code&gt;: To perform code license scanning.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Jenkins&lt;/code&gt;: Run this test automatically based on changes of code on target branch.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org58b0a6c" class="outline-2"&gt;
+&lt;h2 id="org58b0a6c"&gt;Steps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org58b0a6c"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org0e11ace" class="outline-3"&gt;
+&lt;h3 id="org0e11ace"&gt;Prepare environment&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0e11ace"&gt;
+&lt;p&gt;
+Before we start, make sure the system satisfy below mentioned requirements:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Python3.6 installed&lt;/li&gt;
+&lt;li&gt;Git &amp;amp; pip configured&lt;/li&gt;
+&lt;li&gt;Jenkins servers installed &amp;amp; configured&lt;/li&gt;
+&lt;li&gt;Identify git branch for code scanning&lt;/li&gt;
+&lt;li&gt;Install &lt;code&gt;Scancode-toolkit&lt;/code&gt; tool (See guide from &lt;a href="https://scancode-toolkit.readthedocs.io/en/latest/getting-started/newcomer.html#installing-scancode"&gt;https://scancode-toolkit.readthedocs.io/en/latest/getting-started/newcomer.html#installing-scancode&lt;/a&gt;). Because our project is using Python3.8 which has not been supported by Scancode-toolkit (&lt;a href="https://scancode-toolkit.readthedocs.io/en/latest/getting-started/install.html"&gt;https://scancode-toolkit.readthedocs.io/en/latest/getting-started/install.html&lt;/a&gt;) so we have to use Miniconda (&lt;a href="https://docs.conda.io/en/latest/miniconda.html"&gt;https://docs.conda.io/en/latest/miniconda.html&lt;/a&gt;) to create Python3.6 environment, build binary version and use it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6b914dc" class="outline-3"&gt;
+&lt;h3 id="org6b914dc"&gt;Create Jenkins job&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6b914dc"&gt;
+&lt;p&gt;
+From home page of Jenkins:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Click "New Item"&lt;/li&gt;
+&lt;li&gt;Enter a name of the new job, for example: "Check-License-Scan-Code"&lt;/li&gt;
+&lt;li&gt;Choose "Freestyle project" then click "OK" to go to next steps&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-1.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1e571d9" class="outline-3"&gt;
+&lt;h3 id="org1e571d9"&gt;Configure Jenkins job&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1e571d9"&gt;
+&lt;p&gt;
+After clicking "OK" button in the previous step, we will see a GUI that contains steps to configure Jenkins job. We will go over step by step.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In "General" step, we should add a description for this Jenkins job and configure log rotation to prevent too many logs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-2.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In "Source Code Management" step, you have to do following actions:
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Enter your repository (From GitHub, GitLab, Bitbucket, Backlog, .etc)&lt;/li&gt;
+&lt;li&gt;Add credentials that can pull codes from a remote branch and select it.&lt;/li&gt;
+&lt;li&gt;Provide a branch that you want to check (In this example, I want to scan stage branch).&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Besides, there are many other additional behaviors that you can add more. For example, your project has submodules and need to scan them as well, you can add "Advanced sub-modules behaviors" and do configure. Our project has sub-modules so I added this behavior and do recursively.
+&lt;/p&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-3.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In "Build Triggers" step, there are many options that you can run this job but I will choose "Poll SCM". This will allow me to configure to run this job like a crontab in Linux system. For example, I will run this job once an hour (Using Poll SCM then the job will run if there is a new change of code only). In "Build Environment" step, you can choose some options for building like "Delete workspace before build starts", Add timestamps to the Console Output", .etc. It's up to you. My suggestion is that you should add "Add timestamps to the Console Output" then you can know the build time when checking the output log again.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-4.png" alt="nil"&gt;
+&lt;/p&gt;
+
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;"Build" step: Because I installed bandit on Jenkins server, so I will choose "Execute shell" for this step. I will use bandit to scan all source folder from git repository and try to find if there is any "High Severity" item. If there is any item, I will use "exit 1" to mark that this build is failed. Otherwise, the build is success. Then we can use "Post-build Actions" to define response actions with each type of status.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is content of script that I will run:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;target_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./source
+&lt;span class="nv"&gt;result_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;license-check-result
+mkdir -p &lt;span class="nv"&gt;$result_dir&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/lib64
+/home/jenkins/toolkits/scancode-toolkit-3.1.1/scancode --license --copyright --summary-with-details --processes &lt;span class="m"&gt;2&lt;/span&gt; --json-pp &lt;span class="nv"&gt;$result_dir&lt;/span&gt;/result.json --html &lt;span class="nv"&gt;$result_dir&lt;/span&gt;/result.html &lt;span class="nv"&gt;$target_dir&lt;/span&gt;
+&lt;span class="nv"&gt;parsed_file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$result_dir&lt;/span&gt;&lt;span class="s2"&gt;/result1.json"&lt;/span&gt;
+&lt;span class="nv"&gt;JSON&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat &lt;span class="nv"&gt;$result_dir&lt;/span&gt;/result.json&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$JSON&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tr &lt;span class="s1"&gt;'\r\n'&lt;/span&gt; &lt;span class="s1"&gt;' '&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; jq &lt;span class="s1"&gt;'.files[].licenses[].matched_rule.licenses | join(",")'&lt;/span&gt; &amp;gt; &lt;span class="nv"&gt;$parsed_file&lt;/span&gt;
+
+&lt;span class="nv"&gt;gpl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gpl"&lt;/span&gt;
+&lt;span class="nv"&gt;invalid_license_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nv"&gt;IFS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; line
+&lt;span class="k"&gt;do&lt;/span&gt;
+	&lt;span class="nv"&gt;licenses&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$line&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s2"&gt;"s/\"//g"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tr &lt;span class="s2"&gt;","&lt;/span&gt; &lt;span class="s2"&gt;"\n"&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+	&lt;span class="nv"&gt;sub_license_valid_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+	&lt;span class="k"&gt;for&lt;/span&gt; license in &lt;span class="nv"&gt;$licenses&lt;/span&gt;
+	&lt;span class="k"&gt;do&lt;/span&gt;
+	    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$license&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt;  *&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$gpl&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;* &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+		&lt;span class="nv"&gt;sub_license_valid_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;sub_license_valid_count+1&lt;span class="k"&gt;))&lt;/span&gt;
+		&lt;span class="nb"&gt;break&lt;/span&gt;
+	    &lt;span class="k"&gt;fi&lt;/span&gt;
+	&lt;span class="k"&gt;done&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$sub_license_valid_count&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+		&lt;span class="nv"&gt;invalid_license_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;invalid_license_count+1&lt;span class="k"&gt;))&lt;/span&gt;
+	&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt; &amp;lt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$parsed_file&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$invalid_license_count&lt;/span&gt; -gt &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-5.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+"Post-build Actions" will support us to define actions that we want to do when the build is failed. There are many actions that we can choose. Following my opinion, I mostly use "E-mail Notification" then I will know when this job is failed to check and make it works as it should be.
+All's done! Now you can click "Save" and then click "Build Now" to build this job. If it's failed, you can go to the failed build and check "Console Output" to find out the reason and fix this. Otherwise, you can sleep well because there is no high severity issues on your code.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is an example of an output that you can see on "Console Output" on a build item (You can see it when the job is running, it will be loaded in real-time).
+&lt;/p&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/license-check-by-scancode-toolkit/step-6.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Thanks for your reading to the end of this post!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>license</category><guid>https://cocktailmake.github.io/posts/license-check-by-scancode-toolkit/</guid><pubDate>Mon, 04 Jan 2021 00:30:52 GMT</pubDate></item></channel></rss>
