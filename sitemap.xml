@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2021-01-04T07:16:00Z</lastmod>
+  <lastmod>2021-01-05T11:26:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/</loc>
@@ -43,7 +43,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/</loc>
-  <lastmod>2021-01-04T07:16:00Z</lastmod>
+  <lastmod>2021-01-04T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/bandit/</loc>
@@ -102,16 +102,12 @@
   <lastmod>2020-11-02T01:52:00Z</lastmod>
  </url>
  <url>
-  <loc>https://cocktailmake.github.io/categories/wasm/</loc>
-  <lastmod>2020-12-04T11:45:00Z</lastmod>
- </url>
- <url>
   <loc>https://cocktailmake.github.io/categories/web-api/</loc>
   <lastmod>2020-10-17T06:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/index-1.html</loc>
-  <lastmod>2021-01-04T06:28:00Z</lastmod>
+  <lastmod>2021-01-05T11:26:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</loc>
@@ -124,10 +120,6 @@
  <url>
   <loc>https://cocktailmake.github.io/posts/emacs-modeline-enhancement-for-git-diff/</loc>
   <lastmod>2020-10-17T06:13:00Z</lastmod>
- </url>
- <url>
-  <loc>https://cocktailmake.github.io/posts/ffmpeg-wasm/</loc>
-  <lastmod>2020-12-04T11:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/find-security-issues-with-bandit/</loc>
