@@ -46,7 +46,10 @@ const ffmpeg = createFFmpeg({
 
 * Testing example
 
-[[img-url:/images/ffmpeg-wasm/wasm_sample.png]]
+- The prototype of this blog post is accessible [[https://test.prototype.richka.co/~duc/wasm/][here]]
+- In the page, user will have an upload button to upload source video file, which can be in either webm, mov or H.265 mp4 format
+
+[[img-url:/images/ffmpeg-wasm/wasm_upload.png]]
 
 #+BEGIN_SRC html
 <body>
@@ -72,17 +75,30 @@ const ffmpeg = createFFmpeg({
 </body>
 #+END_SRC
 
-- We have a HTML page with 1 video tag and a file upload button.
 - When user click upload button and select a MOV video file, ffmpeg wasm library will be called to converted it to MP4 file (output.mp4).
+- User can trace the conversion status, as normal ffmpeg oss by its output in console log
+
+[[img-url:/images/ffmpeg-wasm/console_log1.png]]
+
+[[img-url:/images/ffmpeg-wasm/console_log2.png]]
+
+[[img-url:/images/ffmpeg-wasm/console_log3.png]]
+
 - When the conversion is completed, JS loads HTML video tag's source with the converted video's data and display on screen.
+
+[[img-url:/images/ffmpeg-wasm/conversion_output.png]]
+
+- User flow diagram can be described as below
 
 [[img-url:/images/ffmpeg-wasm/wasm_figure1.png]]
 
 * Testing result
 
-- We made 3 test cases converting from H.265 video file, MOV file which recorded from MacOS and a sample MOV file which we get from the internet to MP# format:
-  - Convert the H.265 video to mp4. It is successful but the progress takes very long to complete, more than 6 minutes while if we do it with ffmpeg command it is just around 3 minutes. So nearly double the time.
-  - Convert admin_sort MOV video, which I think that you recorded it on Mac device to mp4 format. It is failed after few seconds using FFmpeg WASM library but it is successful using ffmpeg command.
-  - Convert the MOV video downloaded from the internet to mp4 format. It is successful and the conversion time is quite fast, around 2 minutes.
+- We made 4 test cases converting from different source video format to MP4 format:
+  - WebM: It is successful and the conversion time is fast. For around 8MB video it took less than 2 minutes.
+  - H.265: It is successful but the progress takes very long to complete, more than 6 minutes while if we do it with ffmpeg command it is just around 3 minutes. So nearly double the time.
+  - General MOV file from Internet: It is successful and the conversion time is quite fast, around 2 minutes.
+  - MOV file which recorded from MacOS: It is failed after few seconds using FFmpeg WASM library but it is successful using ffmpeg command.
+  - General MOV file from Internet: It is successful and the conversion time is quite fast, around 2 minutes.
 
 At the moment of writing this article, FFmpeg WASM is twice slower and unstable, but it is worth monitoring the future progress, and we may use WASM of ImageMagic in the future.
