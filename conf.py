@@ -16,8 +16,8 @@ import time
 
 
 # Data about this site
-BLOG_AUTHOR = "Cocktail-Make"  # (translatable)
-BLOG_TITLE = "Cocktail-Make Developer Blog"  # (translatable)
+BLOG_AUTHOR = "RICHKA"  # (translatable)
+BLOG_TITLE = "RICHKA Developer Blog"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
 SITE_URL = "https://cocktailmake.github.io/"
@@ -1324,8 +1324,8 @@ TWITTER_CARD = {
     'use_twitter_cards': True, # enable Twitter Cards
     'card': 'summary_large_image', # Card type, you can also use 'summary_large_image',
                                    # see https://dev.twitter.com/cards/types
-    'site': '@cocktailmakeInc',         # twitter nick for the website
-    'creator': '@cocktailmakeInc',     # Username for the content creator / author.
+    'site': '@richka_cm',         # twitter nick for the website
+    'creator': '@richka_cm',     # Username for the content creator / author.
 }
 
 # Bundle JS and CSS into single files to make site loading faster in a HTTP/1.1
