@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="We introduce the available area to embed metadata in video binary.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integration Metadata into Video | RICHKA Developer Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://cocktailmake.github.io/posts/integration-metadata-into-video/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Hitoshi Uchida">
+<link rel="prev" href="../license-check-by-scancode-toolkit/" title="License check by scancode-toolkit" type="text/html">
+<meta property="og:site_name" content="RICHKA Developer Blog">
+<meta property="og:title" content="Integration Metadata into Video">
+<meta property="og:url" content="https://cocktailmake.github.io/posts/integration-metadata-into-video/">
+<meta property="og:description" content="We introduce the available area to embed metadata in video binary.">
+<meta property="og:image" content="https://cocktailmake.github.io/images/integration-metadata-into-video/Selection_015_2021-01-05_23-56-21.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-01-05T23:23:03+09:00">
+<meta property="article:tag" content="ffmpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@richka_cm">
+<meta name="twitter:creator" content="@richka_cm">
+<meta name="twitter:image" content="https://cocktailmake.github.io/images/integration-metadata-into-video/Selection_015_2021-01-05_23-56-21.png">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://cocktailmake.github.io/">
+
+                <span id="blog-title">RICHKA Developer Blog</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<!-- Google custom search --><form method="get" action="https://www.google.com/search" class="navbar-form navbar-right" role="search">
+<div class="form-group">
+<input type="text" name="q" class="form-control" placeholder="Search">
+</div>
+<button type="submit" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+</button>
+<input type="hidden" name="sitesearch" value="https://cocktailmake.github.io/">
+</form>
+<!-- End of custom search -->
+
+
+            <ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Integration Metadata into Video</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/hitoshi-uchida/">Hitoshi Uchida</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-05T23:23:03+09:00" itemprop="datePublished" title="2021-01-05 23:23">2021-01-05 23:23</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgbe65c3c" class="outline-2">
+<h2 id="orgbe65c3c">Abstract</h2>
+<div class="outline-text-2" id="text-orgbe65c3c">
+<p>
+Almost of the video data consists of the binary data of video and
+audio streams, but the video format such as AVI(.avi), MPEG-4(.mp4)
+and QuickTime File Format(.mov) etc. support to embed key/value pairs
+of <b>metadata</b> into video binary because the formats have the dedicated area
+to embed.
+</p>
+
+<p>
+The benefit to embed the metadata is to keep the application data in
+portable without having an external file. Even if we distribute the
+video file on the web, the metadata will not be lost and keep in
+stable.  The metadata is officially standardized and general video
+player can understand them and no harm in the playback.
+</p>
+
+<p>
+In RICHKA, we integrate some metadata into the generated videos to be
+available in our future applications.  For examples, we integrate an
+id of video template used in the video generation to enable to locate
+even if the videos are distributed.
+</p>
+
+<p>
+The keys supported by each container format are described below.
+Based on the format, the keys are different, but we can easily integrate with <code>ffmpeg</code>.
+<a href="https://wiki.multimedia.cx/index.php/FFmpeg_Metadata">https://wiki.multimedia.cx/index.php/FFmpeg_Metadata</a>
+</p>
+
+
+<p width="500px">
+[[<img src="../../images/integration-metadata-into-video/Selection_015_2021-01-05_23-56-21.png" alt="nil">]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6407d98" class="outline-2">
+<h2 id="org6407d98">Integrating metadata into Video</h2>
+<div class="outline-text-2" id="text-org6407d98">
+<p>
+The sample below is to embed metadata with <code>ffmpeg</code> such as the name of the encoding tool,
+the video title and the id of video format used.
+We can suppress the needless transcode by simply copying video/audio streams with
+the options <code>-c:a copy -c:v copy</code>.
+</p>
+
+<div class="highlight"><pre><span></span>$ ffmpeg -y -i test.mp4 \
+  -metadata encoding_tool='RICHKA' \
+  -metadata description='{"format_id":"00123"}' \
+  -metadata title="Sample Title" \
+  -c:a copy -c:v copy out.mp4
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc0408a8" class="outline-2">
+<h2 id="orgc0408a8">Retrieving metadata from video</h2>
+<div class="outline-text-2" id="text-orgc0408a8">
+<p>
+There are some Linux commands to retrieve the metadata.
+</p>
+
+<p>
+The 1st option is <code>ffprobe</code> which is automatically installed with <code>ffmpeg</code>.
+In the output log, there is a section <code>Metadada</code> including the key/value pairs.
+</p>
+
+<div class="highlight"><pre><span></span>$ ffprobe out.mp4
+
+...
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : Sample Title
+    encoder         : RICHKA
+    description     : {"format_id":"00123"}
+...
+</pre></div>
+
+<p>
+2nd option is to use <code>AtomicParsley</code> with a command option <code>-t</code>.
+It simply show the raw data of the key/value pairs.
+</p>
+
+<div class="highlight"><pre><span></span>$ AtomicParsley out.mp4 -t
+Atom "©nam" contains: Sample Title
+Atom "©too" contains: RICHKA
+Atom "desc" contains: {"format_id":"00123"}
+</pre></div>
+
+<p>
+This is not recommended to use in general,
+but 3rd option is to use the powerful <code>strings</code> to print the sequences of printable characters in any files.
+The metadata was integrated into the final area in the video binary.
+</p>
+
+<div class="highlight"><pre><span></span>$ cat strings out.mp4
+...
+data
+Sample Title
+data
+RICHKA
+-desc
+%data
+{"format_id":"00123"}
+...
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/ffmpeg/" rel="tag">ffmpeg</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../license-check-by-scancode-toolkit/" rel="prev" title="License check by scancode-toolkit">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2021         <a href="mailto:">RICHKA</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><!-- Social buttons --><div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+<a class="addthis_button_more">Share</a>
+<ul>
+<li>
+<a class="addthis_button_twitter">Twitter</a>
+</li>
+<li>
+<a class="addthis_button_facebook">Facebook</a>
+</li>
+<li>
+<a class="addthis_button_linkedin">LinkedIn</a>
+</li>
+</ul>
+</div>
+<script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script><!-- End of social buttons --><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-145253993-3"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145253993-3');
+</script>
+</body>
+</html>

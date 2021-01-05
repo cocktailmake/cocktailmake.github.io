@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2021-01-05T11:26:00Z</lastmod>
+  <lastmod>2021-01-05T15:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/</loc>
-  <lastmod>2020-10-17T12:31:00Z</lastmod>
+  <lastmod>2021-01-05T13:23:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/bui-dinh-cuong/</loc>
@@ -42,8 +42,12 @@
   <lastmod>2020-10-17T06:13:00Z</lastmod>
  </url>
  <url>
+  <loc>https://cocktailmake.github.io/authors/richka/</loc>
+  <lastmod>2021-01-05T13:23:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://cocktailmake.github.io/categories/</loc>
-  <lastmod>2021-01-04T07:42:00Z</lastmod>
+  <lastmod>2021-01-05T15:02:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/bandit/</loc>
@@ -68,6 +72,10 @@
  <url>
   <loc>https://cocktailmake.github.io/categories/emacs/</loc>
   <lastmod>2020-10-17T06:13:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/categories/ffmpeg/</loc>
+  <lastmod>2021-01-05T15:02:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/categories/fzf/</loc>
@@ -107,7 +115,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/index-1.html</loc>
-  <lastmod>2021-01-05T11:26:00Z</lastmod>
+  <lastmod>2021-01-05T15:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</loc>
@@ -130,12 +138,20 @@
   <lastmod>2020-10-17T06:13:00Z</lastmod>
  </url>
  <url>
+  <loc>https://cocktailmake.github.io/posts/integration-metadata-into-video/</loc>
+  <lastmod>2021-01-05T13:23:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://cocktailmake.github.io/posts/license-check-by-scancode-toolkit/</loc>
   <lastmod>2021-01-04T07:16:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/narration-recording-git-habit/</loc>
   <lastmod>2020-10-17T06:13:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</loc>
+  <lastmod>2021-01-05T13:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</loc>

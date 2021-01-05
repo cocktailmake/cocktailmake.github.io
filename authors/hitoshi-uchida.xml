@@ -1,5 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts by Hitoshi Uchida)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/hitoshi-uchida.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Tue, 05 Jan 2021 11:21:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org430f534" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts by Hitoshi Uchida)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/hitoshi-uchida.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Tue, 05 Jan 2021 15:04:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integration Metadata into Video</title><link>https://cocktailmake.github.io/posts/integration-metadata-into-video/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgbe65c3c" class="outline-2"&gt;
+&lt;h2 id="orgbe65c3c"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbe65c3c"&gt;
+&lt;p&gt;
+Almost of the video data consists of the binary data of video and
+audio streams, but the video format such as AVI(.avi), MPEG-4(.mp4)
+and QuickTime File Format(.mov) etc. support to embed key/value pairs
+of &lt;b&gt;metadata&lt;/b&gt; into video binary because the formats have the dedicated area
+to embed.
+&lt;/p&gt;
+
+&lt;p&gt;
+The benefit to embed the metadata is to keep the application data in
+portable without having an external file. Even if we distribute the
+video file on the web, the metadata will not be lost and keep in
+stable.  The metadata is officially standardized and general video
+player can understand them and no harm in the playback.
+&lt;/p&gt;
+
+&lt;p&gt;
+In RICHKA, we integrate some metadata into the generated videos to be
+available in our future applications.  For examples, we integrate an
+id of video template used in the video generation to enable to locate
+even if the videos are distributed.
+&lt;/p&gt;
+
+&lt;p&gt;
+The keys supported by each container format are described below.
+Based on the format, the keys are different, but we can easily integrate with &lt;code&gt;ffmpeg&lt;/code&gt;.
+&lt;a href="https://wiki.multimedia.cx/index.php/FFmpeg_Metadata"&gt;https://wiki.multimedia.cx/index.php/FFmpeg_Metadata&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;p width="500px"&gt;
+[[&lt;img src="https://cocktailmake.github.io/images/integration-metadata-into-video/Selection_015_2021-01-05_23-56-21.png" alt="nil"&gt;]
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6407d98" class="outline-2"&gt;
+&lt;h2 id="org6407d98"&gt;Integrating metadata into Video&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6407d98"&gt;
+&lt;p&gt;
+The sample below is to embed metadata with &lt;code&gt;ffmpeg&lt;/code&gt; such as the name of the encoding tool,
+the video title and the id of video format used.
+We can suppress the needless transcode by simply copying video/audio streams with
+the options &lt;code&gt;-c:a copy -c:v copy&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ffmpeg -y -i test.mp4 \
+  -metadata encoding_tool='RICHKA' \
+  -metadata description='{"format_id":"00123"}' \
+  -metadata title="Sample Title" \
+  -c:a copy -c:v copy out.mp4
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc0408a8" class="outline-2"&gt;
+&lt;h2 id="orgc0408a8"&gt;Retrieving metadata from video&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc0408a8"&gt;
+&lt;p&gt;
+There are some Linux commands to retrieve the metadata.
+&lt;/p&gt;
+
+&lt;p&gt;
+The 1st option is &lt;code&gt;ffprobe&lt;/code&gt; which is automatically installed with &lt;code&gt;ffmpeg&lt;/code&gt;.
+In the output log, there is a section &lt;code&gt;Metadada&lt;/code&gt; including the key/value pairs.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ffprobe out.mp4
+
+...
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : Sample Title
+    encoder         : RICHKA
+    description     : {"format_id":"00123"}
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+2nd option is to use &lt;code&gt;AtomicParsley&lt;/code&gt; with a command option &lt;code&gt;-t&lt;/code&gt;.
+It simply show the raw data of the key/value pairs.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ AtomicParsley out.mp4 -t
+Atom "©nam" contains: Sample Title
+Atom "©too" contains: RICHKA
+Atom "desc" contains: {"format_id":"00123"}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+This is not recommended to use in general,
+but 3rd option is to use the powerful &lt;code&gt;strings&lt;/code&gt; to print the sequences of printable characters in any files.
+The metadata was integrated into the final area in the video binary.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat strings out.mp4
+...
+data
+Sample Title
+data
+RICHKA
+-desc
+%data
+{"format_id":"00123"}
+...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>ffmpeg</category><guid>https://cocktailmake.github.io/posts/integration-metadata-into-video/</guid><pubDate>Tue, 05 Jan 2021 14:23:03 GMT</pubDate></item><item><title>RICHKA Web API</title><link>https://cocktailmake.github.io/posts/richka-web-api/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-org430f534" class="outline-2"&gt;
 &lt;h2 id="org430f534"&gt;Abstract&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org430f534"&gt;
 &lt;p&gt;
