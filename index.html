@@ -11,7 +11,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/integration-metadata-into-video/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/ffmpeg-wasm/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,7 +76,166 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/integration-metadata-into-video/" class="u-url">Integration Metadata into Video</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ffmpeg-wasm/" class="u-url">FFmpeg WASM</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/duc-to/">Duc To</a>
+            </span></p>
+            <p class="dateline">
+            <a href="posts/ffmpeg-wasm/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-06T14:00:00+09:00" itemprop="datePublished" title="2021-01-06 14:00">2021-01-06 14:00</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org3632b1d" class="outline-2">
+<h2 id="org3632b1d">Introduction</h2>
+<div class="outline-text-2" id="text-org3632b1d">
+<p>
+<b>FFmpeg WASM</b> is a pure WebAssembly / JavaScript port of FFmpeg. It enables video &amp; audio record, convert and stream right inside browsers.
+The main Git repository for it is <a href="https://github.com/ffmpegwasm/ffmpeg.wasm">https://github.com/ffmpegwasm/ffmpeg.wasm</a>
+</p>
+
+<p>
+<img src="images/ffmpeg-wasm/ffmpeg_wasm.png" alt="nil"></p>
+
+<p>
+Right now, in Recording process, we utilize user experience by uploading video source file directly from front-end web browser to S3 without going through any server using presigned S3 URL. The limitation of the approach is that we cannot convert the source video file as needed without going through the server (which increases a lot of waiting time for end users). Some handy cases for that needs are:
+</p>
+
+<ul class="org-ul">
+<li>Unify video source format to MP4 from different video file formats (AVI, MOV).</li>
+<li>Right now web browser does not support H265 video format and we need to convert to MP4 format to support playing it in web browser.</li>
+</ul>
+<p>
+Based on the above needs, we research <b>FFmpeg WASM</b> library as we think that it would be nice if we can do the video conversion directly from web browser
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgecd3836" class="outline-2">
+<h2 id="orgecd3836">Licensing</h2>
+<div class="outline-text-2" id="text-orgecd3836">
+<ul class="org-ul">
+<li>
+<code>@ffmpeg/ffmpeg</code> contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. It is a small code base and under MIT license.</li>
+
+<li>
+<code>@ffmpeg/core</code> following the same licenses as FFmpeg and its external libraries.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org88d916c" class="outline-2">
+<h2 id="org88d916c">How it works</h2>
+<div class="outline-text-2" id="text-org88d916c">
+<ul class="org-ul">
+<li>The only JavaScript file defined in HTML file is <a href="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js">https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js</a> but actually it is just a wrapper.</li>
+<li>Based on the actual need in our triggered ffmpeg function, the JavaScript will load ffmpeg/core file <code>*ffmpeg-core.wasm</code> and its JavaScript file <code>*ffmpeg-core.js</code>. The size of <code>ffmpeg-core.wasm</code> at the time of testing is 22MB.</li>
+<li>Sometimes we may need to use the newest version of <code>@ffmpeg/core</code> and we can define it using customized path.</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kr">const</span> <span class="nx">ffmpeg</span> <span class="o">=</span> <span class="nx">createFFmpeg</span><span class="p">({</span>
+  <span class="nx">corePath</span><span class="o">:</span> <span class="s1">'../../../src/ffmpeg-core.js'</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>We can re-compile ffmpeg-core by checking <b>build.sh</b> inside <a href="https://github.com/ffmpegwasm/ffmpeg.wasm-core">https://github.com/ffmpegwasm/ffmpeg.wasm-core</a> repository.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge4ea929" class="outline-2">
+<h2 id="orge4ea929">Testing example</h2>
+<div class="outline-text-2" id="text-orge4ea929">
+<ul class="org-ul">
+<li>In the demo below, user will have an upload button to upload source video file, which can be in either webm, MOV or H.265 MP4 format.</li>
+<li>It takes several minutes to transcode and you can monitor the progress on the console of DevTool.</li>
+</ul>
+<iframe src="https://test.prototype.richka.co/~duc/wasm/" style="width:100%; height: 400px;"></iframe>
+
+<ul class="org-ul">
+<li>The source of the sample demo is below.</li>
+</ul>
+<div class="highlight"><pre><span></span>&lt;body&gt;
+  &lt;video id="player" controls&gt;&lt;/video&gt;
+  &lt;input type="file" id="uploader"&gt;
+  &lt;script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+    const transcode = async ({ target: { files } }) =&gt; {
+      const { name } = files[0];
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+      await ffmpeg.run('-i', name,  'output.mp4');
+      //await ffmpeg.run('-i', name, '-q:v', 0, 'output.mp4');
+      const data = ffmpeg.FS('readFile', 'output.mp4');
+      const video = document.getElementById('player');
+      video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    }
+
+    document.getElementById('uploader').addEventListener('change', transcode);
+  &lt;/script&gt;
+&lt;/body&gt;
+</pre></div>
+
+<ul class="org-ul">
+<li>When user click upload button and select a MOV video file, <b>FFmpeg WASM</b> library will be called to converted it to MP4 file (output.mp4).</li>
+</ul>
+<p>
+<img src="images/ffmpeg-wasm/wasm_upload.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>User can trace the conversion status, as normal ffmpeg oss by its output in console log</li>
+</ul>
+<p>
+<img src="images/ffmpeg-wasm/console_log1.png" alt="nil"></p>
+
+<p>
+<img src="images/ffmpeg-wasm/console_log2.png" alt="nil"></p>
+
+<p>
+<img src="images/ffmpeg-wasm/console_log3.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>When the conversion is completed, JS loads HTML video tag's source with the converted video's data and display on screen.</li>
+</ul>
+<p>
+<img src="images/ffmpeg-wasm/conversion_output.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>User flow diagram can be described as below</li>
+</ul>
+<p>
+<img src="images/ffmpeg-wasm/wasm_figure1.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org5726503" class="outline-2">
+<h2 id="org5726503">Testing result</h2>
+<div class="outline-text-2" id="text-org5726503">
+<ul class="org-ul">
+<li>We made 4 test cases converting from different source video format to MP4 format:
+<ul class="org-ul">
+<li>
+<b>WebM</b>: It is successful and the conversion time is fast. For around 8MB video it took less than 2 minutes.</li>
+<li>
+<b>H.265</b>: It is successful but the progress takes very long to complete, more than 6 minutes while if we do it with ffmpeg command it is just around 3 minutes. So nearly double the time.</li>
+<li>
+<b>General MOV file from Internet</b>: It is successful and the conversion time is quite fast, around 2 minutes.</li>
+<li>MOV file which recorded from MacOS: It is failed after few seconds using <b>FFmpeg WASM</b> library but it is successful using ffmpeg command.</li>
+<li>
+<b>General MOV file from Internet</b>: It is successful and the conversion time is quite fast, around 2 minutes.</li>
+</ul>
+</li>
+</ul>
+<p>
+At the moment of writing this article, <b>FFmpeg WASM</b> is twice slower and unstable, but it is worth monitoring the future progress, and we may use WASM of ImageMagic in the future.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/integration-metadata-into-video/" class="u-url">Integration Metadata into Video</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
@@ -1492,345 +1651,6 @@ out.mp4.
 
 <p>
 <img src="images/released-narration-recording-service/audio-merge.png" alt="nil"></p>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/web-workers-api/" class="u-url">Web Workers API</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
-            </span></p>
-            <p class="dateline">
-            <a href="posts/web-workers-api/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-07-26T15:00:00+09:00" itemprop="datePublished" title="2020-07-26 15:00">2020-07-26 15:00</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-org377ff43" class="outline-2">
-<h2 id="org377ff43">Abstract</h2>
-<div class="outline-text-2" id="text-org377ff43">
-<p>
-In this post, we describe Web Workers API which was introduced in 2010 as
-one of HTML5. The technology is based on <b><b>fork</b></b> to create a new sub
-process and Web Workers API enables web applications to fork an
-independent worker process in JavaScript world. The worker process has
-its own memory space and the parent main process isn't affected even
-if the forked process is crashed as general process system.
-</p>
-
-<p>
-The practical use case is Slack that a dedicated worker process gets
-the notification from the server side. The worker process starts to
-run when we open on web browsers and it continues to stay until we
-close the browser tabs.
-</p>
-
-<p width="1500px">
-<img src="images/web-workers-api/slack-workers.png" alt="nil"></p>
-</div>
-</div>
-
-
-<div id="outline-container-orgb863b9b" class="outline-2">
-<h2 id="orgb863b9b">Architecture of Web Workers API</h2>
-<div class="outline-text-2" id="text-orgb863b9b">
-<p>
-The usage of Web Workers API is to communicate between a main process
-and a worker process with using <b>Worker.prototype.postMessage(message,
-[transfer])</b> and <b>worker.onmessage handler</b>.  The data sent by
-postMessage() is internally converted into string data and passed into
-the worker processes. The onmessage() of receiver side is called back
-with the posted data.
-</p>
-
-<p>
-MDN : <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API</a>
-</p>
-
-<div class="highlight"><pre><span></span>+--------------+ postMessage()      onmessage() +-------------------+
-|              |-------------------------------&gt;|                   |
-|   main.js    | onmessage()      postMessage() |     worker.js     |
-|              |&lt;-------------------------------|                   |
-+--------------+                                +-------------------+
-       |
-       |
-+--------------+
-|   main.html  |
-+--------------+
-</pre></div>
-</div>
-
-<div id="outline-container-orgc3256b3" class="outline-3">
-<h3 id="orgc3256b3">Implicit Side effect</h3>
-<div class="outline-text-3" id="text-orgc3256b3">
-<p>
-The general use case is to fork tiny processes running for a long time
-whose CPU loads are small as general resident application as
-Slack. However, we need to carefully consider the use cases before
-actually using on production because the load of CPU and consumed
-memory may not be small. The fork processing also consumes CPU
-resource because it take time to allocate its own memory. In addition,
-we should carefully consider the frequency to communicate between the
-main process and the worker process because frequent communication
-increases the load of CPU. The data sent between them is internally
-converted into <b>string data</b> because the memory space is different and
-it is impossible to refer to an address of an object of another process.
-</p>
-
-<p>
-It is easy to use Web Worker API, but the developers should understand
-the heavy load of internal processing and the background of
-independent memory spaces. Otherwise, your web applications would
-encounter serious issues of low performance and high CPU usage.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org33ecc4f" class="outline-2">
-<h2 id="org33ecc4f">#1 Sample program the worker process sends newly found prime</h2>
-<div class="outline-text-2" id="text-org33ecc4f">
-<p>
-A 1st sample program is to delegate a dedicated process which
-continues to find prime numbers in the worker process and send to the
-main process. The sequence diagram between main and worker process is
-below.
-</p>
-
-<p width="1500px">
-<img src="images/web-workers-api/demo-prime-sequence-large.png" alt="nil"></p>
-
-
-<p>
-The source code of main process is below. A worker object is
-instantiated with specifying the source file "basic.js" of the worker
-process. Then the worker process is internally forked and starts to
-run. Then, CPU usage is increased in this timing. Therefore, it is
-good strategy to delay the timing to fork until the dedicated process
-is actually needed for better performance.
-</p>
-
-<p>
-When the worker process finds a new prime, the worker.onmessage(event)
-of main process is called back and the prime data can be retrieved
-with event.data.
-</p>
-
-<p>
-In this sample program, the worker process continues to find new prime
-numbers forever, therefore we need a stop button to terminate the
-worker process with using worker.terminate().
-</p>
-
-<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
-&lt;html lang="ja"&gt;
-  &lt;head&gt;
-    &lt;meta charset="utf-8"&gt;
-    &lt;title&gt;&lt;/title&gt;
-    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;button id="start"&gt;Start&lt;/button&gt;
-    &lt;button id="stop"&gt;Stop&lt;/button&gt;
-    &lt;div id="console"&gt;&lt;/div&gt;
-
-    &lt;script type="text/javascript"&gt;
-     var worker = null;
-
-     $('#start').on('click', function() {
-	 // fork a worker process
-	 worker = new Worker('basic.js');
-	 // callback hander to receive data from worker process
-	 worker.onmessage = function (event) {
-	     $('#console').text(event.data);
-	 };
-     });
-     $('#stop').on('click', function() {
-	 worker.terminate();
-     });
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</pre></div>
-
-<p>
-The source code of worker process is below. When it finds a new prime,
-it sends with postMessage() to the main process.
-</p>
-
-<div class="highlight"><pre><span></span>var n = 1;
-search: while (true) {
-    n += 1;
-    for (var i = 2; i &lt;= Math.sqrt(n); i += 1)
-	if (n % i == 0)
-	    continue search;
-    // Send a prime to main process !
-    postMessage(n);
-}
-</pre></div>
-</div>
-
-<div id="outline-container-orgb96870e" class="outline-3">
-<h3 id="orgb96870e">Demo</h3>
-<div class="outline-text-3" id="text-orgb96870e">
-<iframe src="https://test.prototype.richka.co/~uchida/study/worker/basic/basic.html" style="width:600px; height: 300px;"></iframe>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-org6eafb29" class="outline-2">
-<h2 id="org6eafb29">#2 Sample program the worker process applies image filer</h2>
-<div class="outline-text-2" id="text-org6eafb29">
-<p>
-The 2st sample program is to delegate image filter processing to a
-worker process. The main process sends the pixel data of image files
-to the worker process. The filter result is sent back to the main
-process and it is rendered onto the canvas.
-</p>
-
-<p>
-The sequence diagram between main process and web worker is below.
-</p>
-
-<p width="1500px">
-<img src="images/web-workers-api/demo-image-filter-sequence-large.png" alt="nil"></p>
-
-<p>
-The source code of the main process is below. The main process sends
-the pixel data of a selected image to the worker process with
-postMessage().
-</p>
-
-<div class="highlight"><pre><span></span>&lt;!doctype html&gt;
-&lt;html lang="ja"&gt;
-  &lt;head&gt;
-    &lt;meta charset="utf-8"&gt;
-    &lt;title&gt;&lt;/title&gt;
-
-    &lt;!-- JavaScript Start --&gt;
-    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-    &lt;!-- JavaScript End --&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div id="console"&gt;&lt;/div&gt;
-    &lt;p&gt;
-      &lt;label&gt;
-	Type an image URL to decode
-	&lt;input type="url" id="image-url" list="image-list"&gt;
-	&lt;datalist id="image-list"&gt;
-	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_2.png"&gt;
-	  &lt;option value="http://localhost/~uchida/study/lottie-web/samples/output2/images/img_0.png"&gt;
-	&lt;/datalist&gt;
-      &lt;/label&gt;
-    &lt;/p&gt;
-    &lt;p&gt;
-      &lt;label&gt;
-	Choose a filter to apply
-	&lt;select id="filter"&gt;
-	  &lt;option value="none"&gt;none&lt;/option&gt;
-	  &lt;option value="grayscale"&gt;grayscale&lt;/option&gt;
-	  &lt;option value="brighten"&gt;brighten by 20%&lt;/option&gt;
-	&lt;/select&gt;
-      &lt;/label&gt;
-    &lt;/p&gt;
-
-    &lt;div id="output"&gt;&lt;/div&gt;
-    &lt;script type="module"&gt;
-     // init a web worker
-     const worker = new Worker("worker.js", { type: "module" });
-     worker.onmessage = receiveFromWorker;
-
-     const url = document.querySelector("#image-url");
-     const filter = document.querySelector("#filter");
-     const output = document.querySelector("#output");
-
-     url.oninput = updateImage;
-     filter.oninput = sendToWorker;
-
-     let context, imageData;
-
-     function updateImage() {
-	 const img = new Image();
-	 console.log(url.value);
-	 img.src = url.value;
-	 img.onload = () =&gt; {
-	     output.innerHTML = "";
-	     var canvas = document.createElement("canvas");
-	     canvas.width = img.width;
-	     canvas.height = img.height;
-
-	     context = canvas.getContext("2d");
-	     context.drawImage(img, 0, 0);
-	     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-	     console.log(imageData);
-
-	     sendToWorker();
-	     output.appendChild(canvas);
-	 };
-     }
-     // send the pixel data to worker process
-     function sendToWorker() {
-	 worker.postMessage({imageData, filter: filter.value });
-     }
-     // called back by worker process
-     function receiveFromWorker(e) {
-	 console.log(e);
-	 context.putImageData(e.data, 0, 0);
-     }
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</pre></div>
-
-<p>
-The source codes of worker process are below.
-It receives the pixel data with being called back with onmessage().
-When the worker process has applied image filters, it sends back
-to main process with sending postMessage().
-</p>
-
-<p>
-worker.js whose role is to communicate with the main process.
-</p>
-<div class="highlight"><pre><span></span>import * as filters from "./filters.js";
-
-self.onmessage = (e) =&gt; {
-    console.log(e.data);
-    const { imageData, filter } = e.data;
-    filters[filter](imageData);
-    self.postMessage(imageData, [imageData.data.buffer]);
-};
-</pre></div>
-
-<p>
-filter.js whose role is to apply image filters.
-</p>
-<div class="highlight"><pre><span></span>export function none() {}
-
-export function grayscale({ data: d }) {
-  for (let i = 0; i &lt; d.length; i += 4) {
-    const [r, g, b] = [d[i], d[i + 1], d[i + 2]];
-
-    // CIE luminance for the RGB
-    // The human eye is bad at seeing red and blue, so we de-emphasize them.
-    d[i] = d[i + 1] = d[i + 2] = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  }
-};
-
-export function brighten({ data: d }) {
-  for (let i = 0; i &lt; d.length; ++i) {
-    d[i] *= 1.2;
-  }
-};
-</pre></div>
-</div>
-
-<div id="outline-container-org7720df6" class="outline-3">
-<h3 id="org7720df6">Demo</h3>
-<div class="outline-text-3" id="text-org7720df6">
-<iframe src="https://test.prototype.richka.co/~uchida/study/worker/module/1.html" style="position: relative; width:100%; height: 800px;"></iframe>
-</div>
 </div>
 </div>
     </div>

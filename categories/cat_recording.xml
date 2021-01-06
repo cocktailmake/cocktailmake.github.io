@@ -1,5 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about Recording)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_recording.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Tue, 05 Jan 2021 13:15:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Our Git Habit of Narration Recording project</title><link>https://cocktailmake.github.io/posts/narration-recording-git-habit/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-orgefcd2c7" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about Recording)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_recording.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Jan 2021 05:31:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>FFmpeg WASM</title><link>https://cocktailmake.github.io/posts/ffmpeg-wasm/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-org3632b1d" class="outline-2"&gt;
+&lt;h2 id="org3632b1d"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3632b1d"&gt;
+&lt;p&gt;
+&lt;b&gt;FFmpeg WASM&lt;/b&gt; is a pure WebAssembly / JavaScript port of FFmpeg. It enables video &amp;amp; audio record, convert and stream right inside browsers.
+The main Git repository for it is &lt;a href="https://github.com/ffmpegwasm/ffmpeg.wasm"&gt;https://github.com/ffmpegwasm/ffmpeg.wasm&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/ffmpeg_wasm.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Right now, in Recording process, we utilize user experience by uploading video source file directly from front-end web browser to S3 without going through any server using presigned S3 URL. The limitation of the approach is that we cannot convert the source video file as needed without going through the server (which increases a lot of waiting time for end users). Some handy cases for that needs are:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Unify video source format to MP4 from different video file formats (AVI, MOV).&lt;/li&gt;
+&lt;li&gt;Right now web browser does not support H265 video format and we need to convert to MP4 format to support playing it in web browser.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Based on the above needs, we research &lt;b&gt;FFmpeg WASM&lt;/b&gt; library as we think that it would be nice if we can do the video conversion directly from web browser
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgecd3836" class="outline-2"&gt;
+&lt;h2 id="orgecd3836"&gt;Licensing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgecd3836"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;@ffmpeg/ffmpeg&lt;/code&gt; contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. It is a small code base and under MIT license.&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;@ffmpeg/core&lt;/code&gt; following the same licenses as FFmpeg and its external libraries.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org88d916c" class="outline-2"&gt;
+&lt;h2 id="org88d916c"&gt;How it works&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org88d916c"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The only JavaScript file defined in HTML file is &lt;a href="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"&gt;https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js&lt;/a&gt; but actually it is just a wrapper.&lt;/li&gt;
+&lt;li&gt;Based on the actual need in our triggered ffmpeg function, the JavaScript will load ffmpeg/core file &lt;code&gt;*ffmpeg-core.wasm&lt;/code&gt; and its JavaScript file &lt;code&gt;*ffmpeg-core.js&lt;/code&gt;. The size of &lt;code&gt;ffmpeg-core.wasm&lt;/code&gt; at the time of testing is 22MB.&lt;/li&gt;
+&lt;li&gt;Sometimes we may need to use the newest version of &lt;code&gt;@ffmpeg/core&lt;/code&gt; and we can define it using customized path.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;ffmpeg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;createFFmpeg&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+  &lt;span class="nx"&gt;corePath&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'../../../src/ffmpeg-core.js'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;We can re-compile ffmpeg-core by checking &lt;b&gt;build.sh&lt;/b&gt; inside &lt;a href="https://github.com/ffmpegwasm/ffmpeg.wasm-core"&gt;https://github.com/ffmpegwasm/ffmpeg.wasm-core&lt;/a&gt; repository.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge4ea929" class="outline-2"&gt;
+&lt;h2 id="orge4ea929"&gt;Testing example&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge4ea929"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In the demo below, user will have an upload button to upload source video file, which can be in either webm, MOV or H.265 MP4 format.&lt;/li&gt;
+&lt;li&gt;It takes several minutes to transcode and you can monitor the progress on the console of DevTool.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;iframe src="https://test.prototype.richka.co/~duc/wasm/" style="width:100%; height: 400px;"&gt;&lt;/iframe&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The source of the sample demo is below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;body&amp;gt;
+  &amp;lt;video id="player" controls&amp;gt;&amp;lt;/video&amp;gt;
+  &amp;lt;input type="file" id="uploader"&amp;gt;
+  &amp;lt;script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.4/dist/ffmpeg.min.js"&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;gt;
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+    const transcode = async ({ target: { files } }) =&amp;gt; {
+      const { name } = files[0];
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+      await ffmpeg.run('-i', name,  'output.mp4');
+      //await ffmpeg.run('-i', name, '-q:v', 0, 'output.mp4');
+      const data = ffmpeg.FS('readFile', 'output.mp4');
+      const video = document.getElementById('player');
+      video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    }
+
+    document.getElementById('uploader').addEventListener('change', transcode);
+  &amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;When user click upload button and select a MOV video file, &lt;b&gt;FFmpeg WASM&lt;/b&gt; library will be called to converted it to MP4 file (output.mp4).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/wasm_upload.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;User can trace the conversion status, as normal ffmpeg oss by its output in console log&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/console_log1.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/console_log2.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/console_log3.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;When the conversion is completed, JS loads HTML video tag's source with the converted video's data and display on screen.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/conversion_output.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;User flow diagram can be described as below&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/ffmpeg-wasm/wasm_figure1.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5726503" class="outline-2"&gt;
+&lt;h2 id="org5726503"&gt;Testing result&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5726503"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;We made 4 test cases converting from different source video format to MP4 format:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;WebM&lt;/b&gt;: It is successful and the conversion time is fast. For around 8MB video it took less than 2 minutes.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;H.265&lt;/b&gt;: It is successful but the progress takes very long to complete, more than 6 minutes while if we do it with ffmpeg command it is just around 3 minutes. So nearly double the time.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;General MOV file from Internet&lt;/b&gt;: It is successful and the conversion time is quite fast, around 2 minutes.&lt;/li&gt;
+&lt;li&gt;MOV file which recorded from MacOS: It is failed after few seconds using &lt;b&gt;FFmpeg WASM&lt;/b&gt; library but it is successful using ffmpeg command.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;General MOV file from Internet&lt;/b&gt;: It is successful and the conversion time is quite fast, around 2 minutes.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+At the moment of writing this article, &lt;b&gt;FFmpeg WASM&lt;/b&gt; is twice slower and unstable, but it is worth monitoring the future progress, and we may use WASM of ImageMagic in the future.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>JavaScript</category><category>wasm</category><guid>https://cocktailmake.github.io/posts/ffmpeg-wasm/</guid><pubDate>Wed, 06 Jan 2021 05:00:00 GMT</pubDate></item><item><title>Our Git Habit of Narration Recording project</title><link>https://cocktailmake.github.io/posts/narration-recording-git-habit/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-orgefcd2c7" class="outline-2"&gt;
 &lt;h2 id="orgefcd2c7"&gt;Abstract&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgefcd2c7"&gt;
 &lt;p&gt;
