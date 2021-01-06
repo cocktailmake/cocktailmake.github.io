@@ -17,19 +17,45 @@ Our past effort to make the page speed of video list and format list on top and 
 First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
 + TOP page: 
     - show generated videos. (1)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/index.png]]
+
     - show template videos for selecting when creating a new video data. (2)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/add_template.png]]
+
 + EDIT page:
     - show videos and images in scenes for generating video. (3)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/scene.png]]
+
     - show videos and images in library of video data, library of user, searching from videos and images side, capturing from other website, PDF file (4)
-    - show template videos for selecting another template (5) as same as (2)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/material.png]]
+
+    - show template videos for selecting another template as same as creating a new video data in TOP page (5)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/change_template.png]]
+
     - show generated video (6)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/generate_video.png]]
+
     - show sample video (7)
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png]]
 
 * There are our improvements:
 ** Pagination and search
     Number of videos and images are large. Displaying all of them is too slow, so we limited the number of videos and images.
 
-    Namely, we apply the improvement for (1), (2), (5) with number is 10; for (4) with number is 20; (6), (7) only has a video so it's no need.
 
 ** Load the video only after loading the page
     + Except for videos and images in scenes (3), we didn't get video in loading page processing.
@@ -38,6 +64,10 @@ First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
         - After loading a page or loading popup, an Ajax will be called.
         - In the request processing, a loading page or loading icon will be displayed.
         - After response returned, hide the loading page or loading icon, then show videos and images.
+    
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
+
 
 ** Only loading a limited number of videos
     In above improvement, in case of videos, we didn't show all of them in the same time. 
@@ -71,6 +101,9 @@ function loadVideojs(videoItems, index, modal_id, after_video_loading){
 
     Function ~loadVideojs~ will be checked video in the end of list for stopping callback.
 
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
+
 ** Use attribute ~preload~ and ~thumbnail~ of video tag
     All videos in RICHKA system have thumbnail image. 
     We split video into 2 types:
@@ -82,3 +115,12 @@ function loadVideojs(videoItems, index, modal_id, after_video_loading){
             - We will read video information and save to video name or database
             - When video is rendered, we will use video thumbnail and use video information to crop
             - When user hovers over a video, thumbnail image will be removed and video tag which attribute ~preload~ is ~metadata~ will be added with style of thumbnail image.
+
+#+ATTR_HTML: :align center    
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/hoverload.gif]]
+
+** Migrate video source from production server to AWS S3 
+    The larger the number of users, the larger the number of videos and images loaded at the same time. 
+    
+    So we moved source media from production server to AWS S3 to reduce the server load.
+
