@@ -66,7 +66,7 @@ First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
         - After response returned, hide the loading page or loading icon, then show videos and images.
     
 #+ATTR_HTML: :align center
-[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_bf2.gif]]
 
 
 ** Only loading a limited number of videos
@@ -100,6 +100,11 @@ function loadVideojs(videoItems, index, modal_id, after_video_loading){
     Like above code, we loaded five videos ~50ms~ apart. When a video is loaded, in the end of function ~loadVideojs~ will be loaded the next videos.
 
     Function ~loadVideojs~ will be checked video in the end of list for stopping callback.
+
+#+ATTR_HTML: :align center
+[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif]]
+
+    This is the result of combining the two above features: ~Load the video only after loading the page~, ~Only loading a limited number of videos~.
 
 #+ATTR_HTML: :align center
 [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
