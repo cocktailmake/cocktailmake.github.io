@@ -7,7 +7,7 @@
 .. link:
 .. description: We share our GUI performance improvement with integrating a delayed loading of video contents.
 .. type: text
-.. previewimage: /images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png
+.. previewimage: /images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif
 .. author: Le Thanh Tung
 #+END_COMMENT
 
