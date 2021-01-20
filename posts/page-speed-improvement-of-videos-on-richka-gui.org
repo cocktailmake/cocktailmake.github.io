@@ -1,21 +1,22 @@
 #+BEGIN_COMMENT
-.. title: Page speed improvement of videos on RICHKA GUI
+.. title: Page Speed Improvement of Videos on RICHKA
 .. slug: page-speed-improvement-of-videos-on-richka-gui
 .. date: 2020-12-31 16:43:32 UTC+09:00
-.. tags: 
-.. category: 
-.. link: 
-.. description: 
+.. tags: GUI
+.. category: RICHKA
+.. link:
+.. description: We share our GUI performance improvement with integrating a delayed loading of video contents.
 .. type: text
+.. previewimage: /images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png
 .. author: Le Thanh Tung
 #+END_COMMENT
 
-Like other video systems, RICHKA GUI also suffer the page loads too slowly because there are many images and videos.
+Like other video systems, RICHKA GUI also suffered from the slow loading of the pages because there are many images and videos.
 
-Our past effort to make the page speed of video list and format list on top and edit page faster with integrating a delayed loading of video contents.
+In this post, we share the past effort that we made the page speed of video list and format list on top and edit page faster with integrating a delayed loading of video contents.
 
-First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
-+ TOP page: 
+First, we introduce about videos in RICHKA GUI. There are 2 main pages:
++ TOP page:
     - show generated videos. (1)
 
 #+ATTR_HTML: :align center
@@ -52,10 +53,9 @@ First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
 #+ATTR_HTML: :align center
 [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png]]
 
-* There are our improvements:
-** Pagination and search
-    Number of videos and images are large. Displaying all of them is too slow, so we limited the number of videos and images.
-
+* Performance Improvements
+** Pagination and Search
+    Number of videos and images are large and displaying all of them is too slow. Therefore, we limited the number of videos and images to be shown at a time.
 
 ** Load the video only after loading the page
     + Except for videos and images in scenes (3), we didn't get video in loading page processing.
@@ -63,14 +63,14 @@ First, we introduce about videos in RICHKA SYSTEM GUI. There are 2 main pages:
     + The flow is:
         - After loading a page or loading popup, an Ajax will be called.
         - In the request processing, a loading page or loading icon will be displayed.
-        - After response returned, hide the loading page or loading icon, then show videos and images.
-    
+        - After response is returned, hide the loading page or loading icon, then show videos and images.
+
 #+ATTR_HTML: :align center
 [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_bf2.gif]]
 
 
-** Only loading a limited number of videos
-    In above improvement, in case of videos, we didn't show all of them in the same time. 
+** Loading a limited number of videos one by one
+    In above improvement, in case of videos, we don't show all of them in the same time.
 #+BEGIN_SRC javascript
 function loadGroupVideojs(videoItems, modal_id, after_video_loading) {
     loadVideojs(videoItems, 0, modal_id, after_video_loading);
@@ -92,40 +92,35 @@ function loadVideojs(videoItems, index, modal_id, after_video_loading){
     ...
     index += 5;
     if (index < videoItems.length) {
+        
         setTimeout(loadVideojs(videoItems, index, modal_id, after_video_loading), 400);
     }
 }
 #+END_SRC
 
-    Like above code, we loaded five videos ~50ms~ apart. When a video is loaded, in the end of function ~loadVideojs~ will be loaded the next videos.
+    Like above code, we loaded five videos ~50ms~ apart. When the videos have been loaded, the next videos are loaded in the end of function ~loadVideojs~.
 
-    Function ~loadVideojs~ will be checked video in the end of list for stopping callback.
+    When all of the videos have been loaded, the recursive function call of ~loadVideojs~ ends.
 
 #+ATTR_HTML: :align center
 [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif]]
 
-    This is the result of combining the two above features: ~Load the video only after loading the page~, ~Only loading a limited number of videos~.
+#     This is the result of combining the two above features: ~Load the video only after loading the page~, ~Only loading a limited number of videos~.
+
+# #+ATTR_HTML: :align center
+# [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
+
+** Use ~preload~ and ~thumbnail~ attributes in video tags
+    All videos in RICHKA have thumbnail images.
+    There are 2 types of videos:
+        + Normal video: only play
+            - In this case, video tags will be rendered with 2 attributes: ~preload~ attribute is none and ~xx-poster~ attribute is a thumbnail
+            - When videos are visible, the poster attribute will be created with ~xx-poster~
+            - When videos are played, the video contents will be loaded
+        + Special video: need video information such as height, width, duration time
+            - We read video information and save to the video name into database
+            - When videos are rendered, we use thumbnails and use video information to crop
+            - When users hover over videos, thumbnails are removed and video tags whose ~preload~ attribute is ~metadata~ are added with a style of thumbnail.
 
 #+ATTR_HTML: :align center
-[[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/lazyload.gif]]
-
-** Use attribute ~preload~ and ~thumbnail~ of video tag
-    All videos in RICHKA system have thumbnail image. 
-    We split video into 2 types:
-        + Normal video: only play
-            - In this case, video tag will be rendered with 2 attributes: ~preload~ attribute is none and ~xx-poster~ attribute is video thumbnail
-            - When video is visible, poster attribute will be created from ~xx-poster~      
-            - When video is played, video will be loaded
-        + Special video: need video information such as height, width, duration time
-            - We will read video information and save to video name or database
-            - When video is rendered, we will use video thumbnail and use video information to crop
-            - When user hovers over a video, thumbnail image will be removed and video tag which attribute ~preload~ is ~metadata~ will be added with style of thumbnail image.
-
-#+ATTR_HTML: :align center    
 [[img-url:/images/page-speed-improvement-of-videos-on-richka-gui/hoverload.gif]]
-
-** Migrate video source from production server to AWS S3 
-    The larger the number of users, the larger the number of videos and images loaded at the same time. 
-    
-    So we moved source media from production server to AWS S3 to reduce the server load.
-
