@@ -16,14 +16,14 @@
 <meta property="og:title" content="Page Speed Improvement of Videos on RICHKA">
 <meta property="og:url" content="https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/">
 <meta property="og:description" content="We share our GUI performance improvement with integrating a delayed loading of video contents.">
-<meta property="og:image" content="https://cocktailmake.github.io/images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png">
+<meta property="og:image" content="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-01-20T16:00:00+09:00">
 <meta property="article:tag" content="GUI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@richka_cm">
 <meta name="twitter:creator" content="@richka_cm">
-<meta name="twitter:image" content="https://cocktailmake.github.io/images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png">
+<meta name="twitter:image" content="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -159,22 +159,22 @@ First, we introduce about videos in RICHKA GUI. There are 2 main pages:
 <p align="center">
 <img src="../../images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png" alt="nil"></p>
 
-<div id="outline-container-orge30b03c" class="outline-2">
-<h2 id="orge30b03c">Performance Improvements</h2>
-<div class="outline-text-2" id="text-orge30b03c">
+<div id="outline-container-org3c80e8f" class="outline-2">
+<h2 id="org3c80e8f">Performance Improvements</h2>
+<div class="outline-text-2" id="text-org3c80e8f">
 </div>
-<div id="outline-container-org134d127" class="outline-3">
-<h3 id="org134d127">Pagination and Search</h3>
-<div class="outline-text-3" id="text-org134d127">
+<div id="outline-container-org83c958f" class="outline-3">
+<h3 id="org83c958f">Pagination and Search</h3>
+<div class="outline-text-3" id="text-org83c958f">
 <p>
 Number of videos and images are large and displaying all of them is too slow. Therefore, we limited the number of videos and images to be shown at a time.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org18d8f40" class="outline-3">
-<h3 id="org18d8f40">Load the video only after loading the page</h3>
-<div class="outline-text-3" id="text-org18d8f40">
+<div id="outline-container-org2a696e9" class="outline-3">
+<h3 id="org2a696e9">Load the video only after loading the page</h3>
+<div class="outline-text-3" id="text-org2a696e9">
 <ul class="org-ul">
 <li>Except for videos and images in scenes (3), we didn't get video in loading page processing.</li>
 <li>In almost of cases, we will call an Ajax for loading them.</li>
@@ -192,9 +192,9 @@ Number of videos and images are large and displaying all of them is too slow. Th
 </div>
 
 
-<div id="outline-container-org74624e4" class="outline-3">
-<h3 id="org74624e4">Loading a limited number of videos one by one</h3>
-<div class="outline-text-3" id="text-org74624e4">
+<div id="outline-container-org80583f0" class="outline-3">
+<h3 id="org80583f0">Loading a limited number of videos one by one</h3>
+<div class="outline-text-3" id="text-org80583f0">
 <p>
 In above improvement, in case of videos, we don't show all of them in the same time.
 </p>
@@ -237,9 +237,9 @@ When all of the videos have been loaded, the recursive function call of <code>lo
 </div>
 </div>
 
-<div id="outline-container-org05b8963" class="outline-3">
-<h3 id="org05b8963">Use <code>preload</code> and <code>thumbnail</code> attributes in video tags</h3>
-<div class="outline-text-3" id="text-org05b8963">
+<div id="outline-container-orgf7e1b1b" class="outline-3">
+<h3 id="orgf7e1b1b">Use <code>preload</code> and <code>thumbnail</code> attributes in video tags</h3>
+<div class="outline-text-3" id="text-orgf7e1b1b">
 <p>
 All videos in RICHKA have thumbnail images.
 There are 2 types of videos:

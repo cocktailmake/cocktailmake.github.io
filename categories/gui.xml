@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about GUI)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/gui.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 20 Jan 2021 07:06:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Page Speed Improvement of Videos on RICHKA</title><link>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;figure&gt;&lt;img src="https://cocktailmake.github.io/images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png"&gt;&lt;/figure&gt; &lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about GUI)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/gui.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 20 Jan 2021 07:13:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Page Speed Improvement of Videos on RICHKA</title><link>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;p&gt;
 Like other video systems, RICHKA GUI also suffered from the slow loading of the pages because there are many images and videos.
 &lt;/p&gt;
 
@@ -72,22 +72,22 @@ First, we introduce about videos in RICHKA GUI. There are 2 main pages:
 &lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png" alt="nil"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge30b03c" class="outline-2"&gt;
-&lt;h2 id="orge30b03c"&gt;Performance Improvements&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge30b03c"&gt;
+&lt;div id="outline-container-org3c80e8f" class="outline-2"&gt;
+&lt;h2 id="org3c80e8f"&gt;Performance Improvements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3c80e8f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org134d127" class="outline-3"&gt;
-&lt;h3 id="org134d127"&gt;Pagination and Search&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org134d127"&gt;
+&lt;div id="outline-container-org83c958f" class="outline-3"&gt;
+&lt;h3 id="org83c958f"&gt;Pagination and Search&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org83c958f"&gt;
 &lt;p&gt;
 Number of videos and images are large and displaying all of them is too slow. Therefore, we limited the number of videos and images to be shown at a time.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org18d8f40" class="outline-3"&gt;
-&lt;h3 id="org18d8f40"&gt;Load the video only after loading the page&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org18d8f40"&gt;
+&lt;div id="outline-container-org2a696e9" class="outline-3"&gt;
+&lt;h3 id="org2a696e9"&gt;Load the video only after loading the page&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2a696e9"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Except for videos and images in scenes (3), we didn't get video in loading page processing.&lt;/li&gt;
 &lt;li&gt;In almost of cases, we will call an Ajax for loading them.&lt;/li&gt;
@@ -106,9 +106,9 @@ Number of videos and images are large and displaying all of them is too slow. Th
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org74624e4" class="outline-3"&gt;
-&lt;h3 id="org74624e4"&gt;Loading a limited number of videos one by one&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org74624e4"&gt;
+&lt;div id="outline-container-org80583f0" class="outline-3"&gt;
+&lt;h3 id="org80583f0"&gt;Loading a limited number of videos one by one&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org80583f0"&gt;
 &lt;p&gt;
 In above improvement, in case of videos, we don't show all of them in the same time.
 &lt;/p&gt;
@@ -152,9 +152,9 @@ When all of the videos have been loaded, the recursive function call of &lt;code
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org05b8963" class="outline-3"&gt;
-&lt;h3 id="org05b8963"&gt;Use &lt;code&gt;preload&lt;/code&gt; and &lt;code&gt;thumbnail&lt;/code&gt; attributes in video tags&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org05b8963"&gt;
+&lt;div id="outline-container-orgf7e1b1b" class="outline-3"&gt;
+&lt;h3 id="orgf7e1b1b"&gt;Use &lt;code&gt;preload&lt;/code&gt; and &lt;code&gt;thumbnail&lt;/code&gt; attributes in video tags&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf7e1b1b"&gt;
 &lt;p&gt;
 All videos in RICHKA have thumbnail images.
 There are 2 types of videos:
