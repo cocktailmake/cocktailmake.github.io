@@ -11,7 +11,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/ffmpeg-wasm/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/page-speed-improvement-of-videos-on-richka-gui/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,7 +76,187 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ffmpeg-wasm/" class="u-url">FFmpeg WASM</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/page-speed-improvement-of-videos-on-richka-gui/" class="u-url">Page Speed Improvement of Videos on RICHKA</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/le-thanh-tung/">Le Thanh Tung</a>
+            </span></p>
+            <p class="dateline">
+            <a href="posts/page-speed-improvement-of-videos-on-richka-gui/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-20T16:00:00+09:00" itemprop="datePublished" title="2021-01-20 16:00">2021-01-20 16:00</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+Like other video systems, RICHKA GUI also suffered from the slow loading of the pages because there are many images and videos.
+</p>
+
+<p>
+In this post, we share the past effort that we made the page speed of video list and format list on top and edit page faster with integrating a delayed loading of video contents.
+</p>
+
+<p>
+First, we introduce about videos in RICHKA GUI. There are 2 main pages:
+</p>
+<ul class="org-ul">
+<li>TOP page:
+<ul class="org-ul">
+<li>show generated videos. (1)</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/index.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>show template videos for selecting when creating a new video data. (2)</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/add_template.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>EDIT page:
+<ul class="org-ul">
+<li>show videos and images in scenes for generating video. (3)</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/scene.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>show videos and images in library of video data, library of user, searching from videos and images side, capturing from other website, PDF file (4)</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/material.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>show template videos for selecting another template as same as creating a new video data in TOP page (5)</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/change_template.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>show generated video (6)</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/generate_video.png" alt="nil"></p>
+
+<ul class="org-ul">
+<li>show sample video (7)</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png" alt="nil"></p>
+
+<div id="outline-container-orge30b03c" class="outline-2">
+<h2 id="orge30b03c">Performance Improvements</h2>
+<div class="outline-text-2" id="text-orge30b03c">
+</div>
+<div id="outline-container-org134d127" class="outline-3">
+<h3 id="org134d127">Pagination and Search</h3>
+<div class="outline-text-3" id="text-org134d127">
+<p>
+Number of videos and images are large and displaying all of them is too slow. Therefore, we limited the number of videos and images to be shown at a time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org18d8f40" class="outline-3">
+<h3 id="org18d8f40">Load the video only after loading the page</h3>
+<div class="outline-text-3" id="text-org18d8f40">
+<ul class="org-ul">
+<li>Except for videos and images in scenes (3), we didn't get video in loading page processing.</li>
+<li>In almost of cases, we will call an Ajax for loading them.</li>
+<li>The flow is:
+<ul class="org-ul">
+<li>After loading a page or loading popup, an Ajax will be called.</li>
+<li>In the request processing, a loading page or loading icon will be displayed.</li>
+<li>After response is returned, hide the loading page or loading icon, then show videos and images.</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/lazyload_bf2.gif" alt="nil"></p>
+</div>
+</div>
+
+
+<div id="outline-container-org74624e4" class="outline-3">
+<h3 id="org74624e4">Loading a limited number of videos one by one</h3>
+<div class="outline-text-3" id="text-org74624e4">
+<p>
+In above improvement, in case of videos, we don't show all of them in the same time.
+</p>
+<div class="highlight"><pre><span></span>function loadGroupVideojs(videoItems, modal_id, after_video_loading) {
+    loadVideojs(videoItems, 0, modal_id, after_video_loading);
+    setTimeout(loadVideojs(videoItems, 1, modal_id, after_video_loading), 50);
+    setTimeout(loadVideojs(videoItems, 2, modal_id, after_video_loading), 100);
+    setTimeout(loadVideojs(videoItems, 3, modal_id, after_video_loading), 150);
+    setTimeout(loadVideojs(videoItems, 4, modal_id, after_video_loading), 200);
+}
+function loadVideojs(videoItems, index, modal_id, after_video_loading){
+    var video = videoItems[index];
+    ...
+	var poster = video.getAttribute('xx-poster');
+	if (poster === null) {
+	    if (video.getAttribute('preload') === 'none') {
+		video.setAttribute('preload', 'metadata');
+		addDurationTimeToVideo(video);
+	    }
+	}
+    ...
+    index += 5;
+    if (index &lt; videoItems.length) {
+
+	setTimeout(loadVideojs(videoItems, index, modal_id, after_video_loading), 400);
+    }
+}
+</pre></div>
+
+<p>
+Like above code, we loaded five videos <code>50ms</code> apart. When the videos have been loaded, the next videos are loaded in the end of function <code>loadVideojs</code>.
+</p>
+
+<p>
+When all of the videos have been loaded, the recursive function call of <code>loadVideojs</code> ends.
+</p>
+
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org05b8963" class="outline-3">
+<h3 id="org05b8963">Use <code>preload</code> and <code>thumbnail</code> attributes in video tags</h3>
+<div class="outline-text-3" id="text-org05b8963">
+<p>
+All videos in RICHKA have thumbnail images.
+There are 2 types of videos:
+</p>
+<ul class="org-ul">
+<li>Normal video: only play
+<ul class="org-ul">
+<li>In this case, video tags will be rendered with 2 attributes: <code>preload</code> attribute is none and <code>xx-poster</code> attribute is a thumbnail</li>
+<li>When videos are visible, the poster attribute will be created with <code>xx-poster</code>
+</li>
+<li>When videos are played, the video contents will be loaded</li>
+</ul>
+</li>
+<li>Special video: need video information such as height, width, duration time
+<ul class="org-ul">
+<li>We read video information and save to the video name into database</li>
+<li>When videos are rendered, we use thumbnails and use video information to crop</li>
+<li>When users hover over videos, thumbnails are removed and video tags whose <code>preload</code> attribute is <code>metadata</code> are added with a style of thumbnail.</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+<img src="images/page-speed-improvement-of-videos-on-richka-gui/hoverload.gif" alt="nil"></p>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ffmpeg-wasm/" class="u-url">FFmpeg WASM</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/duc-to/">Duc To</a>
@@ -1430,227 +1610,6 @@ The logs with prefix response0000, response0044 - response0054 are the ones spli
 
 <p>
 <img src="images/sentry-javascript/additonal_data2.png" alt="nil"></p>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/released-narration-recording-service/" class="u-url">Released Narration Recording Service</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/hitoshi-uchida/">Hitoshi Uchida</a>
-            </span></p>
-            <p class="dateline">
-            <a href="posts/released-narration-recording-service/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-08-12T15:38:24+09:00" itemprop="datePublished" title="2020-08-12 15:38">2020-08-12 15:38</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-orgffb2583" class="outline-2">
-<h2 id="orgffb2583">Abstract</h2>
-<div class="outline-text-2" id="text-orgffb2583">
-<p>
-Some RICHKA users requested that they would like to input their
-narration into the videos and recently we released a new web
-application called <b><span style="color: red">ナレ撮り</span></b> which enables users to
-record the voice as narration on web browsers and combine them with
-video sources and generate videos. And <b>synthesis of speech
-technology</b> to automatically generate voice data with the input texts
-is also supported as <b>AI narration mode</b> and users
-don't have input voice.
-</p>
-
-<p>
-The screenshot below is the sample of the edit page. The upper left is
-a dedicated video player to playback both a video source and recorded
-narration with combining them. Users can edit the start time of cues
-with dragging the cue point on the seek bar. When users click the
-recording button in the lower left, the input voice is recorded
-through WebRTC and it is converted to MP3 on the web browsers. The
-right side is the narration texts users can add/edit. In the AI
-narration mode, the voices are generated with the texts.
-</p>
-
-<p>
-After the recording has been done, users click the generation button
-in the upper right and it starts to generate a video with combining
-the video source and the recorded voices.
-</p>
-
-<p>
-<img src="images/released-narration-recording-service/sample-edit-page.png" alt="nil"></p>
-</div>
-</div>
-
-<div id="outline-container-org8a60249" class="outline-2">
-<h2 id="org8a60249">Development Environment</h2>
-<div class="outline-text-2" id="text-org8a60249">
-<p>
-Web servers are based on Django, and additional 8 Python packages such
-as Django extensions and boto3 to publish pre-signed S3 URL and WebVTT
-parser are integrated. The current total lines of Django is around
-3000 and it is still quite small because it is still beta version.
-Regarding the front end, 20 OSS libraries such as jQuery, videojs,
-videojs marker, RecordRTC etc. are integrated. The current total lines
-of JavaScript codes is around 4300 and the font end is also still
-quite small.
-</p>
-
-<p>
-This product is still beta, and based on the feedback from users, new
-advanced features will be continuously added and this project will
-also become big service soon such as RICHKA. Regarding the synthesis
-of speech technology, we will make a new post and share the detail.
-</p>
-
-<p>
-<img src="images/released-narration-recording-service/technologies.png" alt="nil"></p>
-</div>
-</div>
-
-<div id="outline-container-org40154b4" class="outline-2">
-<h2 id="org40154b4">Voice Recording</h2>
-<div class="outline-text-2" id="text-org40154b4">
-<p>
-One of primary features is to record voice per cue point inputted
-with the mic. When users click the recording button, the recording
-processing is executed with using WebRTC as a diagram below.
-</p>
-
-<ol class="org-ol">
-<li>A user clicks the recording button and records the voice with mic</li>
-<li>The voice data is retrieved with WebRTC API and converted into
-MP3 in JavaScript layer. Then it is directly uploaded to S3 with
-pre-signed S3 URL.</li>
-<li>To enable the user to listen the recorded voice, our dedicated video
-player on JavaScript layer loads the record and initialize to be ready.</li>
-<li>The user can playback the video source with overlaying the recorded
-voices without generating a new video on the dedicated video
-player.</li>
-</ol>
-<p>
-<img src="images/released-narration-recording-service/voice-recording.png" alt="nil"></p>
-</div>
-
-<div id="outline-container-orgd42815e" class="outline-3">
-<h3 id="orgd42815e">Direct Conversion to MP3 on JavaScript layer</h3>
-<div class="outline-text-3" id="text-orgd42815e">
-<p>
-At the 1st step, the MIME type of the audio data retrieved by WebRTC
-is audio/webm in default and it tended to be large data size and the
-quality of the voice is a bit higher quality. To adjust the quality
-and the data size to match our requirements, we decided to use a
-JavaScript library RecordRTC to directly convert to MP3 on JavaScript
-layer and upload to S3 without delegating the conversion processing to
-servers and Lambda. After we obtain the binary of MP3, we don't
-convert to other formats in the data life cycle. The client processing
-makes the architecture simpler and doesn't cause any additional load
-to the server side.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org5f26fb8" class="outline-3">
-<h3 id="org5f26fb8">Dedicated video player to sync video and voices</h3>
-<div class="outline-text-3" id="text-org5f26fb8">
-<p>
-At the 3rd step, we implemented a dedicated video player to playback
-the video source with overlaying the recorded voices without
-generating another video. The advantage is users can immediately check
-the recording results without waiting for several seconds to generate
-new videos. The dedicated video player has internally two players to
-playback with synchronizing the video source and the recorded voices.
-</p>
-
-<p>
-When the current seek point reaches the next cue point, the video
-player loads the corresponding voice data from S3 and make the video
-player ready to play.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org24bb778" class="outline-2">
-<h2 id="org24bb778">Video Generation</h2>
-<div class="outline-text-2" id="text-org24bb778">
-<p>
-After users have inputted the voices to cue points, user are ready to
-generate videos with overlying recorded voices. The generated ones
-can be downloaded as independent video file.
-</p>
-
-<p>
-When users click the generation button, the generation process is
-executed on one of dedicated video servers as steps below.
-</p>
-
-<ol class="org-ol">
-<li>When a user click the generation button, an HTTP POST request is
-sent to one of web servers behind of a load balancer.</li>
-<li>The web server retrieves the location of the corresponding voices
-of S3 and sends an HTTP request to one of video servers.</li>
-<li>The video server downloads the video source and the recorded voice
-files from S3, and generate an MP4 video with overlying the voices
-over the video source with using ffmpeg.</li>
-<li>The video server uploads the generated video to S3 with pre-singed S3 URL.</li>
-</ol>
-<p>
-<img src="images/released-narration-recording-service/video-generation.png" alt="nil"></p>
-
-
-<p>
-At 3rd step to generate the video, the simplified sample command of
-ffmpeg is like below.
-</p>
-
-<p target="_blank">
-Each recorded voice stream is overlaid over the audio stream of
-the video source with <a href="https://ffmpeg.org/ffmpeg-filters.html#amerge-1" target="_blank"><b>amerge</b></a> command to multiplex.
-</p>
-
-<p target="_blank">
-And they are concatenated into one audio stream with <a href="https://ffmpeg.org/ffmpeg-filters.html#concat" target="_blank"><b>concat</b></a> command
-as "[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]" in the
-filter_complex option.
-</p>
-
-<p target="_blank">
-To keep the original video stream of the video source, the video
-stream is directly copied to the output stream with enabling stream
-copy mode with <a href="https://ffmpeg.org/ffmpeg.html#Stream-copy" target="_blank"><b>-c:vcopy</b></a> option. It can avoid needless encoding of
-video stream and suppress CPU usage, therefore this command can be
-rapidly done.
-</p>
-
-<div class="highlight"><pre><span></span>ffmpeg -i 'vide_source.mp4'
--i 'voice_1.mp3'
--i 'voice_2.mp3'
--i 'voice_3.mp3'
--i 'voice_4.mp3'
--filter_complex '[0:a]atrim=start=0.0:duration=1.87,aformat=sample_fmts=fltp:sample_rates=44100:
-channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm1];[0:a]atrim=start=1.87:duration=0.63,
-aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s1];
-[0:a]atrim=start=2.5:duration=1.44,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,
-volume=1,asetpts=PTS-STARTPTS[sm2];[0:a]atrim=start=3.94:duration=1.56,aformat=sample_fmts=fltp:
-sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s2];[0:a]atrim=start=5.5:
-duration=2.0,aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo,volume=1,
-asetpts=PTS-STARTPTS[sm3];[0:a]atrim=start=7.5:duration=1.82,aformat=sample_fmts=fltp:sample_rates=44100:
-channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[sm4];[0:a]atrim=start=9.32,aformat=sample_fmts=fltp:
-sample_rates=44100:channel_layouts=stereo,volume=1,asetpts=PTS-STARTPTS[s3];[sm1][1:a]amerge[m1];
-[sm2][2:a]amerge[m2];[sm3][3:a]amerge[m3];[sm4][4:a]amerge[m4];[m1][s1][m2][s2][m3][m4][s3]concat=n=7:v=0:a=1[out]'
--c:v copy -map 0:v -map [out] 'out.mp4'
-</pre></div>
-
-<p>
-The figure below represents how merging and concatenating audio
-streams work with the ffmpeg command. The concatenated audio stream is
-accumulated into an output stream [out] in the command. Then, it is
-combined with the video stream of the video source with <b>-c:v copy
--map 0:v -map [out]</b> and the final result is serialized into a file
-out.mp4.
-</p>
-
-<p>
-<img src="images/released-narration-recording-service/audio-merge.png" alt="nil"></p>
 </div>
 </div>
     </div>

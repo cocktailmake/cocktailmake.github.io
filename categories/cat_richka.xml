@@ -1,5 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Jan 2021 05:31:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integration Metadata into Video</title><link>https://cocktailmake.github.io/posts/integration-metadata-into-video/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgbe65c3c" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts about RICHKA)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/categories/cat_richka.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 20 Jan 2021 07:06:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Page Speed Improvement of Videos on RICHKA</title><link>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;figure&gt;&lt;img src="https://cocktailmake.github.io/images/batch-generation-of-font-preview-images-with-multicore-processing/gui-sample.png"&gt;&lt;/figure&gt; &lt;p&gt;
+Like other video systems, RICHKA GUI also suffered from the slow loading of the pages because there are many images and videos.
+&lt;/p&gt;
+
+&lt;p&gt;
+In this post, we share the past effort that we made the page speed of video list and format list on top and edit page faster with integrating a delayed loading of video contents.
+&lt;/p&gt;
+
+&lt;p&gt;
+First, we introduce about videos in RICHKA GUI. There are 2 main pages:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;TOP page:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show generated videos. (1)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/index.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show template videos for selecting when creating a new video data. (2)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/add_template.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;EDIT page:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show videos and images in scenes for generating video. (3)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/scene.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show videos and images in library of video data, library of user, searching from videos and images side, capturing from other website, PDF file (4)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/material.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show template videos for selecting another template as same as creating a new video data in TOP page (5)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/change_template.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show generated video (6)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/generate_video.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;show sample video (7)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/sample_video.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-orge30b03c" class="outline-2"&gt;
+&lt;h2 id="orge30b03c"&gt;Performance Improvements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge30b03c"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org134d127" class="outline-3"&gt;
+&lt;h3 id="org134d127"&gt;Pagination and Search&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org134d127"&gt;
+&lt;p&gt;
+Number of videos and images are large and displaying all of them is too slow. Therefore, we limited the number of videos and images to be shown at a time.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org18d8f40" class="outline-3"&gt;
+&lt;h3 id="org18d8f40"&gt;Load the video only after loading the page&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org18d8f40"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Except for videos and images in scenes (3), we didn't get video in loading page processing.&lt;/li&gt;
+&lt;li&gt;In almost of cases, we will call an Ajax for loading them.&lt;/li&gt;
+&lt;li&gt;The flow is:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;After loading a page or loading popup, an Ajax will be called.&lt;/li&gt;
+&lt;li&gt;In the request processing, a loading page or loading icon will be displayed.&lt;/li&gt;
+&lt;li&gt;After response is returned, hide the loading page or loading icon, then show videos and images.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_bf2.gif" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org74624e4" class="outline-3"&gt;
+&lt;h3 id="org74624e4"&gt;Loading a limited number of videos one by one&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org74624e4"&gt;
+&lt;p&gt;
+In above improvement, in case of videos, we don't show all of them in the same time.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function loadGroupVideojs(videoItems, modal_id, after_video_loading) {
+    loadVideojs(videoItems, 0, modal_id, after_video_loading);
+    setTimeout(loadVideojs(videoItems, 1, modal_id, after_video_loading), 50);
+    setTimeout(loadVideojs(videoItems, 2, modal_id, after_video_loading), 100);
+    setTimeout(loadVideojs(videoItems, 3, modal_id, after_video_loading), 150);
+    setTimeout(loadVideojs(videoItems, 4, modal_id, after_video_loading), 200);
+}
+function loadVideojs(videoItems, index, modal_id, after_video_loading){
+    var video = videoItems[index];
+    ...
+	var poster = video.getAttribute('xx-poster');
+	if (poster === null) {
+	    if (video.getAttribute('preload') === 'none') {
+		video.setAttribute('preload', 'metadata');
+		addDurationTimeToVideo(video);
+	    }
+	}
+    ...
+    index += 5;
+    if (index &amp;lt; videoItems.length) {
+
+	setTimeout(loadVideojs(videoItems, index, modal_id, after_video_loading), 400);
+    }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Like above code, we loaded five videos &lt;code&gt;50ms&lt;/code&gt; apart. When the videos have been loaded, the next videos are loaded in the end of function &lt;code&gt;loadVideojs&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+When all of the videos have been loaded, the recursive function call of &lt;code&gt;loadVideojs&lt;/code&gt; ends.
+&lt;/p&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/lazyload_af.gif" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org05b8963" class="outline-3"&gt;
+&lt;h3 id="org05b8963"&gt;Use &lt;code&gt;preload&lt;/code&gt; and &lt;code&gt;thumbnail&lt;/code&gt; attributes in video tags&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org05b8963"&gt;
+&lt;p&gt;
+All videos in RICHKA have thumbnail images.
+There are 2 types of videos:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Normal video: only play
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In this case, video tags will be rendered with 2 attributes: &lt;code&gt;preload&lt;/code&gt; attribute is none and &lt;code&gt;xx-poster&lt;/code&gt; attribute is a thumbnail&lt;/li&gt;
+&lt;li&gt;When videos are visible, the poster attribute will be created with &lt;code&gt;xx-poster&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When videos are played, the video contents will be loaded&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Special video: need video information such as height, width, duration time
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;We read video information and save to the video name into database&lt;/li&gt;
+&lt;li&gt;When videos are rendered, we use thumbnails and use video information to crop&lt;/li&gt;
+&lt;li&gt;When users hover over videos, thumbnails are removed and video tags whose &lt;code&gt;preload&lt;/code&gt; attribute is &lt;code&gt;metadata&lt;/code&gt; are added with a style of thumbnail.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align="center"&gt;
+&lt;img src="https://cocktailmake.github.io/images/page-speed-improvement-of-videos-on-richka-gui/hoverload.gif" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>GUI</category><guid>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</guid><pubDate>Wed, 20 Jan 2021 07:00:00 GMT</pubDate></item><item><title>Integration Metadata into Video</title><link>https://cocktailmake.github.io/posts/integration-metadata-into-video/</link><dc:creator>Hitoshi Uchida</dc:creator><description>&lt;div id="outline-container-orgbe65c3c" class="outline-2"&gt;
 &lt;h2 id="orgbe65c3c"&gt;Abstract&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgbe65c3c"&gt;
 &lt;p&gt;

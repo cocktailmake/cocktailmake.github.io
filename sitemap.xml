@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/archive.html</loc>
-  <lastmod>2021-01-06T05:31:00Z</lastmod>
+  <lastmod>2021-01-20T07:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/authors/</loc>
@@ -115,7 +115,7 @@
  </url>
  <url>
   <loc>https://cocktailmake.github.io/index-1.html</loc>
-  <lastmod>2021-01-06T05:31:00Z</lastmod>
+  <lastmod>2021-01-20T07:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/batch-generation-of-font-preview-images-with-multicore-processing/</loc>
@@ -152,6 +152,10 @@
  <url>
   <loc>https://cocktailmake.github.io/posts/narration-recording-git-habit/</loc>
   <lastmod>2020-10-17T06:13:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</loc>
+  <lastmod>2021-01-19T06:16:00Z</lastmod>
  </url>
  <url>
   <loc>https://cocktailmake.github.io/posts/progress-display-of-video-generation/</loc>
