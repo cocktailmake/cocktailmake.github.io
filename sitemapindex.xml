@@ -11,7 +11,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/duc-to.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
+  <lastmod>2021-04-08T01:15:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida.xml</loc>
@@ -27,7 +27,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_recording.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
+  <lastmod>2021-04-08T01:15:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_richka.xml</loc>
@@ -67,19 +67,11 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/javascript.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-04-08T01:15:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/license.xml</loc>
   <lastmod>2021-01-05T11:21:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://cocktailmake.github.io/categories/markers.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://cocktailmake.github.io/categories/recording.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/richka.xml</loc>
@@ -88,10 +80,6 @@
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/security.xml</loc>
   <lastmod>2021-01-20T07:06:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://cocktailmake.github.io/categories/videojs.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/wasm.xml</loc>
@@ -103,10 +91,10 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
+  <lastmod>2021-04-08T01:15:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2021-04-08T00:23:00Z</lastmod>
+  <lastmod>2021-04-08T03:30:00Z</lastmod>
  </sitemap>
 </sitemapindex>
