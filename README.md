@@ -111,6 +111,15 @@ Run the Nikola local server. Your web browser is automatically opened at a new t
 $ nikola auto -b
 ```
 
+In case you have error when running Nikola server as ~Please install htmlize from https://github.com/hniksic/emacs-htmlize~, it is because htmlize no longer be shipped with org-mode, and you can fix it by
+* Clone emacs-htmlize in this repo https://github.com/hniksic/emacs-htmlize
+* Edit emacs's ~init.el~, normally it is `~/.emacs` and add the following line:
+
+```
+(add-to-list 'load-path "[absolute path to emacs-htmlize directory]")
+(require 'htmlize)
+```
+
 5. Revise the posts
 
 The Nikola server automatically recompiles and reload the browser tab.
