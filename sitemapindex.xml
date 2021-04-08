@@ -11,7 +11,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/duc-to.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/hitoshi-uchida.xml</loc>
@@ -19,7 +19,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/authors/le-thanh-tung.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-01-20T07:13:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/bandit.xml</loc>
@@ -27,11 +27,11 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_recording.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_richka.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-01-20T07:13:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/cat_tool.xml</loc>
@@ -59,7 +59,7 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/gui.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-01-20T07:13:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/infra.xml</loc>
@@ -74,12 +74,24 @@
   <lastmod>2021-01-05T11:21:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://cocktailmake.github.io/categories/markers.xml</loc>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/recording.xml</loc>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://cocktailmake.github.io/categories/richka.xml</loc>
   <lastmod>2021-01-20T07:06:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/security.xml</loc>
   <lastmod>2021-01-20T07:06:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://cocktailmake.github.io/categories/videojs.xml</loc>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/categories/wasm.xml</loc>
@@ -91,10 +103,10 @@
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/rss.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://cocktailmake.github.io/sitemap.xml</loc>
-  <lastmod>2021-01-20T07:06:00Z</lastmod>
+  <lastmod>2021-04-08T00:23:00Z</lastmod>
  </sitemap>
 </sitemapindex>

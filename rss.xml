@@ -1,5 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Wed, 20 Jan 2021 07:13:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Page Speed Improvement of Videos on RICHKA</title><link>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog</title><link>https://cocktailmake.github.io/</link><description>Transmit technology information from developers.</description><atom:link href="https://cocktailmake.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Thu, 08 Apr 2021 01:15:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Markers of Video Player on Recording Service</title><link>https://cocktailmake.github.io/posts/recording-player-markers/</link><dc:creator>Duc To</dc:creator><description>&lt;div id="outline-container-org39a9fe3" class="outline-2"&gt;
+&lt;h2 id="org39a9fe3"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org39a9fe3"&gt;
+&lt;p&gt;
+In Recording project, we use videojs &lt;a href="https://videojs.com/"&gt;https://videojs.com/&lt;/a&gt; and its 3rd party plugin markers &lt;a href="https://github.com/spchuang/videojs-markers"&gt;https://github.com/spchuang/videojs-markers&lt;/a&gt; to play the video as well as marking the positions of narration texts in which we will play custom audios which are automatically generated with speech synthesis technologies or manually recorded by users.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/recording-player-markers/recording_edit.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The goal of this post is to focus on videojs's markers plugin, how to use it and its common use cases.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org460a0e9" class="outline-2"&gt;
+&lt;h2 id="org460a0e9"&gt;Initialization&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org460a0e9"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;markers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;9.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"this"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"is"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;23.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"so"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"cool"&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;];&lt;/span&gt;
+
+&lt;span class="nx"&gt;video&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+  &lt;span class="nx"&gt;markers&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;markers&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+In above example, video is an instance of videojs object, 2 compulsory fields are time and text but you can add any additional info which you want to query later. In Recording project, we store one additional data named &lt;code&gt;is_recorded&lt;/code&gt; to mark whether the marker already be recorded audio file for it.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0fd336e" class="outline-2"&gt;
+&lt;h2 id="org0fd336e"&gt;Common Cases&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0fd336e"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7f70b16" class="outline-3"&gt;
+&lt;h3 id="org7f70b16"&gt;Customize Marker Style&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7f70b16"&gt;
+&lt;p&gt;
+We can style differently between normal marker and selected marker. Each marker has style class &lt;code&gt;vjs-marker&lt;/code&gt; and the current marker has additional style class &lt;code&gt;vjs-marker-current&lt;/code&gt;. Based on them we can style anything we want or even add additional html code to each marker as the above screenshot.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;div data-marker-key="63e42a41-620d-44b3-b0ee-ff5617ac051d" data-marker-time="1.368872" class="vjs-marker ui-draggable ui-draggable-handle vjs-marker-current"&amp;gt;
+  &amp;lt;div class="cue-line"&amp;gt;
+    2
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc2f1764" class="outline-3"&gt;
+&lt;h3 id="orgc2f1764"&gt;Draggable &amp;amp; Update Marker's Position&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc2f1764"&gt;
+&lt;p&gt;
+We can support markers to be draggable by using draggable JS library
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;".vjs-marker"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;draggable&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+  &lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;event&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ui&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Handler when marker start moving&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="nx"&gt;drag&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;event&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ui&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Handler when marker is on move&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="nx"&gt;stop&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;event&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ui&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Hander when marker is stopped moving&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Normally we can use &lt;code&gt;start&lt;/code&gt; and &lt;code&gt;drag&lt;/code&gt; functions to handle animation when marker is on moved, and when marker is stopped moving, &lt;code&gt;stop&lt;/code&gt; function is triggered, and we will update markers info to database and update markers of the video with new positions.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;player&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;removeAll&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'#video_video .vjs-marker'&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;player&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/recording-player-markers/marker_drag.gif" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org51fdcf3" class="outline-2"&gt;
+&lt;h2 id="org51fdcf3"&gt;Marker's Most Common Events&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org51fdcf3"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgbb8288f" class="outline-3"&gt;
+&lt;h3 id="orgbb8288f"&gt;onMarkerReached&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbb8288f"&gt;
+&lt;p&gt;
+The event will be fired when the current position of the videojs player reaches a marker position. Please be noticed that there can be a time difference and the event is not raised precisely at marker's position time. The different can be up to 0.01 second.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7488341" class="outline-3"&gt;
+&lt;h3 id="org7488341"&gt;onMarkerClick&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7488341"&gt;
+&lt;p&gt;
+The event is fired when a videojs marker is clicked and you can get the data of the clicked marker through the function argument.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>JavaScript</category><guid>https://cocktailmake.github.io/posts/recording-player-markers/</guid><pubDate>Fri, 19 Mar 2021 15:00:00 GMT</pubDate></item><item><title>Page Speed Improvement of Videos on RICHKA</title><link>https://cocktailmake.github.io/posts/page-speed-improvement-of-videos-on-richka-gui/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;p&gt;
 Like other video systems, RICHKA GUI also suffered from the slow loading of the pages because there are many images and videos.
 &lt;/p&gt;
 
@@ -1311,159 +1426,4 @@ And here is the output video (I converted to GIF file to display here easily):
 &lt;p align="center"&gt;
 &lt;img src="https://cocktailmake.github.io/images/the-prototype-of-morphing/video.gif" alt="nil"&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</guid><pubDate>Fri, 14 Aug 2020 06:00:00 GMT</pubDate></item><item><title>Using Sentry to debug JavaScript in the RICHKA front end</title><link>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</link><dc:creator>Le Thanh Tung</dc:creator><description>&lt;div id="outline-container-orgaff90b9" class="outline-2"&gt;
-&lt;h2 id="orgaff90b9"&gt;Abstract&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgaff90b9"&gt;
-&lt;p&gt;
-Sentry is a service that helps you to monitor and fix crashes in realtime.
-Sentry has many official Sentry SDKs such as: JavaScript, React-Native, Python, Ruby, PHP, Go, Rust, Java, Objective-C/Swift, C#, Perl, Elixir, Laravel.
-In this post, we describe our usage of Sentry for JavaScript to debug RICHKA front end.
-After using Sentry for a while, we see a lot of bugs in production environment. Information is quite detailed so it's easy to address.
-I rate it very useful to debug in front end.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3485dd9" class="outline-2"&gt;
-&lt;h2 id="org3485dd9"&gt;General usage of Sentry JavaScript&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3485dd9"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;First of all, we need to create Sentry account and create Project to debug. We can see debug logs in Sentry account 15-60 seconds after events occurred. Because Sentry account can join many organizations and many Projects so Sentry debug logs can be shared to all of developers.&lt;/li&gt;
-
-&lt;li&gt;In separated logs, we can assign to specific developers and comment, set statuses.&lt;/li&gt;
-
-&lt;li&gt;Because RICHKA Project developed by Django and Python, we configure Sentry JavaScript as base template. In Sentry account management, we can see a configuration or we can see a common JavaScript configuration in &lt;a href="https://docs.sentry.io/sdks/javascript/"&gt;here&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;Sentry integrates many third software : Slack, Git, GitLab, JIRA, Microsoft team, … RICHKA developers discuss in Slack so we integrated Sentry to Slack.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-Here are some examples.
-&lt;/p&gt;
-
-
-&lt;p&gt;
-&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/error_detail.png" alt="nil"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/events_before.png" alt="nil"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div id="outline-container-org5f0dcd7" class="outline-2"&gt;
-&lt;h2 id="org5f0dcd7"&gt;Integration between Sentry debug and Slack&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5f0dcd7"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;Create a new channel in Slack.&lt;/li&gt;
-&lt;li&gt;Access Sentry project and Settings &amp;gt; Integrations &amp;gt; Slack and login Slack account.&lt;/li&gt;
-&lt;li&gt;Assign a channel to report debug logs.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/slack_report.png" alt="nil"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-If a debug event occurs, Sentry server will send a post to the channel. Developers can easily track them.
-Note: if there're a lot of events, we need to configure number of posts in a channel.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org0f50933" class="outline-2"&gt;
-&lt;h2 id="org0f50933"&gt;Customize data in debug log&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0f50933"&gt;
-&lt;p&gt;
-Because the size of the data sent to Sentry server is limited and length of additional data in Sentry log is too. So we need to create a function to split data.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function sentry_capture_message(data, extra, message) {
-    Sentry.withScope(scope =&amp;gt; {
-	if (Array.isArray(data))
-	{
-	    let i = 0;
-	    for (let datum of data){
-		if (typeof datum == 'string') {
-		    if (datum.length &amp;gt;= 16000 &amp;amp;&amp;amp; datum.length &amp;lt;= 1024 * 1024) {
-			let stringArray = datum.split('\n');
-			for (let j = 0; j &amp;lt; stringArray.length; j++) {
-			    if (stringArray[j].trim().length &amp;gt; 0) {
-				i++;
-				scope.setExtra(extra + sprintf("%04d",i), stringArray[j]);
-			    }
-			}
-		    }
-		}
-		else {
-		    scope.setExtra(extra + sprintf("%04d",i), datum);
-		    i++;
-		}
-	    }
-	}
-	else scope.setExtra(extra, data);
-	Sentry.captureMessage(message);
-    });
-}
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-For example about a target function to debug:
-&lt;/p&gt;
-
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function deleteSearchKeyword(data_id){
-    if($('#stock-video &amp;gt; .stock_list &amp;gt; li.video').length &amp;gt; 0){
-	$('#stock-video &amp;gt; .stock_list &amp;gt; li.video').each(function(i, elem){
-	    let src = $(elem).find('p span video').attr('src');
-	    if(!src || src.endsWith('/static/')){
-		$(elem).remove();
-	    }
-	});
-	$('div#stock-video &amp;gt; div.stock_title').hide();
-	$('.stock_more').hide();
-    }
-    if ($('#stock-photo &amp;gt; .stock_list').length &amp;gt; 0 || $('#stock-video &amp;gt; .stock_list').length &amp;gt; 0) {
-	var materials_id = [];
-	$.each($('.materialIndex'), function(i,v) {
-	    materials_id.push($(v).val());
-	});
-	var el = $('.delete-keyword');
-	$.ajax({
-	    'url': '/delete_material_when_redirect',
-	    'type': 'POST',
-	    'data': {
-		'video_data_id': data_id,
-		'materials_id': materials_id
-	    },
-	    'dataType': 'json',
-	    'async': true,
-	    'success': function (response) {
-		if (!response.result) {
-		    console.warn('削除中にエラーが発生しました : deleteSearchKeyword');
-		    sentry_capture_message([data_id, response], 'response', `Delete Material When Redirect Error`);
-		}
-	    },
-	    'error': function(err) {
-		sentry_capture_message([data_id, err.responseText], 'response', `Delete Material When Redirect Error`);
-	    }
-	});
-    }
-}
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-Here are some of the results after customization.
-The logs with prefix response0000, response0044 - response0054 are the ones split by our custom JavaScript function sentry_capture_message.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data.png" alt="nil"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;img src="https://cocktailmake.github.io/images/sentry-javascript/additonal_data2.png" alt="nil"&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/using-sentry-to-debug-javascript-in-the-richka-frontend/</guid><pubDate>Thu, 13 Aug 2020 01:53:48 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/the-prototype-of-morphing/</guid><pubDate>Fri, 14 Aug 2020 06:00:00 GMT</pubDate></item></channel></rss>
