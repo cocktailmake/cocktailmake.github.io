@@ -1,20 +1,20 @@
 #+OPTIONS: ^:nil
 #+BEGIN_COMMENT
-.. title: Recording player's markers
+.. title: Markers of Video Player on Recording Service
 .. slug: recording-player-markers
 .. date: 2021-03-20 00:00:00 UTC+09:00
-.. tags: recording, videojs, markers
+.. tags: JavaScript
 .. category: Recording
 .. link: 
-.. description: This post to describe our use cases of videojs and its 3rd party plugin markers for Recording project
+.. description: This post to describe our use cases of videojs and its 3rd party plugin markers on Recording project
 .. type: text
 .. author: Duc To
-.. previewimage: 
+.. previewimage: /images/recording-player-markers/recording_edit.png
 #+END_COMMENT
 
 * Introduction
 
-In recording project, we user videojs https://videojs.com/ and its 3rd party plugin markers https://github.com/spchuang/videojs-markers to play the video as well as marking the positions of narration texts in which we will play custom audios which auto-generated using Google TTS or AITalk or manually recorded by users.
+In Recording project, we use videojs https://videojs.com/ and its 3rd party plugin markers https://github.com/spchuang/videojs-markers to play the video as well as marking the positions of narration texts in which we will play custom audios which are automatically generated with speech synthesis technologies or manually recorded by users.
 
 [[img-url:/images/recording-player-markers/recording_edit.png]]
 
@@ -22,28 +22,28 @@ The goal of this post is to focus on videojs's markers plugin, how to use it and
 
 * Initialization
 
-#+BEGIN_SRC markers_init
+#+BEGIN_SRC js
 let markers = [
      {time: 9.5, text: "this"},
      {time: 16,  text: "is"},
      {time: 23.6,text: "so"},
      {time: 28,  text: "cool"}
-]
+];
 
 video.markers({
   markers: markers
-})
+});
 #+END_SRC
 
 In above example, video is an instance of videojs object, 2 compulsory fields are time and text but you can add any additional info which you want to query later. In Recording project, we store one additional data named ~is_recorded~ to mark whether the marker already be recorded audio file for it.
 
-* Common cases
+* Common Cases
 
-** Customize marker style
+** Customize Marker Style
 
-We can style differently between normal marker and selected marker. Each marker has style class ~vjs-marker~ and the current marker has additional style class ~vjs-marker-current~. Based on them we can style anything we want or even add additional html code to each marker as the above screenshot
+We can style differently between normal marker and selected marker. Each marker has style class ~vjs-marker~ and the current marker has additional style class ~vjs-marker-current~. Based on them we can style anything we want or even add additional html code to each marker as the above screenshot.
 
-#+BEGIN_SRC marker_style
+#+BEGIN_SRC html
 <div data-marker-key="63e42a41-620d-44b3-b0ee-ff5617ac051d" data-marker-time="1.368872" class="vjs-marker ui-draggable ui-draggable-handle vjs-marker-current">
   <div class="cue-line">
     2
@@ -51,11 +51,11 @@ We can style differently between normal marker and selected marker. Each marker 
 </div>
 #+END_SRC
 
-** Draggable & update marker's position
+** Draggable & Update Marker's Position
 
 We can support markers to be draggable by using draggable JS library
 
-#+BEGIN_SRC draggable_reset
+#+BEGIN_SRC js
 $(".vjs-marker").draggable({
   start: function(event, ui) {
     //Handler when marker start moving
@@ -66,12 +66,12 @@ $(".vjs-marker").draggable({
   stop: function(event, ui) {
     //Hander when marker is stopped moving
   }
-})
+});
 #+END_SRC
 
-Normally we can use ~start~ and ~drag~ functions to handle animation when marker is on moved and when marker is stopped moving, ~stop~ function is triggered, we will update markers info to database and update video's markers with the new positions
+Normally we can use ~start~ and ~drag~ functions to handle animation when marker is on moved, and when marker is stopped moving, ~stop~ function is triggered, and we will update markers info to database and update markers of the video with new positions.
 
-#+BEGIN_SRC reset_markers
+#+BEGIN_SRC js
 player.markers.removeAll();
 $('#video_video .vjs-marker').remove();
 player.markers.add(markers);
@@ -79,14 +79,14 @@ player.markers.add(markers);
 
 [[img-url:/images/recording-player-markers/marker_drag.gif]]
 
-* Marker's most common events
+* Marker's Most Common Events
 
 ** onMarkerReached
 
-The event will be fired when videojs player's current position reached the marker's position. Please be notice that there can be a time difference and the event not be raised precisely at marker's position time. The different can be up to 0.01 second
+The event will be fired when the current position of the videojs player reaches a marker position. Please be noticed that there can be a time difference and the event is not raised precisely at marker's position time. The different can be up to 0.01 second.
 
 ** onMarkerClick
 
-The event is fired when a videojs's marker is clicked, you can get the clicked marker's data through the function's parameter
+The event is fired when a videojs marker is clicked and you can get the data of the clicked marker through the function argument.
 
 
