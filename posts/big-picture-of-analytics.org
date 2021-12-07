@@ -1,0 +1,63 @@
+#+BEGIN_COMMENT
+.. title: Big picture of Analytics service
+.. slug: big-picture-of-analytics
+.. date: 2021-10-20 14:42:13 UTC+09:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+.. author: Hiroki Nohara
+
+#+END_COMMENT
+
+
+* About Analytics service
+
+Most of the users of RICHKA, which is the main product of our company, 
+uses generated media for advertisement.
+Analytics service enables to see the dashboard of important metrics for marketers.
+
+The below picture is the example of the dashboard for a Facebook Ad account.
+The numbers in the top tab shows the current values and increases, decreases compared to
+ the previous period.
+The below bar graph shows the transition of a metrics in the target period.
+
+img-url:/images/big-picture-of-analytics/analytics-graph-screenshot.png
+
+The advantage of this service is you can connect various kinds of SNS account and see the graph
+ with the same UI.
+Usually, marketers should jump to each SNS's official analytics page to see the outcome and each
+ page have different UI specification from others.
+The left menu lists SNS accounts which you have connected and you should just click the account
+ you want to check.
+That should be convenient for marketers who operate multiple SNS accounts.
+
+Analytics is compatible with Facebook media/ad, Instagram media, Twitter media/ad, Google ad,
+ and Yahoo ad account at the moment.
+
+* Architecture
+In this section I will show you the big picture of Analytics.
+
+img-url:/images/big-picture-of-analytics/analytics-architecture.png
+
+The main feature of this product is displaying graphs of advertisement metrics.
+
+One of big features of our architecture is we don't get metrics data in
+ real time via each SNS API when user accesses to the dashboard page.
+Instead, the metrics data is already in our DB at that time for most cases.
+The detail steps in the figure is as below.
+
+1. Get required data from SNS API. This step is processed in two situation. The first situation is when you connect your account first time. And the second one is in our scheduled process for linked accounts.
+2. The data got in the first step will be stored in our database at that time. Some kinds of metrics data needs calculation before saving to our database.
+3. When you acces to the dashboard page, required data will be collected from database. This process needs grouping metrics data per certain period, like per month, per year. The difference with previous period is also calculated in this step.
+4. Collected data in the step 3 will be send to the frontend, then graph will be drawn. If you change filtering condition on GUI, frontend will request data by new condition to web server again.
+
+To achive to show graph per day, the scheduled process of getting data via SNS API in the
+ step 1 is executed every day.
+To manage the process of getting data, we use Celery with Redis for distributed process.
+Chart.js is used for drawing graph.
+
+What kind of metrics we can get depends on SNS. There are some kinds of difference,
+ but we save them as same format as possible in the database to make it easy to handle them
+ regardless of the kind of SNS.
