@@ -8,7 +8,7 @@
 .. description: 
 .. type: text
 .. author: Hiroki Nohara
-.. previewimage: /images/big-picture-of-analytics/analytics-architecture.png
+.. previewimage: /images/big-picture-of-analytics/analytics-graph-screenshot.png
 
 #+END_COMMENT
 
