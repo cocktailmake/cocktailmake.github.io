@@ -11,7 +11,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://cocktailmake.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/recording-player-markers/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/big-picture-of-analytics/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,7 +76,108 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/recording-player-markers/" class="u-url">Markers of Video Player on Recording Service</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/big-picture-of-analytics/" class="u-url">Big picture of Analytics service</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/hiroki-nohara/">Hiroki Nohara</a>
+            </span></p>
+            <p class="dateline">
+            <a href="posts/big-picture-of-analytics/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-10-20T14:42:13+09:00" itemprop="datePublished" title="2021-10-20 14:42">2021-10-20 14:42</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgd6fe84d" class="outline-2">
+<h2 id="orgd6fe84d">Abstract</h2>
+<div class="outline-text-2" id="text-orgd6fe84d">
+<p>
+Most of the users of RICHKA, which is the main product of our company, 
+uses the generated media for their advertisement.
+Analytics service enables to see the dashboard of important metrics for marketers.
+</p>
+
+<p>
+The picture below is an example of the dashboard for a Facebook Ad account.
+The numbers in the top tab show the current values and increases, decreases compared to
+ the previous period.
+The bar graph under the tabs shows the transition of metrics in the target period.
+</p>
+
+<p>
+<img src="images/big-picture-of-analytics/analytics-graph-screenshot.png" alt="nil"></p>
+
+<p>
+The advantage of this service is you can connect various kinds of SNS/ad accounts and see the graph
+ with the same UI.
+Usually, marketers should jump to the official analytics page of each advertisement service to check
+ the outcome and each has a different UI specification from others.
+The left menu lists the accounts which you have connected previously with OAuth and you should just click the account
+ you want to check.
+That should be convenient for marketers who operate multiple accounts.
+</p>
+
+<p>
+Analytics is compatible with Facebook media/ad, Instagram media, Twitter media/ad, Google ad,
+ and Yahoo ad account at the moment.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org839f8e7" class="outline-2">
+<h2 id="org839f8e7">Architecture</h2>
+<div class="outline-text-2" id="text-org839f8e7">
+<p>
+In this section, I will show you the big picture of Analytics.
+</p>
+
+<p>
+<img src="images/big-picture-of-analytics/analytics-architecture.png" alt="nil"></p>
+
+<p>
+The main function of this product is to display graphs of important metrics for operating
+ SNS/ad accounts.
+</p>
+
+<p>
+One of the big features of our architecture is usually we don't get the metrics data on the fly
+ via each API when a user accesses the dashboard page.
+Instead, the metrics data is already in our DB at that time for most cases.
+The detailed steps in the figure are as below.
+</p>
+
+<ol class="org-ol">
+<li>Get the required data from the APIs of the advertisement service.
+This step is processed in the two situations.
+The first situation is when you link your account first time.
+The web server will start to collect the past metrics data (about last year's) as a
+background process.
+The second situation is in our scheduled process for linked accounts.
+To update the metrics values, we execute that every day as batch processing.</li>
+
+<li>The data got in the first step will be stored in our database at that time.
+Some kinds of metrics data need calculations before saving to our database.</li>
+
+<li>When you access the dashboard page, the required data will be collected from our database.
+This process needs grouping metrics data per a certain period, like per month, per year.
+The difference with the previous period is also calculated in this step.</li>
+<li>The collected data in step 3 will be sent to the frontend, then graphs will be drawn.
+When you change the filtering condition on GUI, the frontend will request the data by
+the new condition to the web server again.</li>
+</ol>
+<p>
+We use Celery with Redis to manage the distributed process of collecting metrics via the APIs.
+Chart.js is used for drawing graphs on the frontend.
+</p>
+
+<p>
+What kind of metrics we can get depends on each advertisement service.
+ There are several types of differences, but we save them in the same format as possible in
+ the database to make it easy to handle them.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/recording-player-markers/" class="u-url">Markers of Video Player on Recording Service</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/duc-to/">Duc To</a>
@@ -1500,82 +1601,6 @@ As a screenshot below, the diff information is shown on modeline with the branch
 </div>
 </div>
     </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/the-prototype-of-morphing/" class="u-url">The prototype of Morphing</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/bui-dinh-cuong/">Bui Dinh Cuong</a>
-            </span></p>
-            <p class="dateline">
-            <a href="posts/the-prototype-of-morphing/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-08-14T15:00:00+09:00" itemprop="datePublished" title="2020-08-14 15:00">2020-08-14 15:00</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-orgbef4249" class="outline-2">
-<h2 id="orgbef4249">Abstract</h2>
-<div class="outline-text-2" id="text-orgbef4249">
-<p>
-In this post, we introduce HyperMorph on HTML5 that allow us to create motions of objects and then export these motions into video files.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgc592ea6" class="outline-2">
-<h2 id="orgc592ea6">Definitions</h2>
-<div class="outline-text-2" id="text-orgc592ea6">
-</div>
-<div id="outline-container-org2ff595b" class="outline-3">
-<h3 id="org2ff595b">Morphing</h3>
-<div class="outline-text-3" id="text-org2ff595b">
-<p>
-Morphing is a special effect in motion pictures and animations that change (or morphs) one image or shape into another through a seamless transition. Traditionally such a depiction would be achieved through dissolving techniques on film. Since the early 1990s, this has been replaced by computer software to create more realistic transitions. A similar method is applied to audio recordings in similar fashion, for example, by changing voices or vocal lines.
-</p>
-
-<p>
-Source: <a href="https://en.wikipedia.org/wiki/Morphing">https://en.wikipedia.org/wiki/Morphing</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6ffa1b2" class="outline-3">
-<h3 id="org6ffa1b2">HyperMorph</h3>
-<div class="outline-text-3" id="text-org6ffa1b2">
-<p>
-There are many terminologies on HyperMorph that you can check on <a href="https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf">https://blog.altair.co.kr/wp-content/uploads/2011/03/hypermorph.pdf</a>.
-</p>
-
-<p>
-Within this post, we just define a simple definition about HyperMorph on video generation. It is a set of points from a 1st image and a corresponding set of points from a 2nd image.
-A special effect will change two sets together and makes the 1st image become the 2nd image and vice versa.
-When we define enough of points, it will be able to create very smooth video.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org59d60c7" class="outline-2">
-<h2 id="org59d60c7">How to create HyperMorph from two images with HTML &amp; JavaScript</h2>
-<div class="outline-text-2" id="text-org59d60c7">
-<ul class="org-ul">
-<li>Define the set of points on the 1st image and a corresponding set of points from 2nd image.</li>
-<li>Using HTML5 canvas to draw a shrink image based on moving points between two sets and merge two images.</li>
-</ul>
-<p>
-<img src="images/the-prototype-of-morphing/dog_and_cat.png" alt="nil"></p>
-
-<ul class="org-ul">
-<li>With each moving step, capture the image on the canvas and add it as a frame of a video.</li>
-<li>When capture enough frames of a video, we can export these frames into a video file.</li>
-</ul>
-<p>
-And here is the output video (I converted to GIF file to display here easily):
-</p>
-
-<p align="center">
-<img src="images/the-prototype-of-morphing/video.gif" alt="nil"></p>
-</div>
-</div>
-    </div>
     </article>
 </div>
 
@@ -1588,7 +1613,7 @@ And here is the output video (I converted to GIF file to display here easily):
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2021         <a href="mailto:">RICHKA</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2022         <a href="mailto:">RICHKA</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>

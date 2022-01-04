@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RICHKA Developer Blog (Posts by Hiroki Nohara)</title><link>https://cocktailmake.github.io/</link><description></description><atom:link href="https://cocktailmake.github.io/authors/hiroki-nohara.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:"&gt;RICHKA&lt;/a&gt; </copyright><lastBuildDate>Tue, 04 Jan 2022 08:48:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Big picture of Analytics service</title><link>https://cocktailmake.github.io/posts/big-picture-of-analytics/</link><dc:creator>Hiroki Nohara</dc:creator><description>&lt;div id="outline-container-orgd6fe84d" class="outline-2"&gt;
+&lt;h2 id="orgd6fe84d"&gt;Abstract&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd6fe84d"&gt;
+&lt;p&gt;
+Most of the users of RICHKA, which is the main product of our company, 
+uses the generated media for their advertisement.
+Analytics service enables to see the dashboard of important metrics for marketers.
+&lt;/p&gt;
+
+&lt;p&gt;
+The picture below is an example of the dashboard for a Facebook Ad account.
+The numbers in the top tab show the current values and increases, decreases compared to
+ the previous period.
+The bar graph under the tabs shows the transition of metrics in the target period.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-analytics/analytics-graph-screenshot.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The advantage of this service is you can connect various kinds of SNS/ad accounts and see the graph
+ with the same UI.
+Usually, marketers should jump to the official analytics page of each advertisement service to check
+ the outcome and each has a different UI specification from others.
+The left menu lists the accounts which you have connected previously with OAuth and you should just click the account
+ you want to check.
+That should be convenient for marketers who operate multiple accounts.
+&lt;/p&gt;
+
+&lt;p&gt;
+Analytics is compatible with Facebook media/ad, Instagram media, Twitter media/ad, Google ad,
+ and Yahoo ad account at the moment.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org839f8e7" class="outline-2"&gt;
+&lt;h2 id="org839f8e7"&gt;Architecture&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org839f8e7"&gt;
+&lt;p&gt;
+In this section, I will show you the big picture of Analytics.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="https://cocktailmake.github.io/images/big-picture-of-analytics/analytics-architecture.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The main function of this product is to display graphs of important metrics for operating
+ SNS/ad accounts.
+&lt;/p&gt;
+
+&lt;p&gt;
+One of the big features of our architecture is usually we don't get the metrics data on the fly
+ via each API when a user accesses the dashboard page.
+Instead, the metrics data is already in our DB at that time for most cases.
+The detailed steps in the figure are as below.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Get the required data from the APIs of the advertisement service.
+This step is processed in the two situations.
+The first situation is when you link your account first time.
+The web server will start to collect the past metrics data (about last year's) as a
+background process.
+The second situation is in our scheduled process for linked accounts.
+To update the metrics values, we execute that every day as batch processing.&lt;/li&gt;
+
+&lt;li&gt;The data got in the first step will be stored in our database at that time.
+Some kinds of metrics data need calculations before saving to our database.&lt;/li&gt;
+
+&lt;li&gt;When you access the dashboard page, the required data will be collected from our database.
+This process needs grouping metrics data per a certain period, like per month, per year.
+The difference with the previous period is also calculated in this step.&lt;/li&gt;
+&lt;li&gt;The collected data in step 3 will be sent to the frontend, then graphs will be drawn.
+When you change the filtering condition on GUI, the frontend will request the data by
+the new condition to the web server again.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+We use Celery with Redis to manage the distributed process of collecting metrics via the APIs.
+Chart.js is used for drawing graphs on the frontend.
+&lt;/p&gt;
+
+&lt;p&gt;
+What kind of metrics we can get depends on each advertisement service.
+ There are several types of differences, but we save them in the same format as possible in
+ the database to make it easy to handle them.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://cocktailmake.github.io/posts/big-picture-of-analytics/</guid><pubDate>Wed, 20 Oct 2021 05:42:13 GMT</pubDate></item></channel></rss>
